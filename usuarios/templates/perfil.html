@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Perfil de {{ usuario.username }}</h2>
+    <p><strong>Nombre:</strong> {{ usuario.first_name }} {{ usuario.last_name }}</p>
+    <p><strong>Email:</strong> {{ usuario.email }}</p>
+    <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
+    <p><strong>Dirección:</strong> {{ usuario.direccion }}</p>
+    <p><strong>Foto de Perfil:</strong></p>
+    <img src="{{ usuario.foto.url }}" alt="{{ usuario.username }}'s photo" width="100" height="100">
+{% endblock %}

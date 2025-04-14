@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Detalles de la Postulación</h1>
+    <p><strong>Nombre:</strong> {{ postulacion.nombre }}</p>
+    <p><strong>Correo:</strong> {{ postulacion.correo }}</p>
+    <p><strong>Teléfono:</strong> {{ postulacion.telefono }}</p>
+    <p><strong>Mensaje:</strong> {{ postulacion.mensaje }}</p>
+    <p><strong>CV:</strong> <a href="{{ postulacion.cv.url }}">Ver CV</a></p>
+    <p><strong>Fecha de creación:</strong> {{ postulacion.creado }}</p>
+{% endblock %}

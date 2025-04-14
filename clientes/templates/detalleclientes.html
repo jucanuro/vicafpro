@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Clientes</h1>
+    <ul>
+        {% for cliente in clientes %}
+            <li>
+                <img src="{{ cliente.logo.url }}" alt="{{ cliente.nombre }}" width="100">
+                <h2>{{ cliente.nombre }}</h2>
+                {% if cliente.enlace %}
+                    <a href="{{ cliente.enlace }}" target="_blank">Visitar sitio</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="pagination">
+        {% if clientes.has_previous %}
+            <a href="?page=1">&laquo; Primera</a>
+            <a href="?page={{ clientes.previous_page_number }}">Anterior</a>
+        {% endif %}
+
+        <span>Página {{ clientes.number }} de {{ clientes.paginator.num_pages }}</span>
+
+        {% if clientes.has_next %}
+            <a href="?page={{ clientes.next_page_number }}">Siguiente</a>
+            <a href="?page={{ clientes.paginator.num_pages }}">Última &raquo;</a>
+        {% endif %}
+    </div>
+{% endblock %}

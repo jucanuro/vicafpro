@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Grupo Vicaf</title>
+    <link   rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/css/tw-elements.min.css" />
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/vicaf.css' %}">
+</head>
+<body>
+    
+    {% block content %}
+
+    {% endblock %}
+    <script src="{% static 'js/header.js' %}"></script>
+    <script src="{% static 'js/inicio.js' %}"></script>
+    <script src="{% static 'js/nosotros.js' %}"></script>
+    <script src="{% static 'js/clientes.js' %}"></script>
+</body>
+
+</html>
