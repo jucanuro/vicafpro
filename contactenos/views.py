@@ -4,29 +4,28 @@ from .models import MensajeContacto
 from django.core.mail import send_mail
 from django.conf import settings
 
-def contacto(request):
-    if request.method == 'POST':
-        nombre = request.POST.get('nombre')
-        correo = request.POST.get('correo')
-        asunto = request.POST.get('asunto')
-        mensaje = request.POST.get('mensaje')
+def contactenos_view(request):
+    return render(request, 'contactenos/contactenos.html')
 
-        # Crear el mensaje de contacto
-        nuevo_mensaje = MensajeContacto(
+def contacto_view(request):
+    if request.method == 'POST':
+        nombre = request.POST['nombre']
+        correo = request.POST['correo']
+        asunto = request.POST['asunto']
+        mensaje = request.POST['mensaje']
+
+        mensaje_obj = MensajeContacto.objects.create(
             nombre=nombre,
             correo=correo,
             asunto=asunto,
             mensaje=mensaje
         )
-        nuevo_mensaje.save()
 
-        # Enviar el correo al administrador
-        nuevo_mensaje.enviar_correo()
+        mensaje_obj.enviar_correo()
 
-        # Redirigir a una página de agradecimiento
-        return redirect('gracias')
+        return redirect('gracias')  # redirige a una página de agradecimiento
 
-    return render(request, 'contactenos/contacto.html')
+    return render(request, 'contacto.html')
 
 
 def gracias(request):

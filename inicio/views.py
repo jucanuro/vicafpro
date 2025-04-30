@@ -1,11 +1,4 @@
-from rest_framework import generics
-from .models import CarruselInicio
-from .serializers import CarruselInicioSerializer
+from django.shortcuts import render
 
-class CarruselInicioListCreateView(generics.ListCreateAPIView):
-    queryset = CarruselInicio.objects.all()
-    serializer_class = CarruselInicioSerializer
-
-class CarruselInicioRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = CarruselInicio.objects.all()
-    serializer_class = CarruselInicioSerializer
+def inicio_view(request):
+    return render(request, 'inicio/inicio.html')

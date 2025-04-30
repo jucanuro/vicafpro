@@ -6,6 +6,12 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
+    path('', include('inicio.urls')),
+    path('', include('nosotros.urls')),
+    path('', include('servicios.urls')),
+    path('', include('clientes.urls')),
+    path('', include('contactenos.urls')),
+    path('bolsa-trabajo/', include('bolsa_trabajo.urls')), 
 ]
 
 if settings.DEBUG:

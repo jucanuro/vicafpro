@@ -1,7 +1,6 @@
 from django.urls import path
-from . import views
+from .views import contactenos_view
 
 urlpatterns = [
-    path('', views.contacto, name='contacto'),
-    path('gracias/', views.gracias, name='gracias'),  # Redirigir después de enviar el mensaje
+    path('', contactenos_view, name='contactenos'),
 ]

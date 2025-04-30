@@ -13,7 +13,6 @@ class MensajeContacto(models.Model):
         return f"{self.nombre} - {self.asunto}"
 
     def enviar_correo(self):
-        # Enviar un correo a la dirección configurada en settings.py
         send_mail(
             subject=f"Nuevo mensaje de contacto: {self.asunto}",
             message=self.mensaje,

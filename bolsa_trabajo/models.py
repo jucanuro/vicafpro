@@ -11,8 +11,6 @@ class Postulacion(models.Model):
     def __str__(self):
         return f"{self.nombre} - {self.correo}"
     
-    from django.db import models
-    
 
 class OportunidadTrabajo(models.Model):
     ESTADO_CHOICES = [
@@ -25,7 +23,7 @@ class OportunidadTrabajo(models.Model):
     archivo_bases = models.FileField(upload_to='oportunidades_trabajo/', blank=True, null=True)
     descripcion = models.TextField()
     activo = models.BooleanField(default=True)
-    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='pendiente')
+    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='publicado')
     creado = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
