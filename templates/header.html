@@ -14,15 +14,15 @@
         class="nav-link p-2 text-gray-900 font-semibold hover:bg-blue-950 hover:text-white rounded tab">Inicio</a>
       <a id="tab2" href="{% url 'nosotros' %}#nosotros"
         class="nav-link p-2 text-gray-900 font-semibold hover:bg-blue-950 hover:text-gray-50 rounded tab">Nosotros</a>
-      <a id="tab3" href="#logros"
-        class="nav-link p-2 text-gray-900 hidden font-semibold hover:bg-blue-950 hover:text-gray-50 rounded tab">Logros</a>
-      <a id="tab4" href="{% url 'servicios' %}#servicios"
+      <a id="tab3" href="{% url 'trabajadores' %}#equipo"
+        class="nav-link p-2 text-gray-900 font-semibold hover:bg-blue-950 hover:text-gray-50 rounded tab">Equipo</a>
+      <a id="tab4" href="{% url 'servicios:servicios' %}#servicios"
         class="nav-link p-2 text-gray-900 font-semibold hover:bg-blue-950 hover:text-gray-50 rounded tab">Servicios</a>
       <a id="tab5" href="{% url 'clientes' %}#clientes"
         class="nav-link p-2 text-gray-900 font-semibold hover:bg-blue-950 hover:text-gray-50 rounded tab">Clientes</a>
       <a id="tab7" href="{% url 'contactenos' %}#contactenos"
         class="nav-link p-2 text-gray-900 font-semibold hover:bg-blue-950 hover:text-gray-50 rounded tab">Contáctenos</a>
-      <a id="tab7" href="{% url 'bolsa_trabajo:lista' %}#bolsa_trabajo"
+      <a id="tab7" href="{% url 'bolsa_trabajo:lista' %}"
         class="nav-link  p-2 text-gray-900 font-semibold hover:bg-blue-950 hover:text-gray-50 rounded tab">Bolsa de
         Trabajo</a>
     </nav>
@@ -75,9 +75,9 @@
       class="border border-t-1 border-gray-50 block p-2 text-gray-900 font-semibold hover:bg-blue-900 hover:text-gray-50">Inicio</a>
     <a href="{% url 'nosotros' %}#nosotros"
       class="border border-t-1 border-gray-50 block p-2 text-gray-900 font-semibold hover:bg-blue-900 hover:text-gray-50">Nosotros</a>
-    <a href="#logros"
-      class="border border-t-1 hidden border-gray-50 block p-2 text-gray-900 font-semibold hover:bg-blue-900 hover:text-gray-50">Logros</a>
-    <a href="{% url 'servicios' %}#servicios"
+    <a href="{% url 'trabajadores' %}#equipo"
+      class="border border-t-1 border-gray-50 block p-2 text-gray-900 font-semibold hover:bg-blue-900 hover:text-gray-50">Equipo</a>
+    <a href="{% url 'servicios:servicios' %}#servicios"
       class="border border-t-1 border-gray-50 block p-2 text-gray-900 font-semibold hover:bg-blue-900 hover:text-gray-50">Servicios</a>
     <a href="{% url 'clientes' %}#clientes"
       class="border border-t-1 border-gray-50 block p-2 text-gray-900 font-semibold hover:bg-blue-900 hover:text-gray-50">Clientes</a>
@@ -88,5 +88,4 @@
       de Trabajo</a>
   </div>
 </header>
-
 {% endblock %}

@@ -1,6 +1,11 @@
-const clientsContainer = document.getElementById("clients-container");
-  const cards = clientsContainer.children.length;
+document.addEventListener("DOMContentLoaded", function () {
+  const clientsContainer = document.getElementById("clients-container");
 
-  if (cards > 10) {
-      clientsContainer.classList.add("max-h-96", "overflow-y-auto");
+  if (clientsContainer) {
+      const cards = clientsContainer.children.length;
+
+      if (cards > 10) {
+          clientsContainer.classList.add("max-h-96", "overflow-y-auto");
+      }
   }
+});

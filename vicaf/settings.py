@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'usuarios',
     'inicio',
     'nosotros',
-    'equipo',
+    'trabajadores',
     'servicios',
     'clientes',
     'contactenos',

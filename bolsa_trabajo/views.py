@@ -4,7 +4,7 @@ from .forms import PostulacionForm
 
 def lista_oportunidades(request):
     oportunidades = OportunidadTrabajo.objects.filter(activo=True, estado='publicado')
-    return render(request, 'index.html', {'oportunidades': oportunidades})
+    return render(request, 'bolsa_trabajo/bolsa_trabajo.html', {'oportunidades': oportunidades})
 
 def postular(request, oportunidad_id): 
     oportunidad = get_object_or_404(Oportunidad, pk=oportunidad_id)
