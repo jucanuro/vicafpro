@@ -1,36 +1,37 @@
 {% extends 'base.html' %}
+
 {% block content %}
 {% include 'header.html' %}
-<div class="py-8 bg-gray-100">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
-        <h1 class="text-xl lg:text-3xl font-bold tracking-tight text-gray-900 text-start mb-6 tracking-wide">
+
+<div class="bg-gray-100 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-2xl lg:text-3xl font-bold tracking-tight text-gray-900 text-start mb-8">
             Oportunidades Laborales
         </h1>
 
         {% if oportunidades %}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for oportunidad in oportunidades %}
-            <div
-                class="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 p-8 flex flex-col justify-between border-t-4 border-indigo-900">
+            <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out p-6 flex flex-col justify-between border-t-4 border-indigo-600">
                 <div>
-                    <h2 class="text-xl font-semibold text-blue-900 mb-4 leading-tight">
+                    <h2 class="text-xl font-semibold text-indigo-800 mb-3 leading-tight">
                         {{ oportunidad.titulo }}
                     </h2>
-                    <p class="text-gray-900 text-sm mb-6 leading-relaxed">
+                    <p class="text-gray-700 text-sm mb-5 leading-relaxed">
                         {{ oportunidad.descripcion|truncatewords:30 }}
                     </p>
 
                     {% if oportunidad.archivo_bases %}
                     <a href="{{ oportunidad.archivo_bases.url }}" download
-                        class="inline-block text-indigo-900 hover:text-indigo-800 font-medium text-sm mb-4 underline transition">
+                       class="inline-block text-sm text-indigo-700 hover:text-indigo-900 font-medium mb-4 underline transition-colors duration-200">
                         Descargar Bases de la Convocatoria
                     </a>
                     {% endif %}
                 </div>
 
-                <div class="mt-6">
+                <div class="mt-auto">
                     <button onclick="openModal('{{ oportunidad.id }}', '{{ oportunidad.titulo|escapejs }}')"
-                        class="mt-6 w-full py-3 px-4 bg-blue-600 hover:bg-cyan-700 text-white font-semibold rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                            class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-200 ease-in-out">
                         Postular
                     </button>
                 </div>
@@ -38,57 +39,92 @@
             {% endfor %}
         </div>
         {% else %}
-        <div class="text-center mt-16">
-            <p class="text-gray-500 text-lg">Actualmente no contamos con oportunidades laborales disponibles.</p>
+        <div class="text-center py-12 mt-10 bg-white rounded-lg shadow-md">
+            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            </svg>
+            <h3 class="mt-2 text-lg font-medium text-gray-900">No hay oportunidades laborales</h3>
+            <p class="mt-1 text-sm text-gray-500">
+                Actualmente no contamos con oportunidades laborales disponibles. Por favor, vuelve a revisar más tarde.
+            </p>
         </div>
         {% endif %}
     </div>
 </div>
 
-<!-- Modal -->
-<div id="postulacionModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-    <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg relative">
-        <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
-            ✕
+<div id="postulacionModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center hidden z-50 p-4 transition-opacity duration-300 ease-in-out">
+    <div class="bg-white rounded-lg shadow-xl p-6 sm:p-8 w-full max-w-lg relative transform transition-all duration-300 ease-in-out scale-95 opacity-0" id="modalDialog">
+        <button onclick="closeModal()" 
+                class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors duration-200 p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-400">
+            <span class="sr-only">Cerrar modal</span>
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
         </button>
 
-        <h2 id="modalTitle" class="text-sm border-b-2 w-full font-semibold text-gray-800 p-2"></h2>
+        <h2 id="modalTitle" class="text-xl font-semibold text-gray-800 mb-2 pb-3 border-b border-gray-200">
+        </h2>
 
         <form id="postulacionForm" method="POST" enctype="multipart/form-data" action="">
-
             {% csrf_token %}
             <input type="hidden" name="oportunidad_id" id="oportunidadIdInput">
 
-            <!-- Formulario -->
-            <div class="space-y-4">
-                {{ form.as_p }}
+            <div class="space-y-4 mt-4">
+                {{ form.as_p }} 
             </div>
 
-            <button type="submit"
-                class="mt-4 w-full py-2 px-4 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-md">
-                Enviar Postulación
-            </button>
+            <div class="mt-6 pt-4 border-t border-gray-200">
+                <button type="submit"
+                        class="w-full py-2.5 px-4 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-md shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition-all duration-200 ease-in-out">
+                    Enviar Postulación
+                </button>
+            </div>
         </form>
     </div>
 </div>
 
 <script>
+    const modal = document.getElementById('postulacionModal');
+    const modalDialog = document.getElementById('modalDialog');
+    const modalTitle = document.getElementById('modalTitle');
+    const oportunidadIdInput = document.getElementById('oportunidadIdInput');
+    const postulacionForm = document.getElementById('postulacionForm');
+
     function openModal(oportunidadId, titulo) {
-        document.getElementById('postulacionModal').classList.remove('hidden');
-        document.getElementById('modalTitle').innerText = "Desea postular a: " + titulo + "?";
-        document.getElementById('oportunidadIdInput').value = oportunidadId;
-
-        // Actualizar la URL del form dinámicamente
-        const form = document.getElementById('postulacionForm');
-        form.action = `/bolsa-trabajo/postular/${oportunidadId}/`; // Asegúrate que sea el path correcto
+        modalTitle.innerText = `Postular a: ${titulo}`;
+        oportunidadIdInput.value = oportunidadId;
+        postulacionForm.action = `/bolsa-trabajo/postular/${oportunidadId}/`;
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            modalDialog.classList.remove('scale-95', 'opacity-0');
+            modalDialog.classList.add('scale-100', 'opacity-100');
+        }, 10);
+        document.body.classList.add('overflow-hidden'); 
     }
 
-    function closeModal(){
-        document.getElementById('postulacionModal').classList.add('hidden');
+    function closeModal() {
+        modal.classList.add('opacity-0');
+        modalDialog.classList.remove('scale-100', 'opacity-100');
+        modalDialog.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 300);
+        document.body.classList.remove('overflow-hidden');
     }
 
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
+            closeModal();
+        }
+    });
+
+    modal.addEventListener('click', function (event) {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
 </script>
-<div>
-    {% include 'footer.html' %}
-</div>
+
+{% include 'footer.html' %}
 {% endblock %}

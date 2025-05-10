@@ -7,18 +7,34 @@
     <link   rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/css/tw-elements.min.css" />
     <link href="{% static 'css/output.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/vicaf.css' %}">
-    <link rel="stylesheet" href="{% static 'css/servicios.css' %}">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif; /* Fuente Inter */
+            /* bg-gray-100 se aplicará al contenedor principal del bloque de contenido */
+        }
+        /* Estilo para la transición de max-height */
+        #menu {
+            transition: max-height 0.5s ease-in-out;
+        }
+        /* Para evitar que el texto del botón de paginación se seleccione al hacer doble clic rápido */
+        .pagination-button::selection { background: none; }
+        .pagination-button::-moz-selection { background: none; }
+
+        /* Asegurar que el contenedor flex ocupe la altura necesaria si base.html no lo hace */
+        .main-content-area {
+            min-height: calc(100vh - YOUR_HEADER_HEIGHT); /* Ajusta YOUR_HEADER_HEIGHT al alto de tu header.html */
+        }
+    </style>
 </head>
 <body>
     
     {% block content %}
-
     {% endblock %}
     <script src="{% static 'js/header.js' %}"></script>
     <script src="{% static 'js/inicio.js' %}"></script>
     <script src="{% static 'js/nosotros.js' %}"></script>
     <script src="{% static 'js/clientes.js' %}"></script>
-    <script src="{% static 'js/detalleservicios.js' %}"></script>
+
 </body>
 
 </html>

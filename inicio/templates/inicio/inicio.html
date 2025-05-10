@@ -1,139 +1,259 @@
 {% load static %}
 {% block content %}
-<div id="home" class="bg-gray-50">
-    <!-- Modal -->
-    <div id="myModalHome" class="fixed hidden inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-        <div class="bg-white rounded-lg shadow-lg w-full max-w-3xl h-[autopx] relative mt-20 lg:mt-16 flex flex-col">
-            <div class="flex justify-between items-center p-4 border-b-2 border-pruple-900">
-                <h2 class="text-lg font-bold">Certificado</h2>
-                <button id="closeModalHome" class="bg-purple-900 text-white w-8 h-8 rounded-full hover:bg-red-600 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
+<div id="home" class="relative min-h-screen bg-slate-900 text-white">
+
+    <div id="myModalHome" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4 transition-opacity duration-300 ease-in-out">
+        <div class="bg-white text-gray-800 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] relative flex flex-col overflow-hidden">
+            <div class="flex justify-between items-center p-5 border-b border-gray-200">
+                <h2 class="text-xl font-semibold">Certificado</h2>
+                <button id="closeModalHome" aria-label="Cerrar modal" class="text-gray-500 hover:text-red-600 transition-colors p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-red-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
-            <!-- Imagen responsiva -->
-            <div class="flex-1 flex items-center justify-center p-1">
-                <img src="{% static 'img/certificaciones/GRUPO-VICAF-CERTIFICADO.jpg' %}" 
-                    class="w-full h-full object-contain" 
-                    alt="Certificado">
+            <div class="flex-1 p-2 sm:p-4 overflow-y-auto bg-gray-100">
+                <img src="{% static 'img/certificaciones/GRUPO-VICAF-CERTIFICADO.jpg' %}"
+                     class="w-full h-auto object-contain rounded-md"
+                     alt="Certificado GRUPO-VICAF">
             </div>
         </div>
     </div>
-    </div>
-    <div class="relative">
-        <div class="absolute z-10 px-4 py-4">
-            <p class="text-white lg:text-2xl text-xs font-semibold">LABORATORIO DE ENSAYOS ACREDITADO POR INACAL - DA CON REGISTRO N° LE-230</p>
-            <p class="text-white lg:text-lg text-xs font-semibold mt-1">SUELOS - AGREGADOS - CONCRETO - ASFALTO - ROCAS - CAL - CARBÓN</p>
-            <div class="flex mt-4">
-                <button type="button" class="text-gray-800 lg:text-sm text-xs bg-yellow-500 hover:text-white hover:bg-blue-950 focus:outline-none font-medium rounded-lg px-3 py-1.5 text-center me-2 mb-2 flex"
-                    onclick="document.getElementById('servicios').scrollIntoView({ behavior: 'smooth' });"
-                    onmouseup="this.blur()">
+
+    <div class="relative w-full h-screen">
+
+        <div class="absolute inset-x-0 top-0 z-20 pt-10 pb-6 px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center bg-gradient-to-b from-black/70 via-black/40 to-transparent">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3 leading-tight" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.6);">
+                LABORATORIO DE ENSAYOS ACREDITADO POR INACAL - DA CON REGISTRO N° LE-230
+            </h1>
+            <p class="text-lg sm:text-xl lg:text-2xl text-gray-200 mb-6" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.6);">
+                SUELOS - AGREGADOS - CONCRETO - ASFALTO - ROCAS - CAL - CARBÓN
+            </p>
+            <div class="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4">
+                <button type="button"
+                        class="group bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold py-3 px-6 rounded-lg shadow-lg transform transition-all duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:ring-opacity-50 flex items-center text-sm lg:text-base"
+                        onclick="document.getElementById('servicios').scrollIntoView({ behavior: 'smooth' });"
+                        onmouseup="this.blur()">
                     Ver Servicios
-                    <svg class="w-4 h-4 fill-gray-800 hover:fill-white ml-2 mt-1 transition-transform duration-300 ease-in-out hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                    <svg class="w-5 h-5 ml-2 fill-gray-900 transition-transform duration-300 ease-in-out group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                         <path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/>
                     </svg>
                 </button>
-                <a href="{% static 'pdf/BROCHURE_2025_VICAF_2025.pdf' %}" target="_blank" rel="noopener noreferrer">
-                    <button type="button" class="ml-4 text-gray-800 lg:text-sm text-xs bg-yellow-500 hover:text-white hover:bg-blue-950 focus:outline-none font-medium rounded-lg px-3 py-1.5 text-center me-2 mb-2 flex">
-                        Descargar Brochure
-                        <svg class="w-4 h-4 ml-2 mt-1 transition-transform duration-300 ease-in-out hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                            <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"></path>
-                        </svg>
-                    </button>
+                <a href="{% static 'pdf/BROCHURE_2025_VICAF_2025.pdf' %}" target="_blank" rel="noopener noreferrer"
+                   class="group bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold py-3 px-6 rounded-lg shadow-lg transform transition-all duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:ring-opacity-50 flex items-center text-sm lg:text-base">
+                    Descargar Brochure
+                    <svg class="w-5 h-5 ml-2 fill-gray-900 transition-transform duration-300 ease-in-out group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"></path>
+                    </svg>
                 </a>
             </div>
         </div>
-    </div>
-    <!-- Carousel -->
-    <div id="carousel" class="carousel relative w-full h-screen overflow-hidden inset-0 bg-black/50">
-        <!-- Carousel Items -->
-        <div class="carousel-item active relative w-full h-full">
-           <img src="{% static 'img/inicio/PORTADA5.jpg' %}" 
-                alt="Imagen de portada"
-                loading="lazy"
-                class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
-            <div       x-data="{ visible: true, timeout: 6000, timer: null }" 
-                        x-init="timer = setTimeout(() => visible = false, timeout)" 
-                        @mouseenter="visible = true; clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
-                        @mouseleave="clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
-                        x-show="visible"
-                        x-transition
-                    class="absolute top-1/4 right-4 lg:block hidden">
-                    <h2 class=" text-white font-semibold text-sm">
-                        Texto sobre Imagen 1
-                    </h2>
-            </div>
-        </div>
-        <div class="relative carousel-item w-full h-full hidden">
-           <img src="{% static 'img/inicio/PORTADA4.jpe' %}g" 
-                alt="Image 2"
-                loading="lazy"
-                class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
-            <div       x-data="{ visible: true, timeout: 12000, timer: null }" 
-                        x-init="timer = setTimeout(() => visible = false, timeout)" 
-                        @mouseenter="visible = true; clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
-                        @mouseleave="clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
-                        x-show="visible"
-                        x-transition
-                    class="absolute top-1/4 right-4 lg:block hidden">
-                    <h2 class=" text-white font-semibold text-sm">
-                        Texto sobre Imagen 2
-                    </h2>
-            </div>
-        </div>
-        <div class="realtive carousel-item w-full h-full hidden">
-            <img src="{% static 'img/inicio/PORTADA3.jpg' %}" 
-                alt="Image 3"
-                loading="lazy"
-                class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
 
-             <div   x-data="{ visible: true, timeout: 18000, timer: null }" 
-                    x-init="timer = setTimeout(() => visible = false, timeout)" 
-                    @mouseenter="visible = true; clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
-                    @mouseleave="clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
-                    x-show="visible"
-                    x-transition
-                    class="absolute top-1/4 right-4 lg:block hidden">
-                    <h2 class=" text-white font-semibold text-sm">
-                        Texto sobre Imagen 3
-                    </h2>
+        <div id="carousel" class="absolute inset-0 z-10 w-full h-full overflow-hidden">
+            <div class="carousel-item active relative w-full h-full">
+                <img src="{% static 'img/inicio/PORTADA5.jpg' %}"
+                     alt="Imagen de portada 1: Descripción relevante"
+                     loading="eager"
+                     class="w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-105" />
+                <div x-data="{ visible: true, timeout: 6000, timer: null }"
+                     x-init="timer = setTimeout(() => visible = false, timeout)"
+                     @mouseenter="visible = true; clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
+                     @mouseleave="clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
+                     x-show="visible"
+                     x-transition:enter="transition ease-out duration-700"
+                     x-transition:enter-start="opacity-0 translate-y-4"
+                     x-transition:enter-end="opacity-100 translate-y-0"
+                     x-transition:leave="transition ease-in duration-500"
+                     x-transition:leave-start="opacity-100 translate-y-0"
+                     x-transition:leave-end="opacity-0 translate-y-4"
+                     class="absolute bottom-10 right-5 sm:right-10 bg-black/60 backdrop-blur-sm p-3 sm:p-4 rounded-lg shadow-xl lg:block hidden">
+                    <h2 class="text-white font-semibold text-sm sm:text-base">Texto sobre Imagen 1</h2>
+                </div>
+            </div>
+            <div class="carousel-item relative w-full h-full hidden">
+                <img src="{% static 'img/inicio/PORTADA4.jpeg' %}"
+                     alt="Imagen de portada 2: Descripción relevante"
+                     loading="lazy"
+                     class="w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-105" />
+                <div x-data="{ visible: true, timeout: 12000, timer: null }" 
+                     x-init="timer = setTimeout(() => visible = false, timeout)" 
+                     @mouseenter="visible = true; clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
+                     @mouseleave="clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
+                     x-show="visible"
+                     x-transition:enter="transition ease-out duration-700"
+                     x-transition:enter-start="opacity-0 translate-y-4"
+                     x-transition:enter-end="opacity-100 translate-y-0"
+                     x-transition:leave="transition ease-in duration-500"
+                     x-transition:leave-start="opacity-100 translate-y-0"
+                     x-transition:leave-end="opacity-0 translate-y-4"
+                     class="absolute bottom-10 right-5 sm:right-10 bg-black/60 backdrop-blur-sm p-3 sm:p-4 rounded-lg shadow-xl lg:block hidden">
+                    <h2 class="text-white font-semibold text-sm sm:text-base">Texto sobre Imagen 2</h2>
+                </div>
+            </div>
+            <div class="carousel-item relative w-full h-full hidden">
+                <img src="{% static 'img/inicio/PORTADA3.jpg' %}"
+                     alt="Imagen de portada 3: Descripción relevante"
+                     loading="lazy"
+                     class="w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-105" />
+                <div x-data="{ visible: true, timeout: 18000, timer: null }" 
+                     x-init="timer = setTimeout(() => visible = false, timeout)" 
+                     @mouseenter="visible = true; clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
+                     @mouseleave="clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
+                     x-show="visible"
+                     x-transition:enter="transition ease-out duration-700"
+                     x-transition:enter-start="opacity-0 translate-y-4"
+                     x-transition:enter-end="opacity-100 translate-y-0"
+                     x-transition:leave="transition ease-in duration-500"
+                     x-transition:leave-start="opacity-100 translate-y-0"
+                     x-transition:leave-end="opacity-0 translate-y-4"
+                     class="absolute bottom-10 right-5 sm:right-10 bg-black/60 backdrop-blur-sm p-3 sm:p-4 rounded-lg shadow-xl lg:block hidden">
+                    <h2 class="text-white font-semibold text-sm sm:text-base">Texto sobre Imagen 3</h2>
+                </div>
+            </div>
+            <div class="carousel-item w-full h-full hidden">
+                <img src="{% static 'img/inicio/PORTADA2.jpg' %}"
+                     alt="Imagen de portada 4: Descripción relevante"
+                     loading="lazy"
+                     class="w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-105">
+                <div x-data="{ visible: true, timeout: 24000, timer: null }" 
+                     x-init="timer = setTimeout(() => visible = false, timeout)" 
+                     @mouseenter="visible = true; clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
+                     @mouseleave="clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
+                     x-show="visible"
+                     x-transition:enter="transition ease-out duration-700"
+                     x-transition:enter-start="opacity-0 translate-y-4"
+                     x-transition:enter-end="opacity-100 translate-y-0"
+                     x-transition:leave="transition ease-in duration-500"
+                     x-transition:leave-start="opacity-100 translate-y-0"
+                     x-transition:leave-end="opacity-0 translate-y-4"
+                     class="absolute bottom-10 right-5 sm:right-10 bg-black/60 backdrop-blur-sm p-3 sm:p-4 rounded-lg shadow-xl lg:block hidden">
+                    <h2 class="text-white font-semibold text-sm sm:text-base">Texto sobre Imagen 4</h2>
+                </div>
+            </div>
+            <div class="carousel-item w-full h-full hidden">
+                <img src="{% static 'img/inicio/PORTADA1.jpg' %}"
+                     alt="Imagen de portada 5: Descripción relevante"
+                     loading="lazy"
+                     class="w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-105">
+                <div x-data="{ visible: true, timeout: 30000, timer: null }" 
+                     x-init="timer = setTimeout(() => visible = false, timeout)" 
+                     @mouseenter="visible = true; clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
+                     @mouseleave="clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
+                     x-show="visible"
+                     x-transition:enter="transition ease-out duration-700"
+                     x-transition:enter-start="opacity-0 translate-y-4"
+                     x-transition:enter-end="opacity-100 translate-y-0"
+                     x-transition:leave="transition ease-in duration-500"
+                     x-transition:leave-start="opacity-100 translate-y-0"
+                     x-transition:leave-end="opacity-0 translate-y-4"
+                     class="absolute bottom-10 right-5 sm:right-10 bg-black/60 backdrop-blur-sm p-3 sm:p-4 rounded-lg shadow-xl lg:block hidden">
+                    <h2 class="text-white font-semibold text-sm sm:text-base">Texto sobre Imagen 5</h2>
+                </div>
             </div>
         </div>
-        <div class="carousel-item w-full h-full hidden">
-            <img src="{% static 'img/inicio/PORTADA2.jpg' %}" alt="Image 4" class="w-full h-full object-cover transform transition duration-500 hover:scale-110">
-             <div   x-data="{ visible: true, timeout: 24000, timer: null }" 
-                    x-init="timer = setTimeout(() => visible = false, timeout)" 
-                    @mouseenter="visible = true; clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
-                    @mouseleave="clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
-                    x-show="visible"
-                    x-transition
-                    class="absolute top-1/4 right-4 lg:block hidden">
-                    <h2 class=" text-white font-semibold text-sm">
-                        Texto sobre Imagen 4
-                    </h2>
-            </div>
-        </div>
-        <div class="carousel-item w-full h-full hidden">
-            <img src="{% static 'img/inicio/PORTADA1.jpg'  %}" alt="Image 5" class="w-full h-full object-cover transform transition duration-500 hover:scale-110">
-             <div   x-data="{ visible: true, timeout: 30000, timer: null }" 
-                    x-init="timer = setTimeout(() => visible = false, timeout)" 
-                    @mouseenter="visible = true; clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
-                    @mouseleave="clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
-                    x-show="visible"
-                    x-transition
-                    class="absolute top-1/4 right-4 lg:block hidden">
-                    <h2 class=" text-white font-semibold text-sm">
-                        Texto sobre Imagen 5
-                    </h2>
-            </div>
-        </div>
-        <div class="absolute bottom-4 w-full overflow-hidden">
-            <div class="whitespace-nowrap animate-marquee text-center text-white text-sm font-semibold">
-                PRECISIÓN EN RESULTADOS • ACOMPAÑAMIENTO TÉCNICO • IMPARCIALIDAD Y CONFIDENCIALIDAD • PERSONAL COMPETENTE • EQUIPOS CALIBRADOS POR ENTIDADES ACREDITADAS POR INACAL
+
+        <div class="absolute bottom-0 left-0 hidden right-0 z-20 bg-transparent backdrop-blur-md py-3 sm:py-4 overflow-hidden shadow-lg">
+            <div class="whitespace-nowrap animate-marquee text-center text-black text-sm sm:text-base font-bold tracking-wider">
+                PRECISIÓN EN RESULTADOS • ACOMPAÑAMIENTO TÉCNICO • IMPARCIALIDAD Y CONFIDENCIALIDAD • PERSONAL COMPETENTE • EQUIPOS CALIBRADOS
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modal = document.getElementById('myModalHome');
+        const closeModalButton = document.getElementById('closeModalHome');
+        const closeModalHomeSecondary = document.getElementById('closeModalHomeSecondary');
+        const certificateShownKey = 'VICAFcertificateShownThisSession';
+
+        function openModal() {
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.style.opacity = '1';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModalAndMarkAsShown() {
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.style.opacity = '0';
+                document.body.style.overflow = '';
+                try {
+                    sessionStorage.setItem(certificateShownKey, 'true');
+                } catch (e) {
+                    console.warn("SessionStorage no está disponible o hubo un error:", e);
+                }
+            }
+        }
+
+        try {
+            if (!sessionStorage.getItem(certificateShownKey)) {
+                openModal();
+            }
+        } catch (e) {
+             console.warn("SessionStorage no está disponible o hubo un error:", e);
+        }
+
+        if (closeModalButton) {
+            closeModalButton.addEventListener('click', closeModalAndMarkAsShown);
+        }
+        if (closeModalHomeSecondary) {
+            closeModalHomeSecondary.addEventListener('click', closeModalAndMarkAsShown);
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+                closeModalAndMarkAsShown();
+            }
+        });
+        
+        if (modal) {
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closeModalAndMarkAsShown();
+                }
+            });
+        }
+
+        const carousel = document.getElementById('carousel');
+        if (carousel) {
+            const items = carousel.querySelectorAll('.carousel-item');
+            let currentIndex = 0;
+            const totalItems = items.length;
+
+            if (totalItems > 0) {
+                function showItem(index) {
+                    items.forEach((item, i) => {
+                        item.classList.toggle('active', i === index);
+                        item.classList.toggle('hidden', i !== index);
+                    });
+                }
+
+                function nextItem() {
+                    currentIndex = (currentIndex + 1) % totalItems;
+                    showItem(currentIndex);
+                }
+            }
+        }
+    });
+</script>
+
+<style>
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-125%); }
+    }
+    .animate-marquee {
+      animation: marquee 40s linear infinite;
+      display: inline-block;
+      padding-left: 100%;
+      white-space: nowrap;
+      min-width: max-content;
+    }
+    #myModalHome {
+        transition: opacity 0.3s ease-in-out;
+    }
+</style>
 {% endblock %}

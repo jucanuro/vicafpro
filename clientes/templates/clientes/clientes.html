@@ -1,156 +1,226 @@
 {% load static %}
 {% block content %}
-<div id="clientes" class="mx-auto bg-white max-w-full">
-  <section class="py-8 lg:py-12 px-6 mb-4">
-    <div class="w-full px-6">
-      <h2 class="text-xl lg:text-3xl font-bold tracking-tight text-gray-900 text-center">
-        Nuestros Clientes
+<div id="clientes-section" class="bg-slate-50 py-4 sm:py-12">
+  <div class="mx-auto max-w-full px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl lg:max-w-none text-center">
+      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        <span class="text-sm lg:text-lg font-bold tracking-tight text-blue-900">
+          Confían en Nosotros
+        </span>
       </h2>
-
-      <!-- Grid de clientes -->
-      <div id="clients-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 mt-10">
-
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/1.jpeg' %}" alt="Cliente 1" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/2.jpg' %}" alt="Cliente 2" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/3.jpg' %}" alt="Cliente 3" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/4.jpg' %}" alt="Cliente 4" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/5.jpg' %}" alt="Cliente 5" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/6.jpg' %}" alt="Cliente 6" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/7.jpg' %}" alt="Cliente 7" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/8.jpg' %}" alt="Cliente 8" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/9.jpg' %}" alt="Cliente 9" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/10.jpg' %}" alt="Cliente 10" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/11.jpg' %}" alt="Cliente 11" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/12.jpg' %}" alt="Cliente 12" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/13.jpg' %}" alt="Cliente 13" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/14.jpg' %}" alt="Cliente 14" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/15.png' %}" alt="Cliente 15" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/16.png' %}" alt="Cliente 16" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/17.png' %}" alt="Cliente 17" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/18.png' %}" alt="Cliente 18" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/19.png' %}" alt="Cliente 19" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/20.png' %}" alt="Cliente 20" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/21.png' %}" alt="Cliente 21" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/22.png' %}" alt="Cliente 22" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/23.png' %}" alt="Cliente 23" class="max-h-full max-w-full object-contain">
-        </div>
-      
-        <div class="cliente flex items-center justify-center bg-white h-40 rounded-xl shadow-lg">
-          <img src="{% static 'img/clientes/24.png' %}" alt="Cliente 24" class="max-h-full max-w-full object-contain">
-        </div>
-      
-      </div>
-      
-
-      <!-- Controles de paginación -->
-      <div class="flex justify-center mt-8 space-x-2">
-        <button id="prevPage" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">&laquo; Anterior</button>
-        <span id="pageInfo" class="px-3 py-1 bg-blue-500 text-white rounded">1</span>
-        <button id="nextPage" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Siguiente &raquo;</button>
-      </div>
+      <p class="mt-6 text-xs lg:text-sm leading-8 text-gray-600">
+        Una muestra de las organizaciones que impulsan su éxito con nuestras soluciones.
+      </p>
     </div>
-  </section>
+
+    <div id="clients-container" class="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-10">
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/1.jpeg' %}" alt="Cliente 1">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/2.jpg' %}" alt="Cliente 2">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/3.jpg' %}" alt="Cliente 3">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/4.jpg' %}" alt="Cliente 4">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/5.jpg' %}" alt="Cliente 5">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/6.jpg' %}" alt="Cliente 6">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/7.jpg' %}" alt="Cliente 7">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/8.jpg' %}" alt="Cliente 8">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/9.jpg' %}" alt="Cliente 9">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/10.jpg' %}" alt="Cliente 10">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/11.jpg' %}" alt="Cliente 11">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/12.jpg' %}" alt="Cliente 12">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/13.jpg' %}" alt="Cliente 13">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/14.jpg' %}" alt="Cliente 14">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/15.png' %}" alt="Cliente 15">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/16.png' %}" alt="Cliente 16">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/17.png' %}" alt="Cliente 17">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/18.png' %}" alt="Cliente 18">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/19.png' %}" alt="Cliente 19">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/20.png' %}" alt="Cliente 20">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/21.png' %}" alt="Cliente 21">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/22.png' %}" alt="Cliente 22">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/23.png' %}" alt="Cliente 23">
+      </div>
+      
+      <div class="cliente group relative flex flex-col items-center justify-center bg-white p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 h-36 sm:h-40">
+        <div class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-sky-400 transition-colors duration-300 opacity-0 group-hover:opacity-100"></div>
+        <img class="max-h-28 w-auto object-contain" src="{% static 'img/clientes/24.png' %}" alt="Cliente 24">
+      </div>
+
+    </div>
+
+    <div id="pagination-controls" class="flex flex-col sm:flex-row justify-center items-center mt-20 space-y-4 sm:space-y-0 sm:space-x-3">
+      <button id="prevPage" aria-label="Página anterior" class="flex items-center justify-center p-2.5 sm:p-3 bg-blue-900 text-white rounded-lg shadow-md hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-opacity-75 transition-colors duration-200 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed w-full sm:w-auto">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+        </svg>
+      </button>
+      <span id="pageInfo" class="px-4 py-2 sm:px-5 sm:py-2.5 text-sm font-semibold text-sky-700 bg-sky-100 border-2 border-sky-500 rounded-lg shadow w-full sm:w-auto text-center">
+        Página 1 / N
+      </span>
+      <button id="nextPage" aria-label="Página siguiente" class="flex items-center justify-center p-2.5 sm:p-3 bg-blue-900 text-white rounded-lg shadow-md hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-opacity-75 transition-colors duration-200 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed w-full sm:w-auto">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    </div>
+  </div>
 </div>
 
-<!-- JS de paginación -->
 <script>
-  const itemsPerPage = 12;
+  const itemsPerPage = 6; 
   let currentPage = 1;
 
-  const clients = document.querySelectorAll('#clients-container .cliente');
+  const clientsContainer = document.getElementById('clients-container');
+  const clients = Array.from(clientsContainer.querySelectorAll('.cliente')); 
   const totalPages = Math.ceil(clients.length / itemsPerPage);
 
+  const pageInfoEl = document.getElementById('pageInfo');
+  const prevButton = document.getElementById('prevPage');
+  const nextButton = document.getElementById('nextPage');
+  const paginationControlsEl = document.getElementById('pagination-controls');
+
   function showPage(page) {
-    clients.forEach((client, index) => {
-      client.style.display = (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) ? 'flex' : 'none';
+    clients.forEach(client => client.style.display = 'none');
+
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const clientsToShow = clients.slice(startIndex, endIndex);
+
+    clientsToShow.forEach(client => {
+      client.style.display = 'flex'; 
     });
-    document.getElementById('pageInfo').textContent = `${page} / ${totalPages}`;
-    document.getElementById('prevPage').disabled = page === 1;
-    document.getElementById('nextPage').disabled = page === totalPages;
+
+    pageInfoEl.textContent = `Página ${page} / ${totalPages}`;
+    prevButton.disabled = page === 1;
+    nextButton.disabled = page === totalPages;
   }
 
-  document.getElementById('prevPage').addEventListener('click', () => {
+  prevButton.addEventListener('click', () => {
     if (currentPage > 1) {
       currentPage--;
       showPage(currentPage);
+      clientsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   });
 
-  document.getElementById('nextPage').addEventListener('click', () => {
+  nextButton.addEventListener('click', () => {
     if (currentPage < totalPages) {
       currentPage++;
       showPage(currentPage);
+      clientsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   });
 
-  // Inicializa
-  showPage(currentPage);
+  if (totalPages > 0) {
+    showPage(currentPage);
+  } else {
+    pageInfoEl.textContent = 'No hay clientes para mostrar';
+    prevButton.style.display = 'none';
+    nextButton.style.display = 'none';
+    if(clientsContainer) clientsContainer.innerHTML = `<p class="col-span-full text-center text-gray-500">Actualmente no hay clientes para mostrar.</p>`;
+  }
+  if (totalPages <= 1 && paginationControlsEl) {
+      paginationControlsEl.style.display = 'none';
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const elementoAfectado = document.getElementById('clientes-section'); 
+
+    if (elementoAfectado) {
+      setTimeout(function() {
+        elementoAfectado.classList.remove('max-h-96', 'overflow-y-auto');
+      }, 100);
+    }
+  });
 </script>
+
 {% endblock %}

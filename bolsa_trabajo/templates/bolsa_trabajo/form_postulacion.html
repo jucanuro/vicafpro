@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto mt-2 px-6 py-2 bg-white rounded-2xl shadow-xl border border-gray-100">
+    <h2 class="text-3xl font-bold text-gray-800 mb-4">
+        Postulación a: <span class="text-blue-600">{{ oportunidad.titulo }}</span>
+    </h2>
+    <p class="text-gray-500 mb-8">{{ oportunidad.descripcion|truncatewords:30 }}</p>
+
+    <form method="post" enctype="multipart/form-data" class="space-y-2">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div>
+                <label for="{{ field.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-1">
+                    {{ field.label }}
+                </label>
+
+                {{ field.as_widget|safe }}
+
+                {% if field.help_text %}
+                    <p class="text-xs text-gray-400 mt-1">{{ field.help_text }}</p>
+                {% endif %}
+
+                {% if field.errors %}
+                    <p class="text-sm text-red-500 mt-1">{{ field.errors|striptags }}</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <div class="flex justify-end">
+            <a href="{% url 'bolsa_trabajo:listar' %}"
+                class="px-6 py-3 bg-gray-300 text-gray-700 text-sm font-semibold rounded-xl hover:bg-gray-400 transition-colors duration-200">
+                ❌ Cancelar
+            </a>
+            <button type="submit"
+                class="px-6 ml-4 py-3 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors duration-200">
+                📎 Enviar Postulación
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
