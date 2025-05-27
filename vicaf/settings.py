@@ -96,9 +96,13 @@ CONTACT_EMAIL = 'informes@grupovicaf.com'  # Cambia a tu correo
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'vicaf',           
+        'USER': 'jucanuro',
+        'PASSWORD': 'Elverde2050@@**1988', 
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
