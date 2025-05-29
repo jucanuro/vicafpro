@@ -52,7 +52,7 @@
         <div id="carousel" class="absolute inset-0 z-10 w-full h-full overflow-hidden">
             <div class="carousel-item active relative w-full h-full">
                 <img src="{% static 'img/inicio/PORTADA5.jpg' %}"
-                     alt="Imagen de portada 1: Descripción relevante"
+                     alt="Imagen de portada 1: Control de Calidad en Materiales"
                      loading="eager"
                      class="w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-105" />
                 <div x-data="{ visible: true, timeout: 6000, timer: null }"
@@ -67,16 +67,16 @@
                      x-transition:leave-start="opacity-100 translate-y-0"
                      x-transition:leave-end="opacity-0 translate-y-4"
                      class="absolute bottom-10 right-5 sm:right-10 bg-black/60 backdrop-blur-sm p-3 sm:p-4 rounded-lg shadow-xl lg:block hidden">
-                    <h2 class="text-white font-semibold text-sm sm:text-base">Texto sobre Imagen 1</h2>
+                    <p class="text-gray-300 text-xs sm:text-sm mt-1">Aseguramos la calidad de los materiales de construcción mediante rigurosos ensayos.</p>
                 </div>
             </div>
             <div class="carousel-item relative w-full h-full hidden">
                 <img src="{% static 'img/inicio/PORTADA4.jpeg' %}"
-                     alt="Imagen de portada 2: Descripción relevante"
+                     alt="Imagen de portada 2: Ensayos de Mecánica de Suelos"
                      loading="lazy"
                      class="w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-105" />
-                <div x-data="{ visible: true, timeout: 12000, timer: null }" 
-                     x-init="timer = setTimeout(() => visible = false, timeout)" 
+                <div x-data="{ visible: true, timeout: 6000, timer: null }"
+                     x-init="timer = setTimeout(() => visible = false, timeout)"
                      @mouseenter="visible = true; clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
                      @mouseleave="clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
                      x-show="visible"
@@ -87,16 +87,16 @@
                      x-transition:leave-start="opacity-100 translate-y-0"
                      x-transition:leave-end="opacity-0 translate-y-4"
                      class="absolute bottom-10 right-5 sm:right-10 bg-black/60 backdrop-blur-sm p-3 sm:p-4 rounded-lg shadow-xl lg:block hidden">
-                    <h2 class="text-white font-semibold text-sm sm:text-base">Texto sobre Imagen 2</h2>
+                    <p class="text-gray-300 text-xs sm:text-sm mt-1">Investigamos las propiedades del suelo para cimentaciones seguras y eficientes.</p>
                 </div>
             </div>
             <div class="carousel-item relative w-full h-full hidden">
                 <img src="{% static 'img/inicio/PORTADA3.jpg' %}"
-                     alt="Imagen de portada 3: Descripción relevante"
+                     alt="Imagen de portada 3: Estudios de Canteras de Áridos"
                      loading="lazy"
                      class="w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-105" />
-                <div x-data="{ visible: true, timeout: 18000, timer: null }" 
-                     x-init="timer = setTimeout(() => visible = false, timeout)" 
+                <div x-data="{ visible: true, timeout: 6000, timer: null }"
+                     x-init="timer = setTimeout(() => visible = false, timeout)"
                      @mouseenter="visible = true; clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
                      @mouseleave="clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
                      x-show="visible"
@@ -107,16 +107,16 @@
                      x-transition:leave-start="opacity-100 translate-y-0"
                      x-transition:leave-end="opacity-0 translate-y-4"
                      class="absolute bottom-10 right-5 sm:right-10 bg-black/60 backdrop-blur-sm p-3 sm:p-4 rounded-lg shadow-xl lg:block hidden">
-                    <h2 class="text-white font-semibold text-sm sm:text-base">Texto sobre Imagen 3</h2>
+                    <p class="text-gray-300 text-xs sm:text-sm mt-1">Evaluamos la calidad y viabilidad de canteras para el suministro de áridos.</p>
                 </div>
             </div>
             <div class="carousel-item w-full h-full hidden">
                 <img src="{% static 'img/inicio/PORTADA2.jpg' %}"
-                     alt="Imagen de portada 4: Descripción relevante"
+                     alt="Imagen de portada 4: Evaluación Estructural de Edificaciones"
                      loading="lazy"
                      class="w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-105">
-                <div x-data="{ visible: true, timeout: 24000, timer: null }" 
-                     x-init="timer = setTimeout(() => visible = false, timeout)" 
+                <div x-data="{ visible: true, timeout: 6000, timer: null }"
+                     x-init="timer = setTimeout(() => visible = false, timeout)"
                      @mouseenter="visible = true; clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
                      @mouseleave="clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
                      x-show="visible"
@@ -127,16 +127,16 @@
                      x-transition:leave-start="opacity-100 translate-y-0"
                      x-transition:leave-end="opacity-0 translate-y-4"
                      class="absolute bottom-10 right-5 sm:right-10 bg-black/60 backdrop-blur-sm p-3 sm:p-4 rounded-lg shadow-xl lg:block hidden">
-                    <h2 class="text-white font-semibold text-sm sm:text-base">Texto sobre Imagen 4</h2>
+                    <p class="text-gray-300 text-xs sm:text-sm mt-1">Realizamos evaluaciones para garantizar la seguridad y estabilidad de edificaciones.</p>
                 </div>
             </div>
             <div class="carousel-item w-full h-full hidden">
                 <img src="{% static 'img/inicio/PORTADA1.jpg' %}"
-                     alt="Imagen de portada 5: Descripción relevante"
+                     alt="Imagen de portada 5: Diseño de Mezclas de Concreto y Asfalto"
                      loading="lazy"
                      class="w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-105">
-                <div x-data="{ visible: true, timeout: 30000, timer: null }" 
-                     x-init="timer = setTimeout(() => visible = false, timeout)" 
+                <div x-data="{ visible: true, timeout: 6000, timer: null }"
+                     x-init="timer = setTimeout(() => visible = false, timeout)"
                      @mouseenter="visible = true; clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
                      @mouseleave="clearTimeout(timer); timer = setTimeout(() => visible = false, timeout)"
                      x-show="visible"
@@ -147,13 +147,13 @@
                      x-transition:leave-start="opacity-100 translate-y-0"
                      x-transition:leave-end="opacity-0 translate-y-4"
                      class="absolute bottom-10 right-5 sm:right-10 bg-black/60 backdrop-blur-sm p-3 sm:p-4 rounded-lg shadow-xl lg:block hidden">
-                    <h2 class="text-white font-semibold text-sm sm:text-base">Texto sobre Imagen 5</h2>
+                    <p class="text-gray-300 text-xs sm:text-sm mt-1">Desarrollamos diseños optimizados de concreto y asfalto para tus proyectos.</p>
                 </div>
             </div>
         </div>
 
-        <div class="absolute bottom-0 left-0 hidden right-0 z-20 bg-transparent backdrop-blur-md py-3 sm:py-4 overflow-hidden shadow-lg">
-            <div class="whitespace-nowrap animate-marquee text-center text-black text-sm sm:text-base font-bold tracking-wider">
+        <div class="absolute bottom-0 left-0 right-0 z-20 bg-transparent backdrop-blur-md py-3 sm:py-4 overflow-hidden shadow-lg">
+            <div class="whitespace-nowrap animate-marquee text-center text-white text-sm sm:text-base font-bold tracking-wider">
                 PRECISIÓN EN RESULTADOS • ACOMPAÑAMIENTO TÉCNICO • IMPARCIALIDAD Y CONFIDENCIALIDAD • PERSONAL COMPETENTE • EQUIPOS CALIBRADOS
             </div>
         </div>
@@ -164,7 +164,6 @@
     document.addEventListener('DOMContentLoaded', function () {
         const modal = document.getElementById('myModalHome');
         const closeModalButton = document.getElementById('closeModalHome');
-        const closeModalHomeSecondary = document.getElementById('closeModalHomeSecondary');
         const certificateShownKey = 'VICAFcertificateShownThisSession';
 
         function openModal() {
@@ -193,12 +192,14 @@
                 openModal();
             }
         } catch (e) {
-             console.warn("SessionStorage no está disponible o hubo un error:", e);
+            console.warn("SessionStorage no está disponible o hubo un error:", e);
         }
 
         if (closeModalButton) {
             closeModalButton.addEventListener('click', closeModalAndMarkAsShown);
         }
+        
+        const closeModalHomeSecondary = document.getElementById('closeModalHomeSecondary');
         if (closeModalHomeSecondary) {
             closeModalHomeSecondary.addEventListener('click', closeModalAndMarkAsShown);
         }
@@ -208,7 +209,7 @@
                 closeModalAndMarkAsShown();
             }
         });
-        
+
         if (modal) {
             modal.addEventListener('click', (event) => {
                 if (event.target === modal) {
@@ -223,14 +224,15 @@
             let currentIndex = 0;
             const totalItems = items.length;
 
-            if (totalItems > 0) {
-                function showItem(index) {
-                    items.forEach((item, i) => {
-                        item.classList.toggle('active', i === index);
-                        item.classList.toggle('hidden', i !== index);
-                    });
-                }
+            function showItem(index) {
+                items.forEach((item, i) => {
+                    item.classList.toggle('active', i === index);
+                    item.classList.toggle('hidden', i !== index);
+                });
+            }
 
+            if (totalItems > 0) {
+                showItem(currentIndex); 
                 function nextItem() {
                     currentIndex = (currentIndex + 1) % totalItems;
                     showItem(currentIndex);
@@ -242,18 +244,18 @@
 
 <style>
     @keyframes marquee {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-125%); }
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-125%); }
     }
     .animate-marquee {
-      animation: marquee 40s linear infinite;
-      display: inline-block;
-      padding-left: 100%;
-      white-space: nowrap;
-      min-width: max-content;
+        animation: marquee 40s linear infinite;
+        display: inline-block;
+        padding-left: 100%;
+        white-space: nowrap;
+        min-width: max-content;
     }
     #myModalHome {
-        transition: opacity 0.3s ease-in-out;
+        transition: opacity 1s ease-in-out;
     }
 </style>
 {% endblock %}

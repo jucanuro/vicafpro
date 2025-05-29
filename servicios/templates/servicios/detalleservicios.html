@@ -4,10 +4,112 @@
 {% block content %}
 {% include 'header.html' %}
 
-<div class="flex pt-[var(--header-height,64px)]"> 
+<style>
+    #imageDisplayContainer {
+        padding: 1rem; 
+        background-color: #ffffff; 
+        border-radius: 0.75rem; 
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    @media (min-width: 768px) {
+        #imageDisplayContainer {
+            padding: 1.5rem;
+        }
+    }
+
+    #contentTitle {
+        color: #1f2937; 
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    @media (min-width: 768px) {
+        #contentTitle {
+            font-size: 1.25rem;
+            line-height: 1.75rem;
+        }
+    }
+
+    .image-viewer-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 56rem; 
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #ffffff; 
+        overflow: hidden;
+        aspect-ratio: 16 / 9;
+    }
+
+    #currentImage {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain; 
+        transition: opacity 0.3s ease-in-out;
+        border-radius: 0.5rem;
+        object-fit: contain; 
+    }
+
+    .pagination-button {
+        background-color: #1d4ed8; 
+        color: #ffffff;
+        padding: 0.5rem 1rem;
+        border-radius: 9999px; 
+        font-weight: 500;
+        transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    }
+    .pagination-button:hover {
+        background-color: #2563eb; 
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    .pagination-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background-color: #9ca3af;
+    }
+     .pagination-button svg {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    #imageCounter {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        color: #374151; 
+        font-weight: 600;
+    }
+
+    #imageError {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(249, 250, 251, 0.95); 
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #b91c1c; 
+        font-weight: 500;
+        text-align: center;
+        padding: 1rem;
+        border-radius: 0.5rem;
+    }
+    #imageError svg {
+        width: 2.5rem;
+        height: 2.5rem;
+        margin-bottom: 0.75rem;
+    }
+</style>
+
+<div class="flex pt-[var(--header-height,64px)] bg-slate-50 min-h-screen"> 
     
     <aside id="sidebar" class="fixed left-0 bg-white p-2 md:p-4 shadow-2xl rounded-r-2xl flex-shrink-0 transition-all duration-300 ease-in-out z-30" style="top: var(--header-height, 64px); height: calc(100vh - var(--header-height, 64px));">
-        <div class="flex flex-col h-full"> 
+        <div class="flex flex-col h-full mt-3"> 
             <div class="flex items-center space-x-2 mb-4 flex-shrink-0"> 
                 <button id="menuToggleButton" type="button" aria-expanded="true" aria-controls="menu" class="p-2 rounded-md text-gray-600 hover:text-blue-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
                     <span class="sr-only">Abrir/cerrar menú de servicios</span>
@@ -23,93 +125,92 @@
                 </h2>
             </div>
 
-            <ul id="menu" class="space-y-2 md:space-y-3 mt-2 overflow-y-auto flex-grow pr-1"> 
-                <li class="menu-item flex text-sm bg-white border border-gray-300 cursor-pointer p-3 rounded-xl shadow-md hover:shadow-lg hover:border-blue-600 hover:bg-blue-50 transition-all duration-300 ease-in-out transform hover:scale-105 items-center space-x-3 group" data-content-id="calidadObra">
+            <ul id="menu" class="space-y-1 md:space-y-1.5 mt-2 overflow-y-auto flex-grow pr-1"> 
+                <li class="menu-item flex text-xs sm:text-sm bg-white border border-gray-300 cursor-pointer p-2.5 md:p-3 rounded-xl shadow-sm hover:shadow-md hover:border-blue-600 hover:bg-blue-50 transition-all duration-200 ease-in-out items-center space-x-2 group" data-content-id="calidadObra">
                     <svg class="w-5 h-5 text-blue-600 group-hover:text-blue-700 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z"/></svg>
-                    <span class="menu-item-text text-gray-800 font-medium group-hover:text-blue-700">Control de calidad en obra</span>
+                    <span class="menu-item-text text-gray-700 font-medium group-hover:text-blue-700">Control de calidad en obra</span>
                 </li>
-                <li class="menu-item flex text-sm bg-white border border-gray-300 cursor-pointer p-3 rounded-xl shadow-md hover:shadow-lg hover:border-blue-600 hover:bg-blue-50 transition-all duration-300 ease-in-out transform hover:scale-105 items-center space-x-3 group" data-content-id="mecanicaSuelos">
+                <li class="menu-item flex text-xs sm:text-sm bg-white border border-gray-300 cursor-pointer p-2.5 md:p-3 rounded-xl shadow-sm hover:shadow-md hover:border-blue-600 hover:bg-blue-50 transition-all duration-200 ease-in-out items-center space-x-2 group" data-content-id="mecanicaSuelos">
                     <svg class="w-5 h-5 text-blue-600 group-hover:text-blue-700 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M57.7 193l9.4 16.4c8.3 14.5 21.9 25.2 38 29.8L163 255.7c17.2 4.9 29 20.6 29 38.5l0 39.9c0 11 6.2 21 16 25.9s16 14.9 16 25.9l0 39c0 15.6 14.9 26.9 29.9 22.6c16.1-4.6 28.6-17.5 32.7-33.8l2.8-11.2c4.2-16.9 15.2-31.4 30.3-40l8.1-4.6c15-8.5 24.2-24.5 24.2-41.7l0-8.3c0-12.7-5.1-24.9-14.1-33.9l-3.9-3.9c-9-9-21.2-14.1-33.9-14.1L257 256c-11.1 0-22.1-2.9-31.8-8.4l-34.5-19.7c-4.3-2.5-7.6-6.5-9.2-11.2c-3.2-9.6 1.1-20 10.2-24.5l5.9-3c6.6-3.3 14.3-3.9 21.3-1.5l23.2 7.7c8.2 2.7 17.2-.4 21.9-7.5c4.7-7 4.2-16.3-1.2-22.8l-13.6-16.3c-10-12-9.9-29.5 .3-41.3l15.7-18.3c8.8-10.3 10.2-25 3.5-36.7l-2.4-4.2c-3.5-.2-6.9-.3-10.4-.3C163.1 48 84.4 108.9 57.7 193zM464 256c0-36.8-9.6-71.4-26.4-101.5L412 164.8c-15.7 6.3-23.8 23.8-18.5 39.8l16.9 50.7c3.5 10.4 12 18.3 22.6 20.9l29.1 7.3c1.2-9 1.8-18.2 1.8-27.5zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"/></svg>
-                    <span class="menu-item-text text-gray-800 font-medium group-hover:text-blue-700">Estudio de mecánica de suelos</span>
+                    <span class="menu-item-text text-gray-700 font-medium group-hover:text-blue-700">Estudio de mecánica de suelos</span>
                 </li>
-                <li class="menu-item flex text-sm bg-white border border-gray-300 cursor-pointer p-3 rounded-xl shadow-md hover:shadow-lg hover:border-blue-600 hover:bg-blue-50 transition-all duration-300 ease-in-out transform hover:scale-105 items-center space-x-3 group" data-content-id="estudioCanteras">
+                <li class="menu-item flex text-xs sm:text-sm bg-white border border-gray-300 cursor-pointer p-2.5 md:p-3 rounded-xl shadow-sm hover:shadow-md hover:border-blue-600 hover:bg-blue-50 transition-all duration-200 ease-in-out items-center space-x-2 group" data-content-id="estudioCanteras">
                     <svg class="w-5 h-5 text-blue-600 group-hover:text-blue-700 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><path d="M640 0l0 400c0 61.9-50.1 112-112 112c-61 0-110.5-48.7-112-109.3L48.4 502.9c-17.1 4.6-34.6-5.4-39.3-22.5s5.4-34.6 22.5-39.3L352 353.8 352 64c0-35.3 28.7-64 64-64L640 0zM576 400a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM23.1 207.7c-4.6-17.1 5.6-34.6 22.6-39.2l46.4-12.4 20.7 77.3c2.3 8.5 11.1 13.6 19.6 11.3l30.9-8.3c8.5-2.3 13.6-11.1 11.3-19.6l-20.7-77.3 46.4-12.4c17.1-4.6 34.6 5.6 39.2 22.6l41.4 154.5c4.6 17.1-5.6 34.6-22.6 39.2L103.7 384.9c-17.1 4.6-34.6-5.6-39.2-22.6L23.1 207.7z"/></svg>
-                    <span class="menu-item-text text-gray-800 font-medium group-hover:text-blue-700">Estudio de canteras</span>
+                    <span class="menu-item-text text-gray-700 font-medium group-hover:text-blue-700">Estudio de canteras</span>
                 </li>
-                <li class="menu-item flex text-sm bg-white border border-gray-300 cursor-pointer p-3 rounded-xl shadow-md hover:shadow-lg hover:border-blue-600 hover:bg-blue-50 transition-all duration-300 ease-in-out transform hover:scale-105 items-center space-x-3 group" data-content-id="evaluacionEstructural">
+                <li class="menu-item flex text-xs sm:text-sm bg-white border border-gray-300 cursor-pointer p-2.5 md:p-3 rounded-xl shadow-sm hover:shadow-md hover:border-blue-600 hover:bg-blue-50 transition-all duration-200 ease-in-out items-center space-x-2 group" data-content-id="evaluacionEstructural">
                     <svg class="w-5 h-5 text-blue-600 group-hover:text-blue-700 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor"><path d="M0 32L0 64l320 0 0-32c0-17.7-14.3-32-32-32L32 0C14.3 0 0 14.3 0 32zM24 96L0 96l0 24L0 488c0 13.3 10.7 24 24 24s24-10.7 24-24l0-8 224 0 0 8c0 13.3 10.7 24 24 24s24-10.7 24-24l0-368 0-24-24 0L24 96zM256 240l0 64c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-64c0-8.8 7.2-16 16-16s16 7.2 16 16z"/></svg>
-                    <span class="menu-item-text text-gray-800 font-medium group-hover:text-blue-700">Evaluación estructural</span>
+                    <span class="menu-item-text text-gray-700 font-medium group-hover:text-blue-700">Evaluación estructural</span>
                 </li>
-                <li class="menu-item flex text-sm bg-white border border-gray-300 cursor-pointer p-3 rounded-xl shadow-md hover:shadow-lg hover:border-blue-600 hover:bg-blue-50 transition-all duration-300 ease-in-out transform hover:scale-105 items-center space-x-3 group" data-content-id="disenoMezclas">
+                <li class="menu-item flex text-xs sm:text-sm bg-white border border-gray-300 cursor-pointer p-2.5 md:p-3 rounded-xl shadow-sm hover:shadow-md hover:border-blue-600 hover:bg-blue-50 transition-all duration-200 ease-in-out items-center space-x-2 group" data-content-id="disenoMezclas">
                     <svg class="w-5 h-5 text-blue-600 group-hover:text-blue-700 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M243.4 2.6l-224 96c-14 6-21.8 21-18.7 35.8S16.8 160 32 160l0 8c0 13.3 10.7 24 24 24l400 0c13.3 0 24-10.7 24-24l0-8c15.2 0 28.3-10.7 31.3-25.6s-4.8-29.9-18.7-35.8l-224-96c-8-3.4-17.2-3.4-25.2 0zM128 224l-64 0 0 196.3c-.6 .3-1.2 .7-1.8 1.1l-48 32c-11.7 7.8-17 22.4-12.9 35.9S17.9 512 32 512l448 0c14.1 0 26.5-9.2 30.6-22.7s-1.1-28.1-12.9-35.9l-48-32c-.6-.4-1.2-.7-1.8-1.1L448 224l-64 0 0 192-40 0 0-192-64 0 0 192-48 0 0-192-64 0 0 192-40 0 0-192zM256 64a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
-                    <span class="menu-item-text text-gray-800 font-medium group-hover:text-blue-700">Diseño de mezclas de concreto</span>
+                    <span class="menu-item-text text-gray-700 font-medium group-hover:text-blue-700">Diseño de mezclas de concreto</span>
                 </li>
-                <li class="menu-item flex text-sm bg-white border border-gray-300 cursor-pointer p-3 rounded-xl shadow-md hover:shadow-lg hover:border-blue-600 hover:bg-blue-50 transition-all duration-300 ease-in-out transform hover:scale-105 items-center space-x-3 group" data-content-id="ensayosLaboratorio">
+                <li class="menu-item flex text-xs sm:text-sm bg-white border border-gray-300 cursor-pointer p-2.5 md:p-3 rounded-xl shadow-sm hover:shadow-md hover:border-blue-600 hover:bg-blue-50 transition-all duration-200 ease-in-out items-center space-x-2 group" data-content-id="ensayosLaboratorio">
                     <svg class="w-5 h-5 text-blue-600 group-hover:text-blue-700 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M448 224h-24v-72C424 64.5 359.5 0 272 0S120 64.5 120 152v72H96c-17.7 0-32 14.3-32 32v224c0 17.7 14.3 32 32 32h352c17.7 0 32-14.3 32-32V256c0-17.7-14.3-32-32-32zM272 96c0-8.8 7.2-16 16-16s16 7.2 16 16v48h-32V96zM184 152c0-48.6 39.4-88 88-88s88 39.4 88 88v72H184v-72z"/></svg>
-                    <span class="menu-item-text text-gray-800 font-medium group-hover:text-blue-700">Ensayos de Laboratorio</span>
+                    <span class="menu-item-text text-gray-700 font-medium group-hover:text-blue-700">Ensayos de Laboratorio</span>
                 </li>
-                <li class="menu-item flex text-sm bg-white border border-gray-300 cursor-pointer p-3 rounded-xl shadow-md hover:shadow-lg hover:border-blue-600 hover:bg-blue-50 transition-all duration-300 ease-in-out transform hover:scale-105 items-center space-x-3 group" data-content-id="ensayosQuimicos">
+                <li class="menu-item flex text-xs sm:text-sm bg-white border border-gray-300 cursor-pointer p-2.5 md:p-3 rounded-xl shadow-sm hover:shadow-md hover:border-blue-600 hover:bg-blue-50 transition-all duration-200 ease-in-out items-center space-x-2 group" data-content-id="ensayosQuimicos">
                     <svg class="w-5 h-5 text-blue-600 group-hover:text-blue-700 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M272 96c0-26.5-21.5-48-48-48H48C21.5 48 0 69.5 0 96v320c0 26.5 21.5 48 48 48h176c26.5 0 48-21.5 48-48V352h80c26.5 0 48-21.5 48-48V208c0-26.5-21.5-48-48-48h-80V96zM128 240c0-8.8-7.2-16-16-16s-16 7.2-16 16v16c0 8.8 7.2 16 16 16s16-7.2 16-16V240zm0 64c0-8.8-7.2-16-16-16s-16 7.2-16 16v16c0 8.8 7.2 16 16 16s16-7.2 16-16V304zm64-64c0-8.8-7.2-16-16-16s-16 7.2-16 16v16c0 8.8 7.2 16 16 16s16-7.2 16-16V240zm0 64c0-8.8-7.2-16-16-16s-16 7.2-16 16v16c0 8.8 7.2 16 16 16s16-7.2 16-16V304zm192-96h32c8.8 0 16-7.2 16-16s-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16s7.2 16 16 16zM528 32H400c-26.5 0-48 21.5-48 48v96h80c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48h-80v96c0 26.5 21.5 48 48 48h128c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zM448 240c0-8.8-7.2-16-16-16s-16 7.2-16 16v16c0 8.8 7.2 16 16 16s16-7.2 16-16V240zm0 64c0-8.8-7.2-16-16-16s-16 7.2-16 16v16c0 8.8 7.2 16 16 16s16-7.2 16-16V304z"/></svg>
-                    <span class="menu-item-text text-gray-800 font-medium group-hover:text-blue-700">Ensayos Químicos</span>
+                    <span class="menu-item-text text-gray-700 font-medium group-hover:text-blue-700">Ensayos Químicos</span>
                 </li>
-                 <li class="menu-item flex text-sm bg-white border border-gray-300 cursor-pointer p-3 rounded-xl shadow-md hover:shadow-lg hover:border-blue-600 hover:bg-blue-50 transition-all duration-300 ease-in-out transform hover:scale-105 items-center space-x-3 group" data-content-id="alquilerEquipos">
+                <li class="menu-item flex text-xs sm:text-sm bg-white border border-gray-300 cursor-pointer p-2.5 md:p-3 rounded-xl shadow-sm hover:shadow-md hover:border-blue-600 hover:bg-blue-50 transition-all duration-200 ease-in-out items-center space-x-2 group" data-content-id="alquilerEquipos">
                     <svg class="w-5 h-5 text-blue-600 group-hover:text-blue-700 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M176 88l0 40 160 0 0-40c0-4.4-3.6-8-8-8L184 80c-4.4 0-8 3.6-8 8zm-48 40l0-40c0-30.9 25.1-56 56-56l144 0c30.9 0 56 25.1 56 56l0 40 28.1 0c12.7 0 24.9 5.1 33.9 14.1l51.9 51.9c9 9 14.1 21.2 14.1 33.9l0 92.1-128 0 0-32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 32-128 0 0-32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 32L0 320l0-92.1c0-12.7 5.1-24.9 14.1-33.9l51.9-51.9c9-9 21.2-14.1 33.9-14.1l28.1 0zM0 416l0-64 128 0c0 17.7 14.3 32 32 32s32-14.3 32-32l128 0c0 17.7 14.3 32 32 32s32-14.3 32-32l128 0 0 64c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64z"/></svg>
-                    <span class="menu-item-text text-gray-800 font-medium group-hover:text-blue-700">Alquiler de equipos</span>
+                    <span class="menu-item-text text-gray-700 font-medium group-hover:text-blue-700">Alquiler de equipos</span>
                 </li>
             </ul>
         </div>
     </aside>
 
-    <main id="contentArea" class="flex-grow pt-1 pb-2 px-2 md:pt-2 md:pb-4 md:px-4 bg-gray-100 transition-all duration-300 ease-in-out">
+    <main id="contentArea" class="flex-grow pt-2 pb-4 px-2 md:pt-4 md:pb-6 md:px-6 bg-slate-100 transition-all duration-300 ease-in-out">
         <div class="w-full">
-            <div id="initialMessage" class="items-center text-center text-gray-500 p-3 md:p-4 bg-white rounded-xl shadow-xl">
-                <svg class="mx-auto h-10 w-10 md:h-12 md:w-12 text-gray-400 mb-2 md:mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <div id="initialMessage" class="flex flex-col items-center justify-center text-center text-slate-500 p-6 md:p-8 bg-white rounded-xl shadow-lg h-full min-h-[calc(100vh-var(--header-height,64px)-2rem)]">
+                <svg class="mx-auto h-16 w-16 md:h-20 md:w-20 text-slate-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <h3 class="mt-1 text-base md:text-lg font-semibold text-gray-800">Bienvenido</h3>
-                <p class="mt-1 text-xs md:text-sm text-gray-600">Selecciona un servicio del menú para ver los detalles e imágenes.</p>
+                <h3 class="mt-2 text-lg md:text-xl font-semibold text-slate-700">Bienvenido a Nuestros Servicios</h3>
+                <p class="mt-2 text-sm md:text-base text-slate-600 max-w-md">Por favor, selecciona un servicio del menú de la izquierda para visualizar los detalles, imágenes y la información correspondiente.</p>
             </div>
 
-            <div id="imageDisplayContainer" class="hidden bg-white p-2 md:p-3 rounded-xl shadow-xl">
-                <h3 id="contentTitle" class="text-base md:text-lg font-bold mb-1 md:mb-2 text-gray-800 text-center"></h3>
-                <div class="relative w-full max-w-2xl mx-auto h-56 md:h-64 lg:h-72 bg-gray-100 rounded-lg overflow-hidden"> 
-                    <img id="currentImage" src="" alt="Imagen del servicio" class="w-full h-full object-contain">
-                    <div id="imageError" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-red-50 text-red-700 p-2 rounded-lg">
-                        <svg class="w-10 h-10 mb-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-                        <span class="text-sm">No se pudo cargar la imagen.</span>
+            <div id="imageDisplayContainer" class="hidden">
+                <h3 id="contentTitle"></h3>
+                <div class="image-viewer-wrapper bg-white">
+                    <img id="currentImage" src="" alt="Imagen del servicio" class="hidden rounded-lg">
+                    <div id="imageError" class="hidden">
+                        <svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                        <span>No se pudo cargar la imagen.</span>
                     </div>
                 </div>
-                <div id="paginationControls" class="flex justify-between items-center mt-2 max-w-md mx-auto">
-                    <button id="prevImageButton" class="pagination-button bg-blue-700 hover:bg-blue-800 text-white font-medium py-2 px-4 rounded-full shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2 text-xs">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                <div id="paginationControls" class="flex justify-between items-center mt-4 max-w-xs sm:max-w-sm mx-auto">
+                    <button id="prevImageButton" class="pagination-button flex items-center justify-center disabled:bg-slate-400" disabled>
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                     </button>
-                    <span id="imageCounter" class="text-xs text-gray-700 font-semibold">Imagen 0 de 0</span>
-                    <button id="nextImageButton" class="pagination-button bg-blue-700 hover:bg-blue-800 text-white font-medium py-2 px-4 rounded-full shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2 text-xs">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                    <span id="imageCounter" class="text-sm text-slate-700 font-semibold px-3">Imagen 0 de 0</span>
+                    <button id="nextImageButton" class="pagination-button flex items-center justify-center disabled:bg-slate-400" disabled>
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
                     </button>
                 </div>
             </div>
 
-            <div id="noImagesMessage" class="hidden items-center text-center text-gray-500 mt-3 md:mt-4 p-3 md:p-4 bg-white rounded-xl shadow-xl">
-                 <svg class="mx-auto h-10 w-10 md:h-12 md:w-12 text-orange-400 mb-2 md:mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <div id="noImagesMessage" class="hidden flex flex-col items-center text-center text-slate-500 mt-4 p-6 md:p-8 bg-white rounded-xl shadow-lg">
+                <svg class="mx-auto h-16 w-16 md:h-20 md:w-20 text-amber-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
                 </svg>
-                <h3 id="noImagesTitle" class="text-base md:text-lg font-bold mb-1 md:mb-2 text-gray-800"></h3>
-                <p class="text-sm md:text-base text-gray-600">No hay imágenes para este servicio.</p>
-                 <button id="showInfoForNoImageService" class="mt-2 md:mt-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-1.5 px-3 rounded-md shadow-sm transition-colors duration-200 text-xs">
-                    Ver Información
+                <h3 id="noImagesTitle" class="text-lg md:text-xl font-bold mb-2 text-slate-700"></h3>
+                <p class="text-sm md:text-base text-slate-600 mb-4">No hay imágenes disponibles para este servicio en particular.</p>
+                <button id="showInfoForNoImageService" class="bg-sky-600 hover:bg-sky-700 text-white font-semibold py-2 px-5 rounded-lg shadow-md transition-colors duration-200 text-sm">
+                    Ver Información del Servicio
                 </button>
             </div>
 
-            <div id="serviceInfoPanel" class="hidden mt-4 bg-white p-3 md:p-4 rounded-xl shadow-xl w-full">
-                <div class="flex justify-between items-center mb-2">
-                    <h3 id="serviceInfoTitle" class="text-base md:text-lg font-semibold text-blue-700">Información del Servicio</h3>
-                    <button id="closeInfoPanelButton" class="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-100 rounded-full transition-colors duration-200">
+            <div id="serviceInfoPanel" class="hidden mt-6 text-xs bg-white p-4 md:p-6 rounded-xl shadow-xl w-full prose prose-sm sm:prose-base max-w-none prose-headings:text-slate-700 prose-p:text-slate-600 prose-ul:text-slate-600 prose-li:marker:text-sky-500">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 id="serviceInfoTitle" class="text-sm md:text-lg font-semibold text-sky-700 !mb-0">Información del Servicio</h3>
+                    <button id="closeInfoPanelButton" class="p-1.5 text-slate-500 hover:text-red-600 hover:bg-red-100 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-400">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                     </button>
                 </div>
-                <div id="serviceInfoBody" class="text-xs md:text-sm text-gray-700 max-h-48 overflow-y-auto pr-2">
-                    <p>Contenido detallado del servicio aquí...</p>
+                <div id="serviceInfoBody" class="max-h-[60vh] md:max-h-[calc(100vh-var(--header-height,64px)-250px)] overflow-y-auto pr-2">
                 </div>
             </div>
         </div>
@@ -151,43 +252,128 @@ document.addEventListener('DOMContentLoaded', function () {
     const serviceData = { 
         calidadObra: {
             title: "Control de calidad en obra",
-            images: ["/static/img/detalleservicios/controlcalidad/CC-1.jpeg","/static/img/detalleservicios/controlcalidad/CC-4.jpeg","/static/img/detalleservicios/controlcalidad/CC-5.jpg","/static/img/detalleservicios/controlcalidad/CC-6.jpg","/static/img/detalleservicios/controlcalidad/CC-7.jpg","/static/img/detalleservicios/controlcalidad/CC-8.jpg","/static/img/detalleservicios/controlcalidad/CC-9.jpg","/static/img/detalleservicios/controlcalidad/CC-10.jpg","/static/img/detalleservicios/controlcalidad/CC-11.jpg","/static/img/detalleservicios/controlcalidad/CC-12.jpeg","/static/img/detalleservicios/controlcalidad/CC-13.jpeg","/static/img/detalleservicios/controlcalidad/CC-14.jpeg","/static/img/detalleservicios/controlcalidad/CC-15.jpeg","/static/img/detalleservicios/controlcalidad/CC-16.jpeg","/static/img/detalleservicios/controlcalidad/CC-2.jpeg","/static/img/detalleservicios/controlcalidad/CC-3.jpeg"],
-            infoHtml: `<p class="text-justify">Garantizamos que los proyectos se completen de manera satisfactoria y cumplan con los estándares de calidad requeridos.</p><p class="mt-3 text-justify font-semibold text-gray-800">Servicios ofrecidos:</p><ul class="list-disc list-outside mt-1 pl-5 space-y-0.5 text-gray-600"><li>Densidad campo mediante el cono y arena</li><li>Contenido de humedad en campo</li><li>Medición de asentamiento del concreto con el cono de Abrams</li><li>Medición de la temperatura del concreto fresco</li><li>Toma de muestra de concreto</li><li>Esclerometría</li><li>Extracción de núcleos de concreto con diamantina</li><li>Ensayos de control de calidad de agregados</li></ul><p class="mt-3 text-justify font-semibold text-gray-800">Beneficios:</p><ul class="list-disc list-outside mt-1 pl-5 space-y-0.5 text-gray-600"><li>Personal Competente</li><li>Acompañamiento Técnico</li><li>Imparcialidad y Confidencialidad</li><li>Cumplimiento Normativo</li><li>Equipos Calibrados por entidades acreditadas en INACAL</li><li>Resultados Inmediatos</li></ul>`
+            images: [
+                "{% static 'img/detalleservicios/controlcalidad/CC-1.jpeg' %}",
+                "{% static 'img/detalleservicios/controlcalidad/CC-4.jpeg' %}",
+                "{% static 'img/detalleservicios/controlcalidad/CC-5.jpg' %}",
+                "{% static 'img/detalleservicios/controlcalidad/CC-6.jpg' %}",
+                "{% static 'img/detalleservicios/controlcalidad/CC-7.jpg' %}",
+                "{% static 'img/detalleservicios/controlcalidad/CC-8.jpg' %}",
+                "{% static 'img/detalleservicios/controlcalidad/CC-9.jpg' %}",
+                "{% static 'img/detalleservicios/controlcalidad/CC-10.jpg' %}",
+                "{% static 'img/detalleservicios/controlcalidad/CC-11.jpg' %}",
+                "{% static 'img/detalleservicios/controlcalidad/CC-12.jpeg' %}",
+                "{% static 'img/detalleservicios/controlcalidad/CC-13.jpeg' %}",
+                "{% static 'img/detalleservicios/controlcalidad/CC-14.jpeg' %}",
+                "{% static 'img/detalleservicios/controlcalidad/CC-15.jpeg' %}",
+                "{% static 'img/detalleservicios/controlcalidad/CC-16.jpeg' %}",
+                "{% static 'img/detalleservicios/controlcalidad/CC-2.jpeg' %}",
+                "{% static 'img/detalleservicios/controlcalidad/CC-3.jpeg' %}"
+            ],
+            infoHtml: `<p>Garantizamos que los proyectos se completen de manera satisfactoria y cumplan con los estándares de calidad requeridos.</p><h4 class="font-semibold text-slate-700 mt-3 mb-1">Servicios ofrecidos:</h4><ul class="list-disc list-outside ml-5 space-y-1"><li>Densidad campo mediante el cono y arena</li><li>Contenido de humedad en campo</li><li>Medición de asentamiento del concreto con el cono de Abrams</li><li>Medición de la temperatura del concreto fresco</li><li>Toma de muestra de concreto</li><li>Esclerometría</li><li>Extracción de núcleos de concreto con diamantina</li><li>Ensayos de control de calidad de agregados</li></ul><h4 class="font-semibold text-slate-700 mt-3 mb-1">Beneficios:</h4><ul class="list-disc list-outside ml-5 space-y-1"><li>Personal Competente</li><li>Acompañamiento Técnico</li><li>Imparcialidad y Confidencialidad</li><li>Cumplimiento Normativo</li><li>Equipos Calibrados por entidades acreditadas en INACAL</li><li>Resultados Inmediatos</li></ul>`
         },
         mecanicaSuelos: {
             title: "Estudio de mecánica de suelos",
-            images: ["/static/img/detalleservicios/ems/EMS-2.jpg","/static/img/detalleservicios/ems/EMS-1.jpg","/static/img/detalleservicios/ems/EMS-3.jpg","/static/img/detalleservicios/ems/EMS-4.jpg","/static/img/detalleservicios/ems/EMS-5.jpg","/static/img/detalleservicios/ems/EMS-6.jpg","/static/img/detalleservicios/ems/EMS-7.jpg","/static/img/detalleservicios/ems/EMS-8.jpg","/static/img/detalleservicios/ems/EMS-9.jpg","/static/img/detalleservicios/ems/EMS-10.jpg","/static/img/detalleservicios/ems/EMS-11.jpg"],
-            infoHtml: `<p class="text-justify">Ofrecemos estudios de mecánica de suelos con análisis precisos, ensayos especializados y asesoramiento técnico, garantizando resultados confiables para cimentaciones seguras en proyectos de construcción.</p><p class="mt-3 text-justify font-semibold text-gray-800">Beneficios:</p><ul class="list-disc list-outside mt-1 pl-5 space-y-0.5 text-gray-600"><li>Previsión de posibles problemas de cimentación a causa de suelos perjudiciales</li><li>Personal Competente</li><li>Acompañamiento Técnico</li><li>Imparcialidad y Confidencialidad</li><li>Cumplimiento Normativo</li><li>Equipos Calibrados por entidades acreditadas en INACAL</li><li>Entrega de informes claros y estructurados</li></ul>`
+            images: [
+                "{% static 'img/detalleservicios/ems/EMS-2.jpg' %}",
+                "{% static 'img/detalleservicios/ems/EMS-1.jpg' %}",
+                "{% static 'img/detalleservicios/ems/EMS-3.jpg' %}",
+                "{% static 'img/detalleservicios/ems/EMS-4.jpg' %}",
+                "{% static 'img/detalleservicios/ems/EMS-5.jpg' %}",
+                "{% static 'img/detalleservicios/ems/EMS-6.jpg' %}",
+                "{% static 'img/detalleservicios/ems/EMS-7.jpg' %}",
+                "{% static 'img/detalleservicios/ems/EMS-8.jpg' %}",
+                "{% static 'img/detalleservicios/ems/EMS-9.jpg' %}",
+                "{% static 'img/detalleservicios/ems/EMS-10.jpg' %}",
+                "{% static 'img/detalleservicios/ems/EMS-11.jpg' %}"
+            ],
+            infoHtml: `<p>Ofrecemos estudios de mecánica de suelos con análisis precisos, ensayos especializados y asesoramiento técnico, garantizando resultados confiables para cimentaciones seguras en proyectos de construcción.</p><h4 class="font-semibold text-slate-700 mt-3 mb-1">Beneficios:</h4><ul class="list-disc list-outside ml-5 space-y-1"><li>Previsión de posibles problemas de cimentación a causa de suelos perjudiciales</li><li>Personal Competente</li><li>Acompañamiento Técnico</li><li>Imparcialidad y Confidencialidad</li><li>Cumplimiento Normativo</li><li>Equipos Calibrados por entidades acreditadas en INACAL</li><li>Entrega de informes claros y estructurados</li></ul>`
         },
         estudioCanteras: {
             title: "Estudio de canteras",
-            images: ["/static/img/detalleservicios/canteras/CC-1.jpg","/static/img/detalleservicios/canteras/CC-2.jpg","/static/img/detalleservicios/canteras/CC-3.jpg","/static/img/detalleservicios/canteras/CC-4.jpg","/static/img/detalleservicios/canteras/CC-5.jpg","/static/img/detalleservicios/canteras/CC-6.jpg"],
-            infoHtml: `<p class="text-justify">Realizamos estudios de canteras con ensayos de laboratorio para determinar la calidad, resistencia y viabilidad de los materiales, asegurando el cumplimiento normativo y de las especificaciones del proyecto.</p><p class="mt-3 text-justify font-semibold text-gray-800">Beneficios:</p><ul class="list-disc list-outside mt-1 pl-5 space-y-0.5 text-gray-600"><li>Análisis detallado de materiales</li><li>Evaluación de resistencia y calidad</li><li>Optimización de la selección de materiales</li><li>Aseguramiento de la viabilidad del proyecto</li><li>Resultados confiables para decisiones informadas</li><li>Control de calidad en todas las etapas</li><li>Equipos Calibrados por entidades acreditadas en INACAL</li></ul>`
+            images: [
+                "{% static 'img/detalleservicios/canteras/CC-1.jpg' %}",
+                "{% static 'img/detalleservicios/canteras/CC-2.jpg' %}",
+                "{% static 'img/detalleservicios/canteras/CC-3.jpg' %}",
+                "{% static 'img/detalleservicios/canteras/CC-4.jpg' %}",
+                "{% static 'img/detalleservicios/canteras/CC-5.jpg' %}",
+                "{% static 'img/detalleservicios/canteras/CC-6.jpg' %}"
+            ],
+            infoHtml: `<p>Realizamos estudios de canteras con ensayos de laboratorio para determinar la calidad, resistencia y viabilidad de los materiales, asegurando el cumplimiento normativo y de las especificaciones del proyecto.</p><h4 class="font-semibold text-slate-700 mt-3 mb-1">Beneficios:</h4><ul class="list-disc list-outside ml-5 space-y-1"><li>Análisis detallado de materiales</li><li>Evaluación de resistencia y calidad</li><li>Optimización de la selección de materiales</li><li>Aseguramiento de la viabilidad del proyecto</li><li>Resultados confiables para decisiones informadas</li><li>Control de calidad en todas las etapas</li><li>Equipos Calibrados por entidades acreditadas en INACAL</li></ul>`
         },
         evaluacionEstructural: {
             title: "Evaluación estructural",
-            images: ["/static/img/detalleservicios/estructuras/ES-1.jpeg","/static/img/detalleservicios/estructuras/ES-2.jpg","/static/img/detalleservicios/estructuras/ES-3.jpeg","/static/img/detalleservicios/estructuras/ES-4.jpg"],
-            infoHtml: `<p class="text-justify">Nuestros ensayos para evaluación estructural brindan resultados detallados, esenciales para la fase de reforzamiento. Garantizamos información precisa que respalda la seguridad y estabilidad de sus proyectos en cada etapa.</p><p class="mt-3 text-justify font-semibold text-gray-800">Beneficios:</p><ul class="list-disc list-outside mt-1 pl-5 space-y-0.5 text-gray-600"><li>Precisión en resultados</li><li>Identificación de posibles fallos</li><li>Mejora en la seguridad estructural</li><li>Soporte para decisiones de reforzamiento</li><li>Optimización de la vida útil de la estructura</li><li>Reducción de riesgos en la construcción</li><li>Aseguramiento de la estabilidad a largo plazo</li><li>Equipos Calibrados por entidades acreditadas en INACAL</li></ul>`
+            images: [
+                "{% static 'img/detalleservicios/estructuras/ES-1.jpeg' %}",
+                "{% static 'img/detalleservicios/estructuras/ES-2.jpg' %}",
+                "{% static 'img/detalleservicios/estructuras/ES-3.jpeg' %}",
+                "{% static 'img/detalleservicios/estructuras/ES-4.jpg' %}"
+            ],
+            infoHtml: `<p>Nuestros ensayos para evaluación estructural brindan resultados detallados, esenciales para la fase de reforzamiento. Garantizamos información precisa que respalda la seguridad y estabilidad de sus proyectos en cada etapa.</p><h4 class="font-semibold text-slate-700 mt-3 mb-1">Beneficios:</h4><ul class="list-disc list-outside ml-5 space-y-1"><li>Precisión en resultados</li><li>Identificación de posibles fallos</li><li>Mejora en la seguridad estructural</li><li>Soporte para decisiones de reforzamiento</li><li>Optimización de la vida útil de la estructura</li><li>Reducción de riesgos en la construcción</li><li>Aseguramiento de la estabilidad a largo plazo</li><li>Equipos Calibrados por entidades acreditadas en INACAL</li></ul>`
         },
         disenoMezclas: {
             title: "Diseño de mezclas de concreto",
-            images: ["/static/img/detalleservicios/mezclas/DM-1.jpg","/static/img/detalleservicios/mezclas/DM-2.jpg","/static/img/detalleservicios/mezclas/DM-3.jpg","/static/img/detalleservicios/mezclas/DM-4.jpg","/static/img/detalleservicios/mezclas/DM-5.jpg"],
-            infoHtml: `<p class="text-justify">Ofrecemos servicios de diseño de mezclas de concreto, adaptados a las necesidades específicas de su proyecto. Garantizamos resistencia, durabilidad y cumplimiento con las normativas vigentes para un rendimiento óptimo.</p><p class="mt-3 text-justify font-semibold text-gray-800">Beneficios:</p><ul class="list-disc list-outside mt-1 pl-5 space-y-0.5 text-gray-600"><li>Resistencia y durabilidad</li><li>Optimización de costos</li><li>Cumplimiento normativo</li><li>Reducción de riesgos</li><li>Asesoría técnica</li><li>Eficiencia en el uso de recursos</li><li>Equipos Calibrados por entidades acreditadas en INACAL</li></ul>`
+            images: [
+                "{% static 'img/detalleservicios/mezclas/DM-1.jpg' %}",
+                "{% static 'img/detalleservicios/mezclas/DM-2.jpg' %}",
+                "{% static 'img/detalleservicios/mezclas/DM-3.jpg' %}",
+                "{% static 'img/detalleservicios/mezclas/DM-4.jpg' %}",
+                "{% static 'img/detalleservicios/mezclas/DM-5.jpg' %}"
+            ],
+            infoHtml: `<p>Ofrecemos servicios de diseño de mezclas de concreto, adaptados a las necesidades específicas de su proyecto. Garantizamos resistencia, durabilidad y cumplimiento con las normativas vigentes para un rendimiento óptimo.</p><h4 class="font-semibold text-slate-700 mt-3 mb-1">Beneficios:</h4><ul class="list-disc list-outside ml-5 space-y-1"><li>Resistencia y durabilidad</li><li>Optimización de costos</li><li>Cumplimiento normativo</li><li>Reducción de riesgos</li><li>Asesoría técnica</li><li>Eficiencia en el uso de recursos</li><li>Equipos Calibrados por entidades acreditadas en INACAL</li></ul>`
         },
         ensayosLaboratorio: { 
             title: "Ensayos de Laboratorio",
-            images: ["/static/img/detalleservicios/laboratorio/LB-1.jpg","/static/img/detalleservicios/laboratorio/LB-3.jpg","/static/img/detalleservicios/laboratorio/LB-4.jpg","/static/img/detalleservicios/laboratorio/LB-5.jpg","/static/img/detalleservicios/laboratorio/LB-6.jpg","/static/img/detalleservicios/laboratorio/LB-7.jpg","/static/img/detalleservicios/laboratorio/LB-8.jpg","/static/img/detalleservicios/laboratorio/LB-9.jpg","/static/img/detalleservicios/laboratorio/LB-10.jpg","/static/img/detalleservicios/laboratorio/LB-11.jpg","/static/img/detalleservicios/laboratorio/LB-12.jpg","/static/img/detalleservicios/laboratorio/LB-14.jpeg","/static/img/detalleservicios/laboratorio/LB-15.jpeg","/static/img/detalleservicios/laboratorio/LB-16.jpeg","/static/img/detalleservicios/laboratorio/LB-17.jpeg","/static/img/detalleservicios/laboratorio/LB-18.jpeg","/static/img/detalleservicios/laboratorio/LB-19.jpeg"],
-            infoHtml: `<p class="text-justify">Realizamos ensayos de suelos, agregados y concreto con los más altos estándares de calidad. Contamos con acreditación INACAL-DA, garantizando resultados confiables y precisos para tus proyectos de construcción.</p> <p class="mt-1 text-justify">Ya sea para control de calidad, diseño de mezclas o estudios geotécnicos, te brindamos el respaldo técnico que necesitas.</p><p class="mt-3 text-justify font-semibold text-gray-800">Beneficios:</p><ul class="list-disc list-outside mt-1 pl-5 space-y-0.5 text-gray-600"><li>Ensayos con acreditación INACAL (Ver Alcance de Acreditación)</li><li>Alta precisión y confiabilidad</li><li>Cumplimiento de normativas técnicas Nacionales e Internacionales</li><li>Resultados respaldados por profesionales especializados</li><li>Equipos calibrados por entidades Acreditadas por INACAL</li><li>Garantía de resultados trazables</li><li>Entrega de informes en el menor tiempo posible</li></ul>`
+            images: [
+                "{% static 'img/detalleservicios/laboratorio/LB-1.jpg' %}",
+                "{% static 'img/detalleservicios/laboratorio/LB-3.jpg' %}",
+                "{% static 'img/detalleservicios/laboratorio/LB-4.jpg' %}",
+                "{% static 'img/detalleservicios/laboratorio/LB-5.jpg' %}",
+                "{% static 'img/detalleservicios/laboratorio/LB-6.jpg' %}",
+                "{% static 'img/detalleservicios/laboratorio/LB-7.jpg' %}",
+                "{% static 'img/detalleservicios/laboratorio/LB-8.jpg' %}",
+                "{% static 'img/detalleservicios/laboratorio/LB-9.jpg' %}",
+                "{% static 'img/detalleservicios/laboratorio/LB-10.jpg' %}",
+                "{% static 'img/detalleservicios/laboratorio/LB-11.jpg' %}",
+                "{% static 'img/detalleservicios/laboratorio/LB-12.jpg' %}",
+                "{% static 'img/detalleservicios/laboratorio/LB-14.jpeg' %}",
+                "{% static 'img/detalleservicios/laboratorio/LB-15.jpeg' %}",
+                "{% static 'img/detalleservicios/laboratorio/LB-16.jpeg' %}",
+                "{% static 'img/detalleservicios/laboratorio/LB-17.jpeg' %}",
+                "{% static 'img/detalleservicios/laboratorio/LB-18.jpeg' %}",
+                "{% static 'img/detalleservicios/laboratorio/LB-19.jpeg' %}"
+            ],
+            infoHtml: `<p>Realizamos ensayos de suelos, agregados y concreto con los más altos estándares de calidad. Contamos con acreditación INACAL-DA, garantizando resultados confiables y precisos para tus proyectos de construcción.</p> <p class="mt-1">Ya sea para control de calidad, diseño de mezclas o estudios geotécnicos, te brindamos el respaldo técnico que necesitas.</p><h4 class="font-semibold text-slate-700 mt-3 mb-1">Beneficios:</h4><ul class="list-disc list-outside ml-5 space-y-1"><li>Ensayos con acreditación INACAL (Ver Alcance de Acreditación)</li><li>Alta precisión y confiabilidad</li><li>Cumplimiento de normativas técnicas Nacionales e Internacionales</li><li>Resultados respaldados por profesionales especializados</li><li>Equipos calibrados por entidades Acreditadas por INACAL</li><li>Garantía de resultados trazables</li><li>Entrega de informes en el menor tiempo posible</li></ul>`
         },
         ensayosQuimicos: { 
             title: "Ensayos Químicos",
-            images: ["/static/img/detalleservicios/quimicos/QM-1.jpg","/static/img/detalleservicios/quimicos/QM-2.jpg","/static/img/detalleservicios/quimicos/QM-3.jpg","/static/img/detalleservicios/quimicos/QM-4.jpg","/static/img/detalleservicios/quimicos/QM-5.jpg","/static/img/detalleservicios/quimicos/QM-6.jpg","/static/img/detalleservicios/quimicos/QM-7.jpg","/static/img/detalleservicios/quimicos/QM-8.jpg","/static/img/detalleservicios/quimicos/QM-9.jpg","/static/img/detalleservicios/quimicos/QM-10.jpg","/static/img/detalleservicios/quimicos/QM-11.jpg","/static/img/detalleservicios/quimicos/QM-12.jpg","/static/img/detalleservicios/quimicos/QM-13.jpg"],
-            infoHtml: `<p class="text-justify">Realizamos ensayos químicos especializados para identificar la agresividad de suelos y agregados, evaluando su impacto en estructuras y materiales. Previene daños y optimiza la durabilidad de tu proyecto.</p><p class="mt-3 text-justify font-semibold text-gray-800">Beneficios:</p><ul class="list-disc list-outside mt-1 pl-5 space-y-0.5 text-gray-600"><li>Evaluación de riesgo para cimentaciones y concreto</li><li>Identificación de agresividad química</li><li>Prevención de deterioro en estructuras por efectos químicos</li><li>Optimización en la selección de materiales adecuados</li><li>Mayor durabilidad y resistencia de las obras</li><li>Reducción de costos por mantenimiento y reparaciones</li><li>Resultados precisos y confiables con métodos especializados</li><li>Decisiones más seguras en diseño y construcción</li></ul>`
+            images: [
+                "{% static 'img/detalleservicios/quimicos/QM-1.jpg' %}",
+                "{% static 'img/detalleservicios/quimicos/QM-2.jpg' %}",
+                "{% static 'img/detalleservicios/quimicos/QM-3.jpg' %}",
+                "{% static 'img/detalleservicios/quimicos/QM-4.jpg' %}",
+                "{% static 'img/detalleservicios/quimicos/QM-5.jpg' %}",
+                "{% static 'img/detalleservicios/quimicos/QM-6.jpg' %}",
+                "{% static 'img/detalleservicios/quimicos/QM-7.jpg' %}",
+                "{% static 'img/detalleservicios/quimicos/QM-8.jpg' %}",
+                "{% static 'img/detalleservicios/quimicos/QM-9.jpg' %}",
+                "{% static 'img/detalleservicios/quimicos/QM-10.jpg' %}",
+                "{% static 'img/detalleservicios/quimicos/QM-11.jpg' %}",
+                "{% static 'img/detalleservicios/quimicos/QM-12.jpg' %}",
+                "{% static 'img/detalleservicios/quimicos/QM-13.jpg' %}"
+            ],
+            infoHtml: `<p>Realizamos ensayos químicos especializados para identificar la agresividad de suelos y agregados, evaluando su impacto en estructuras y materiales. Previene daños y optimiza la durabilidad de tu proyecto.</p><h4 class="font-semibold text-slate-700 mt-3 mb-1">Beneficios:</h4><ul class="list-disc list-outside ml-5 space-y-1"><li>Evaluación de riesgo para cimentaciones y concreto</li><li>Identificación de agresividad química</li><li>Prevención de deterioro en estructuras por efectos químicos</li><li>Optimización en la selección de materiales adecuados</li><li>Mayor durabilidad y resistencia de las obras</li><li>Reducción de costos por mantenimiento y reparaciones</li><li>Resultados precisos y confiables con métodos especializados</li><li>Decisiones más seguras en diseño y construcción</li></ul>`
         },
         alquilerEquipos: {
             title: "Alquiler de equipos",
-            images: ["/static/img/detalleservicios/equipos/EQ-1.jpg","/static/img/detalleservicios/equipos/EQ-2.jpg","/static/img/detalleservicios/equipos/EQ-3.jpg","/static/img/detalleservicios/equipos/EQ-4.jpg","/static/img/detalleservicios/equipos/EQ-5.jpg"],
-            infoHtml: `<p class="text-justify">Ponemos a tu disposición equipos de laboratorio para ensayos de suelos, agregados y concreto, calibrados y listos para su uso.</p>`
+            images: [
+                "{% static 'img/detalleservicios/equipos/EQ-1.jpg' %}",
+                "{% static 'img/detalleservicios/equipos/EQ-2.jpg' %}",
+                "{% static 'img/detalleservicios/equipos/EQ-3.jpg' %}",
+                "{% static 'img/detalleservicios/equipos/EQ-4.jpg' %}",
+                "{% static 'img/detalleservicios/equipos/EQ-5.jpg' %}"
+            ],
+            infoHtml: `<p>Ponemos a tu disposición equipos de laboratorio para ensayos de suelos, agregados y concreto, calibrados y listos para su uso.</p>`
         }
     };
 
@@ -197,12 +383,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const MD_BREAKPOINT = 768; 
     const SIDEBAR_WIDTH_EXPANDED_DESKTOP = '18rem'; 
-    const SIDEBAR_WIDTH_COLLAPSED_DESKTOP = '4rem'; 
+    const SIDEBAR_WIDTH_COLLAPSED_DESKTOP = '4.5rem'; 
     const SIDEBAR_WIDTH_EXPANDED_MOBILE = '16rem'; 
-    const SIDEBAR_WIDTH_COLLAPSED_MOBILE = '3.5rem';
-
+    const SIDEBAR_WIDTH_COLLAPSED_MOBILE = '4rem'; 
 
     function setMenuVisualState(expand) {
+        if (!sidebar || !menuToggleButton || !sidebarTitle || !menuList || !menuIconOpen || !menuIconClose || !mainContent) return;
+
         menuToggleButton.setAttribute('aria-expanded', String(expand));
         menuIconOpen.classList.toggle('hidden', expand);
         menuIconOpen.classList.toggle('block', !expand);
@@ -212,19 +399,15 @@ document.addEventListener('DOMContentLoaded', function () {
         let mainMarginLeft;
 
         if (expand) {
-            sidebar.classList.remove('w-14', 'md:w-16'); 
-            sidebar.classList.add('w-64', 'md:w-72');    
+            sidebar.style.width = window.innerWidth < MD_BREAKPOINT ? SIDEBAR_WIDTH_EXPANDED_MOBILE : SIDEBAR_WIDTH_EXPANDED_DESKTOP;
             sidebarTitle.classList.remove('hidden');
             menuList.classList.remove('hidden');
-            menuList.style.maxHeight = menuList.scrollHeight + "px";
             menuItemTexts.forEach(text => text.classList.remove('hidden'));
             mainMarginLeft = window.innerWidth < MD_BREAKPOINT ? SIDEBAR_WIDTH_EXPANDED_MOBILE : SIDEBAR_WIDTH_EXPANDED_DESKTOP;
         } else { 
-            sidebar.classList.remove('w-64', 'md:w-72');
-            sidebar.classList.add('w-14', 'md:w-16'); 
+            sidebar.style.width = window.innerWidth < MD_BREAKPOINT ? SIDEBAR_WIDTH_COLLAPSED_MOBILE : SIDEBAR_WIDTH_COLLAPSED_DESKTOP;
             sidebarTitle.classList.add('hidden');
             menuList.classList.add('hidden');
-            menuList.style.maxHeight = "0px";
             menuItemTexts.forEach(text => text.classList.add('hidden'));
             mainMarginLeft = window.innerWidth < MD_BREAKPOINT ? SIDEBAR_WIDTH_COLLAPSED_MOBILE : SIDEBAR_WIDTH_COLLAPSED_DESKTOP;
         }
@@ -251,8 +434,8 @@ document.addEventListener('DOMContentLoaded', function () {
     
     window.addEventListener('resize', () => {
         if (window.innerWidth < MD_BREAKPOINT) {
-            if(isMenuExpandedGlobally) { 
-                 setMenuVisualState(false);
+            if(isMenuExpandedGlobally && (sidebarTitle && !sidebarTitle.classList.contains('hidden'))) {
+                 setMenuVisualState(false); 
             } else {
                  setMenuVisualState(false); 
             }
@@ -267,7 +450,6 @@ document.addEventListener('DOMContentLoaded', function () {
             serviceInfoTitle.textContent = service.title;
             serviceInfoBody.innerHTML = service.infoHtml;
             serviceInfoPanel.classList.remove('hidden');
-            serviceInfoPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         } else if (serviceInfoPanel) {
             serviceInfoPanel.classList.add('hidden');
         }
@@ -285,34 +467,36 @@ document.addEventListener('DOMContentLoaded', function () {
     
     function updateImageViewerUI() {
         const service = serviceData[currentServiceId];
+        
         initialMessage.classList.add('hidden');
         imageDisplayContainer.classList.add('hidden');
         noImagesMessage.classList.add('hidden');
         hideServiceInfo(); 
 
         if (!service) {
-            document.querySelector('#contentArea > .w-full').classList.remove('hidden');
             initialMessage.classList.remove('hidden');
-            initialMessage.querySelector('p').textContent = "Servicio no encontrado.";
+            const initialMsgH3 = initialMessage.querySelector('h3');
+            const initialMsgP = initialMessage.querySelector('p');
+            if(initialMsgH3) initialMsgH3.textContent = "Servicio no Encontrado";
+            if(initialMsgP) initialMsgP.textContent = "El servicio que buscas no está disponible.";
             return;
         }
         
-        document.querySelector('#contentArea > .w-full > #initialMessage').classList.add('hidden');
-        if (contentTitleElement) contentTitleElement.textContent = service.title;
+        contentTitleElement.textContent = service.title;
 
         if (service.images && service.images.length > 0) {
             imageDisplayContainer.classList.remove('hidden');
             updateImageAndPaginationControls();
+            showServiceInfo(currentServiceId); 
         } else {
             noImagesMessage.classList.remove('hidden');
-            if(noImagesTitle) noImagesTitle.textContent = service.title;
+            noImagesTitle.textContent = service.title;
             if(showInfoForNoImageServiceButton) {
                 showInfoForNoImageServiceButton.onclick = () => {
                     showServiceInfo(currentServiceId);
                 };
             }
         }
-        showServiceInfo(currentServiceId);
     }
 
     function updateImageAndPaginationControls() {
@@ -322,15 +506,18 @@ document.addEventListener('DOMContentLoaded', function () {
             if(currentImageElement) {
                 currentImageElement.src = ""; 
                 currentImageElement.alt = "No hay imágenes para este servicio";
+                currentImageElement.classList.add('hidden'); 
             }
             if(imageError) imageError.classList.add('hidden');
             return;
         }
 
         if(paginationControls) paginationControls.classList.remove('hidden');
-        currentImageElement.src = service.images[currentImageIndex]; 
-        currentImageElement.alt = `${service.title} - Imagen ${currentImageIndex + 1}`;
-        currentImageElement.classList.remove('hidden');
+        if(currentImageElement) {
+            currentImageElement.src = service.images[currentImageIndex]; 
+            currentImageElement.alt = `${service.title} - Imagen ${currentImageIndex + 1}`;
+            currentImageElement.classList.remove('hidden'); 
+        }
         if(imageError) imageError.classList.add('hidden');
 
         if(imageCounter) imageCounter.textContent = `Imagen ${currentImageIndex + 1} de ${service.images.length}`;
@@ -339,10 +526,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if(currentImageElement) {
+        currentImageElement.onload = function() {
+            currentImageElement.classList.remove('hidden'); 
+            if(imageError) imageError.classList.add('hidden');
+        };
         currentImageElement.onerror = function() {
             if(imageError) imageError.classList.remove('hidden');
-            currentImageElement.classList.add('hidden');
-            if(imageCounter) imageCounter.textContent = "Error al cargar";
+            currentImageElement.classList.add('hidden'); 
+            if(imageCounter) imageCounter.textContent = "Error";
         };
     }
 
@@ -355,7 +546,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (nextImageButton) nextImageButton.addEventListener('click', () => {
         const service = serviceData[currentServiceId];
-        if (service && currentImageIndex < service.images.length - 1) {
+        if (service && service.images && currentImageIndex < service.images.length - 1) {
             currentImageIndex++;
             updateImageAndPaginationControls();
         }
@@ -367,8 +558,8 @@ document.addEventListener('DOMContentLoaded', function () {
             currentImageIndex = 0;
             updateImageViewerUI(); 
 
-            menuItems.forEach(i => i.classList.remove('bg-blue-100', 'border-blue-600', 'text-blue-700', 'font-semibold'));
-            this.classList.add('bg-blue-100', 'border-blue-600', 'text-blue-700', 'font-semibold');
+            menuItems.forEach(i => i.classList.remove('bg-sky-100', 'border-sky-500', 'text-sky-700', 'font-semibold'));
+            this.classList.add('bg-sky-100', 'border-sky-500', 'text-sky-700', 'font-semibold');
             
             if (window.innerWidth < MD_BREAKPOINT && isMenuExpandedGlobally) { 
                 isMenuExpandedGlobally = false; 

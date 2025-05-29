@@ -1,179 +1,226 @@
 {% load static %}
 {% block content %}
-<div id="nosotros" class="bg-slate-50 py-6 lg:py-8">
+<div id="nosotros" class="bg-slate-100 py-12 lg:py-20">
     <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1">
-        <div class="col-span-1">
-          <div class="mb-10 lg:mb-12 text-center">
-            <h2 class="text-sm lg:text-lg font-bold tracking-tight text-blue-900">Sobre Nosotros</h2>
-            <p class="mt-4 max-w-3xl mx-auto text-xs leading-normal text-gray-600 text-justify">
-              GRUPO VICAF brinda servicios de calidad en la realización de ensayos de materiales de construcción para garantizar información válida para la evaluación del cumplimiento con los estándares de calidad y seguridad necesarios para su uso en proyectos de construcción.
-            </p>
-          </div>
+        <div class="grid grid-cols-1">
+            <div class="col-span-1">
+                <div class="mb-12 lg:mb-16 text-center">
+                    <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-blue-800">Sobre Nosotros</h2>
+                    <p class="mt-5 max-w-3xl mx-auto text-sm sm:text-base leading-relaxed text-slate-700">
+                        GRUPO VICAF brinda servicios de calidad en la realización de ensayos de materiales de construcción para garantizar información válida para la evaluación del cumplimiento con los estándares de calidad y seguridad necesarios para su uso en proyectos de construcción.
+                    </p>
+                </div>
 
-          <div class="grid lg:grid-cols-2 grid-cols-1 gap-6 mb-10 lg:mb-12">
-            <div class="bg-white p-4 lg:p-5 rounded-xl shadow-lg border border-gray-200 flex flex-col">
-              <div class="flex items-center mb-3">
-                <div>
-                  <svg class="w-6 h-6 text-blue-900" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M192 48a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm51.3 182.7L224.2 307l49.7 49.7c9 9 14.1 21.2 14.1 33.9l0 89.4c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-82.7-73.9-73.9c-15.8-15.8-22.2-38.6-16.9-60.3l20.4-84c8.3-34.1 42.7-54.9 76.7-46.4c19 4.8 35.6 16.4 46.4 32.7L305.1 208l30.9 0 0-24c0-13.3 10.7-24 24-24s24 10.7 24 24l0 55.8c0 .1 0 .2 0 .2s0 .2 0 .2L384 488c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-216-39.4 0c-16 0-31-8-39.9-21.4l-13.3-20zM81.1 471.9L117.3 334c3 4.2 6.4 8.2 10.1 11.9l41.9 41.9L142.9 488.1c-4.5 17.1-22 27.3-39.1 22.8s-27.3-22-22.8-39.1zm55.5-346L101.4 266.5c-3 12.1-14.9 19.9-27.2 17.9l-47.9-8c-14-2.3-22.9-16.3-19.2-30L31.9 155c9.5-34.8 41.1-59 77.2-59l4.2 0c15.6 0 27.1 14.7 23.3 29.8z"/></svg>
+                <div class="grid lg:grid-cols-2 grid-cols-1 gap-8 lg:gap-10 mb-12 lg:mb-16">
+                    <div class="bg-white p-6 lg:p-8 rounded-xl shadow-lg border border-slate-200 flex flex-col">
+                        <div class="flex items-center mb-4">
+                            <div class="flex-shrink-0 bg-blue-100 p-2.5 rounded-lg">
+                                <svg class="w-6 h-6 text-blue-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M192 48a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm51.3 182.7L224.2 307l49.7 49.7c9 9 14.1 21.2 14.1 33.9l0 89.4c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-82.7-73.9-73.9c-15.8-15.8-22.2-38.6-16.9-60.3l20.4-84c8.3-34.1 42.7-54.9 76.7-46.4c19 4.8 35.6 16.4 46.4 32.7L305.1 208l30.9 0 0-24c0-13.3 10.7-24 24-24s24 10.7 24 24l0 55.8c0 .1 0 .2 0 .2s0 .2 0 .2L384 488c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-216-39.4 0c-16 0-31-8-39.9-21.4l-13.3-20zM81.1 471.9L117.3 334c3 4.2 6.4 8.2 10.1 11.9l41.9 41.9L142.9 488.1c-4.5 17.1-22 27.3-39.1 22.8s-27.3-22-22.8-39.1zm55.5-346L101.4 266.5c-3 12.1-14.9 19.9-27.2 17.9l-47.9-8c-14-2.3-22.9-16.3-19.2-30L31.9 155c9.5-34.8 41.1-59 77.2-59l4.2 0c15.6 0 27.1 14.7 23.3 29.8z"/></svg>
+                            </div>
+                            <h3 class="ml-3 text-lg lg:text-xl font-semibold text-blue-800 self-center">Misión</h3>
+                        </div>
+                        <p class="text-slate-700 text-sm leading-relaxed flex-grow">
+                            Diseñar obras civiles y brindar servicios complementarios, que garanticen la seguridad, comodidad y la optimización de recursos en la ejecución de los proyectos de nuestros clientes, acorde con sus necesidades y expectativas.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 lg:p-8 rounded-xl shadow-lg border border-slate-200 flex flex-col">
+                        <div class="flex items-center mb-4">
+                            <div class="flex-shrink-0 bg-blue-100 p-2.5 rounded-lg">
+                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 text-blue-700 fill-current">
+                                <rect x="6" y="8" width="12" height="4" rx="1" />
+                                <circle cx="18" cy="10" r="2" />
+                                <circle cx="6" cy="10" r="2" />
+                                <rect x="10" y="12" width="4" height="6" />
+                                <path d="M10 18L6 22M14 18L18 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                               </svg>
+                            </div>
+                            <h3 class="ml-3 text-lg lg:text-xl font-semibold text-blue-800 self-center">Visión</h3>
+                        </div>
+                        <p class="text-slate-700 text-sm leading-relaxed flex-grow">
+                            Ser reconocidos en el ámbito regional y nacional como una empresa que brinda soluciones tangibles e innovadoras para los proyectos de nuestros clientes.
+                        </p>
+                    </div>
                 </div>
-                <h3 class="ml-2 text-sm lg:text-lg font-semibold text-blue-900">Misión</h3>
-              </div>
-              <p class="text-gray-600 text-xs leading-normal text-justify flex-grow">
-                Diseñar obras civiles y brindar servicios complementarios, que garanticen la seguridad, comodidad y la optimización de recursos en la ejecución de los proyectos de nuestros clientes, acorde con sus necesidades y expectativas.
-              </p>
-            </div>
-            <div class="bg-white p-4 lg:p-5 rounded-xl shadow-lg border border-gray-200 flex flex-col">
-              <div class="flex items-center mb-3">
-                <div>
-                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 text-blue-900 fill-current">
-                    <rect x="6" y="8" width="12" height="4" rx="1" />
-                    <circle cx="18" cy="10" r="2" />
-                    <circle cx="6" cy="10" r="2" />
-                    <rect x="10" y="12" width="4" height="6" />
-                    <path d="M10 18L6 22M14 18L18 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                  </svg>
-                </div>
-                <h3 class="ml-2 text-sm lg:text-lg font-semibold text-blue-900">Visión</h3>
-              </div>
-              <p class="text-gray-600 text-xs leading-normal text-justify flex-grow">
-                Ser reconocidos en el ámbito regional y nacional como una empresa que brinda soluciones tangibles e innovadoras para los proyectos de nuestros clientes.
-              </p>
-            </div>
-          </div>
 
-          <div class="grid lg:grid-cols-12 grid-cols-1 gap-x-6 gap-y-8 mb-10 lg:mb-12">
-            <div class="lg:col-span-4 col-span-12">
-              <div class="flex items-center mb-4">
-                  <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-900" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                      <path d="M16.87 3.35A6.002 6.002 0 0012 2a6.002 6.002 0 00-4.87 1.35A4.992 4.992 0 004 6c0 2.21 1.46 4.04 3.5 4.67V18H6v1h12v-1h-1.5v-7.33c2.04-.63 3.5-2.46 3.5-4.67a4.992 4.992 0 00-2.87-2.65zM12 4a4 4 0 014 4c0 1.43-.74 2.68-1.85 3.42-.58-.39-1.23-.69-1.88-.95-.27-.12-.53-.24-.79-.34-.25.1-.51.22-.78.34-.64.28-1.3.58-1.9.92A4.978 4.978 0 018 8a4 4 0 014-4zm-3 14v-2h6v2h-6z" />
-                    </svg>
-                  </div>
-                  <h3 class="ml-2 text-sm lg:text-lg font-semibold text-blue-900">Logros</h3>
-              </div>
-              <div class="bg-white shadow-xl rounded-xl overflow-hidden transform transition duration-300 hover:scale-105 border border-gray-200">
-                <img src="{% static 'img/certificaciones/GRUPO-VICAF-CERTIFICADO.jpg' %}" alt="Certificado Acreditación INACAL" class="w-full h-56 object-contain bg-gray-100 p-1">
-                <div class="p-4">
-                  <h4 class="text-xs font-semibold text-gray-700 mb-2">Acreditación INACAL</h4>
-                  <button data-modal="modal1" class="inline-flex items-center justify-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full">
-                    Ver Certificado
-                    <svg xmlns="http://www.w3.org/2000/svg" class="ml-1.5 h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                        <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.022 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
+                <div class="grid lg:grid-cols-12 grid-cols-1 gap-x-8 gap-y-10 mb-12 lg:mb-16">
+                    <div class="lg:col-span-4 col-span-12">
+                        <div class="flex items-center mb-5">
+                            <div class="flex-shrink-0 bg-blue-100 p-2.5 rounded-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-700" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d="M16.87 3.35A6.002 6.002 0 0012 2a6.002 6.002 0 00-4.87 1.35A4.992 4.992 0 004 6c0 2.21 1.46 4.04 3.5 4.67V18H6v1h12v-1h-1.5v-7.33c2.04-.63 3.5-2.46 3.5-4.67a4.992 4.992 0 00-2.87-2.65zM12 4a4 4 0 014 4c0 1.43-.74 2.68-1.85 3.42-.58-.39-1.23-.69-1.88-.95-.27-.12-.53-.24-.79-.34-.25.1-.51.22-.78.34-.64.28-1.3.58-1.9.92A4.978 4.978 0 018 8a4 4 0 014-4zm-3 14v-2h6v2h-6z" />
+                                </svg>
+                            </div>
+                            <h3 class="ml-3 text-lg lg:text-xl font-semibold text-blue-800">Logros</h3>
+                        </div>
+                        <div class="bg-white shadow-xl rounded-xl overflow-hidden transform transition duration-300 hover:scale-102 border border-slate-200 flex flex-col h-full">
+                            <img src="{% static 'img/certificaciones/GRUPO-VICAF-CERTIFICADO.jpg' %}" alt="Certificado Acreditación INACAL" class="w-full h-52 object-contain bg-slate-50 p-2">
+                            <div class="p-4 flex flex-col flex-grow">
+                                <h4 class="text-sm sm:text-base font-semibold text-slate-700 mb-3 flex-grow">Acreditación INACAL</h4>
+                                <button data-modal="modal1" class="mt-auto w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300">
+                                    Ver Certificado
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                        <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.022 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="lg:col-span-8 col-span-12">
-              <div class="flex items-center mb-4">
-                  <div>
-                    <svg class="w-6 h-6 text-blue-900" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M240.1 4.2c9.8-5.6 21.9-5.6 31.8 0l171.8 98.1L448 104l0 .9 47.9 27.4c12.6 7.2 18.8 22 15.1 36s-16.4 23.8-30.9 23.8L32 192c-14.5 0-27.2-9.8-30.9-23.8s2.5-28.8 15.1-36L64 104.9l0-.9 4.4-1.6L240.1 4.2zM64 224l64 0 0 192 40 0 0-192 64 0 0 192 48 0 0-192 64 0 0 192 40 0 0-192 64 0 0 196.3c.6 .3 1.2 .7 1.8 1.1l48 32c11.7 7.8 17 22.4 12.9 35.9S494.1 512 480 512L32 512c-14.1 0-26.5-9.2-30.6-22.7s1.1-28.1 12.9-35.9l48-32c.6-.4 1.2-.7 1.8-1.1L64 224z"/></svg>
-                  </div>
-                  <h3 class="ml-2 text-sm lg:text-lg font-semibold text-blue-900">Políticas</h3>
-              </div>
-              <div class="grid sm:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-4">
-                <div class="bg-white shadow-xl rounded-xl overflow-hidden transform transition duration-300 hover:scale-105 border border-gray-200 flex flex-col">
-                  <img src="{% static 'img/politicas/POLITICA_DE_CALIDAD.jpg' %}" alt="Política de calidad" class="w-full h-48 object-contain bg-gray-100 p-1">
-                  <div class="p-3 flex flex-col flex-grow">
-                    <h4 class="text-xs font-semibold text-gray-700 mb-2 flex-grow">Política de calidad</h4>
-                    <button data-modal="modal2" class="mt-auto inline-flex items-center justify-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full">
-                      Ver Política
-                      <svg xmlns="http://www.w3.org/2000/svg" class="ml-1.5 h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                        <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.022 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
-                      </svg>
-                    </button>
-                  </div>
+                    <div class="lg:col-span-8 col-span-12">
+                        <div class="flex items-center mb-5">
+                            <div class="flex-shrink-0 bg-blue-100 p-2.5 rounded-lg">
+                                <svg class="w-6 h-6 text-blue-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M240.1 4.2c9.8-5.6 21.9-5.6 31.8 0l171.8 98.1L448 104l0 .9 47.9 27.4c12.6 7.2 18.8 22 15.1 36s-16.4 23.8-30.9 23.8L32 192c-14.5 0-27.2-9.8-30.9-23.8s2.5-28.8 15.1-36L64 104.9l0-.9 4.4-1.6L240.1 4.2zM64 224l64 0 0 192 40 0 0-192 64 0 0 192 48 0 0-192 64 0 0 192 40 0 0-192 64 0 0 196.3c.6 .3 1.2 .7 1.8 1.1l48 32c11.7 7.8 17 22.4 12.9 35.9S494.1 512 480 512L32 512c-14.1 0-26.5-9.2-30.6-22.7s1.1-28.1 12.9-35.9l48-32c.6-.4 1.2-.7 1.8-1.1L64 224z"/></svg>
+                            </div>
+                            <h3 class="ml-3 text-lg lg:text-xl font-semibold text-blue-800">Políticas</h3>
+                        </div>
+                        <div class="grid sm:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
+                            <div class="bg-white shadow-xl rounded-xl overflow-hidden transform transition duration-300 hover:scale-102 border border-slate-200 flex flex-col h-full">
+                                <img src="{% static 'img/politicas/POLITICA_DE_CALIDAD.jpg' %}" alt="Política de calidad" class="w-full h-44 object-contain bg-slate-50 p-2">
+                                <div class="p-4 flex flex-col flex-grow">
+                                    <h4 class="text-sm sm:text-base font-semibold text-slate-700 mb-3 flex-grow">Política de Calidad</h4>
+                                    <button data-modal="modal2" class="mt-auto w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300">
+                                        Ver Política
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                            <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.022 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="bg-white shadow-xl rounded-xl overflow-hidden transform transition duration-300 hover:scale-102 border border-slate-200 flex flex-col h-full">
+                                <img src="{% static 'img/politicas/POLITICA-DE-SEGURIDAD.jpg' %}" alt="Política de seguridad" class="w-full h-44 object-contain bg-slate-50 p-2">
+                                <div class="p-4 flex flex-col flex-grow">
+                                    <h4 class="text-sm sm:text-base font-semibold text-slate-700 mb-3 flex-grow">Política de Seguridad</h4>
+                                    <button data-modal="modal3" class="mt-auto w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300">
+                                        Ver Política
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                            <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.022 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="bg-white shadow-xl rounded-xl overflow-hidden transform transition duration-300 hover:scale-102 border border-slate-200 flex flex-col h-full">
+                                <img src="{% static 'img/politicas/POLITICA-ANTISOBORNO.jpg' %}" alt="Política antisoborno" class="w-full h-44 object-contain bg-slate-50 p-2">
+                                <div class="p-4 flex flex-col flex-grow">
+                                    <h4 class="text-sm sm:text-base font-semibold text-slate-700 mb-3 flex-grow">Política Antisoborno</h4>
+                                    <button data-modal="modal4" class="mt-auto w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300">
+                                        Ver Política
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                            <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.022 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                 <div class="bg-white shadow-xl rounded-xl overflow-hidden transform transition duration-300 hover:scale-105 border border-gray-200 flex flex-col">
-                  <img src="{% static 'img/politicas/POLITICA-DE-SEGURIDAD.jpg' %}" alt="Política de seguridad" class="w-full h-48 object-contain bg-gray-100 p-1">
-                  <div class="p-3 flex flex-col flex-grow">
-                    <h4 class="text-xs font-semibold text-gray-700 mb-2 flex-grow">Política de seguridad</h4>
-                    <button data-modal="modal3" class="mt-auto inline-flex items-center justify-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full">
-                      Ver Política
-                      <svg xmlns="http://www.w3.org/2000/svg" class="ml-1.5 h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                        <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.022 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-                 <div class="bg-white shadow-xl rounded-xl overflow-hidden transform transition duration-300 hover:scale-105 border border-gray-200 flex flex-col">
-                  <img src="{% static 'img/politicas/POLITICA-ANTISOBORNO.jpg' %}" alt="Política antisoborno" class="w-full h-48 object-contain bg-gray-100 p-1">
-                  <div class="p-3 flex flex-col flex-grow">
-                    <h4 class="text-xs font-semibold text-gray-700 mb-2 flex-grow">Política antisoborno</h4>
-                    <button data-modal="modal4" class="mt-auto inline-flex items-center justify-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full">
-                      Ver Política
-                      <svg xmlns="http://www.w3.org/2000/svg" class="ml-1.5 h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                         <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                        <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.022 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
 
-      <div>
-        <div id="modal1" class="fixed inset-0 bg-black bg-opacity-80 hidden flex flex-col items-center justify-center z-50 p-0 m-0">
-            <div class="bg-white shadow-xl w-full h-full flex flex-col">
-                <div class="flex justify-between items-center p-3 border-b border-gray-200">
-                    <h2 class="text-sm lg:text-lg font-semibold text-blue-900">Acreditación INACAL</h2>
-                    <button data-modal-close="modal1" class="text-gray-500 hover:text-gray-700">
-                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                    </button>
+        <div>
+            <div id="modal1" class="fixed inset-0 bg-black bg-opacity-80 hidden flex flex-col items-center justify-center z-50 p-0 m-0">
+                <div class="bg-white shadow-xl w-full h-full flex flex-col">
+                    <div class="flex justify-between items-center p-3 border-b border-gray-200">
+                        <h2 class="text-sm lg:text-lg font-semibold text-blue-800">Acreditación INACAL</h2>
+                        <button data-modal-close="modal1" class="text-gray-500 hover:text-gray-700">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                    </div>
+                    <div class="overflow-auto flex-grow p-1 bg-gray-100">
+                        <iframe src="{% static 'pdf/GRUPO-VICAF-CERFIFICADO.pdf' %}" width="100%" height="100%" frameborder="0" class="rounded-sm"></iframe>
+                    </div>
                 </div>
-                <div class="overflow-auto flex-grow p-1 bg-gray-100">
-                    <iframe src="{% static 'pdf/GRUPO-VICAF-CERFIFICADO.pdf' %}" width="100%" height="100%" frameborder="0" class="rounded-sm"></iframe>
+            </div>
+            <div id="modal2" class="fixed inset-0 bg-black bg-opacity-80 hidden flex flex-col items-center justify-center z-50 p-0 m-0">
+                <div class="bg-white shadow-xl w-full h-full flex flex-col">
+                    <div class="flex justify-between items-center p-3 border-b border-gray-200">
+                        <h2 class="text-sm lg:text-lg font-semibold text-blue-800">Política de Calidad</h2>
+                        <button data-modal-close="modal2" class="text-gray-500 hover:text-gray-700">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                    </div>
+                    <div class="overflow-auto flex-grow p-1 bg-gray-100">
+                        <iframe src="{% static 'pdf/POLÍTICA_DE_CALIDAD.pdf' %}" width="100%" height="100%" frameborder="0" class="rounded-sm"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div id="modal3" class="fixed inset-0 bg-black bg-opacity-80 hidden flex flex-col items-center justify-center z-50 p-0 m-0">
+                <div class="bg-white shadow-xl w-full h-full flex flex-col">
+                    <div class="flex justify-between items-center p-3 border-b border-gray-200">
+                        <h2 class="text-sm lg:text-lg font-semibold text-blue-800">Política de Seguridad</h2>
+                        <button data-modal-close="modal3" class="text-gray-500 hover:text-gray-700">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                    </div>
+                    <div class="overflow-auto flex-grow p-1 bg-gray-100">
+                        <iframe src="{% static 'pdf/VCF-SGS-POL-001-POLITICA-DE-SEGURIDAD.pdf' %}" width="100%" height="100%" frameborder="0" class="rounded-sm"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div id="modal4" class="fixed inset-0 bg-black bg-opacity-80 hidden flex flex-col items-center justify-center z-50 p-0 m-0">
+                <div class="bg-white shadow-xl w-full h-full flex flex-col">
+                    <div class="flex justify-between items-center p-3 border-b border-gray-200">
+                        <h2 class="text-sm lg:text-lg font-semibold text-blue-800">Política Antisoborno</h2>
+                        <button data-modal-close="modal4" class="text-gray-500 hover:text-gray-700">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                    </div>
+                    <div class="overflow-auto flex-grow p-1 bg-gray-100">
+                        <iframe src="{% static 'pdf/VCF-SGAS-POL-001-POLÍTICA-ANTISOBORNO.pdf' %}" width="100%" height="100%" frameborder="0" class="rounded-sm"></iframe>
+                    </div>
                 </div>
             </div>
         </div>
-        <div id="modal2" class="fixed inset-0 bg-black bg-opacity-80 hidden flex flex-col items-center justify-center z-50 p-0 m-0">
-            <div class="bg-white shadow-xl w-full h-full flex flex-col">
-                <div class="flex justify-between items-center p-3 border-b border-gray-200">
-                    <h2 class="text-sm lg:text-lg font-semibold text-blue-900">Política de Calidad</h2>
-                    <button data-modal-close="modal2" class="text-gray-500 hover:text-gray-700">
-                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                    </button>
-                </div>
-                <div class="overflow-auto flex-grow p-1 bg-gray-100">
-                    <iframe src="{% static 'pdf/POLÍTICA_DE_CALIDAD.pdf' %}" width="100%" height="100%" frameborder="0" class="rounded-sm"></iframe>
-                </div>
-            </div>
-        </div>
-         <div id="modal3" class="fixed inset-0 bg-black bg-opacity-80 hidden flex flex-col items-center justify-center z-50 p-0 m-0">
-            <div class="bg-white shadow-xl w-full h-full flex flex-col">
-                <div class="flex justify-between items-center p-3 border-b border-gray-200">
-                    <h2 class="text-sm lg:text-lg font-semibold text-blue-900">Política de Seguridad</h2>
-                    <button data-modal-close="modal3" class="text-gray-500 hover:text-gray-700">
-                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                    </button>
-                </div>
-                <div class="overflow-auto flex-grow p-1 bg-gray-100">
-                    <iframe src="{% static 'pdf/VCF-SGS-POL-001-POLITICA-DE-SEGURIDAD.pdf' %}" width="100%" height="100%" frameborder="0" class="rounded-sm"></iframe>
-                </div>
-            </div>
-        </div>
-        <div id="modal4" class="fixed inset-0 bg-black bg-opacity-80 hidden flex flex-col items-center justify-center z-50 p-0 m-0">
-            <div class="bg-white shadow-xl w-full h-full flex flex-col">
-                <div class="flex justify-between items-center p-3 border-b border-gray-200">
-                    <h2 class="text-sm lg:text-lg font-semibold text-blue-900">Política Antisoborno</h2>
-                    <button data-modal-close="modal4" class="text-gray-500 hover:text-gray-700">
-                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                    </button>
-                </div>
-                <div class="overflow-auto flex-grow p-1 bg-gray-100">
-                    <iframe src="{% static 'pdf/VCF-SGAS-POL-001-POLÍTICA-ANTISOBORNO.pdf' %}" width="100%" height="100%" frameborder="0" class="rounded-sm"></iframe>
-                </div>
-            </div>
-        </div>
-      </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modalToggles = document.querySelectorAll('[data-modal]');
+        const modalCloseButtons = document.querySelectorAll('[data-modal-close]');
+
+        modalToggles.forEach(toggle => {
+            const modalId = toggle.getAttribute('data-modal');
+            const modalElement = document.getElementById(modalId);
+            if (modalElement) {
+                toggle.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    modalElement.classList.remove('hidden');
+                    setTimeout(() => modalElement.classList.add('flex'), 10); 
+                });
+            }
+        });
+
+        modalCloseButtons.forEach(closeButton => {
+            const modalId = closeButton.getAttribute('data-modal-close');
+            const modalElement = document.getElementById(modalId);
+            if (modalElement) {
+                closeButton.addEventListener('click', () => {
+                    modalElement.classList.remove('flex');
+                    setTimeout(() => modalElement.classList.add('hidden'), 300);
+                });
+            }
+        });
+
+        window.addEventListener('click', event => {
+            const modalOpen = document.querySelector('.fixed.inset-0.flex.z-50:not(.hidden)');
+            if (modalOpen && event.target === modalOpen) {
+                 modalOpen.classList.remove('flex');
+                 setTimeout(() => modalOpen.classList.add('hidden'), 300);
+            }
+        });
+
+        window.addEventListener('keydown', event => {
+            if (event.key === 'Escape') {
+                document.querySelectorAll('.fixed.inset-0.flex.z-50:not(.hidden)').forEach(modalElement => {
+                    modalElement.classList.remove('flex');
+                    setTimeout(() => modalElement.classList.add('hidden'), 300);
+                });
+            }
+        });
+    });
+</script>
 {% endblock %}
