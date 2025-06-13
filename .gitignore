@@ -1,19 +1,76 @@
+# =================================================================
+# Archivos del Sistema Operativo
+# =================================================================
+.DS_Store
+Thumbs.db
+._*
+
+# =================================================================
+# Archivos de IDE y Editores de Código
+# =================================================================
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# =================================================================
+# Archivos de Bytecode y Caché de Python
+# =================================================================
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 
-
-db.sqlite3
-*.sqlite3
-
-
+# =================================================================
+# Entornos Virtuales y Dependencias
+# =================================================================
 venv/
-*venv/
 env/
-.env
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
 
-.DS_Store
+# =================================================================
+# Archivos de Configuración Local y Secretos (¡NUNCA SUBIR!)
+# =================================================================
+.env
+*.env
+local_settings.py
+
+# =================================================================
+# Bases de Datos
+# =================================================================
+*.sqlite3
+db.sqlite3
+
+# =================================================================
+# Logs
+# =================================================================
 *.log
-local_settings.py 
-settings.py
+logs/
+
+# =================================================================
+# Archivos generados por Frameworks (Django/Flask)
+# =================================================================
+# Directorio de archivos estáticos para producción
+/staticfiles/
+# Directorio de archivos subidos por usuarios
+/media/
+# Sesiones basadas en archivos de Flask
+.webassets-cache
+instance/
+
+# =================================================================
+# Reportes de Pruebas y Cobertura
+# =================================================================
+.pytest_cache/
+.coverage
+*.coverage
+htmlcov/
+
+# =================================================================
+# Archivos de Build y Distribución
+# =================================================================
+/build/
+/dist/
+*.egg-info/
