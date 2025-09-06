@@ -1,0 +1,57 @@
+{% extends "base_vicafpro.html" %}
+{% block content %}
+
+<div class="space-y-6">
+    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+            <h1 class="text-xl font-extrabold text-white animate-fade-in-up">Gestión de Clientes</h1>
+            <p class="text-slate-400 mt-1 text-sm animate-fade-in-up">Administra la información de todos tus clientes.</p>
+        </div>
+        <a href="{% url 'crear_cliente' %}" class="inline-flex items-center gap-2 px-6 py-3 bg-emerald-500 text-white font-semibold rounded-full hover:bg-emerald-600 transition-all duration-300 shadow-lg animate-fade-in-up">
+            <i data-lucide="plus" class="w-5 h-5"></i>
+            Nuevo Cliente
+        </a>
+    </header>
+
+    {% if object_list %}
+        <div class="glass-card p-6 rounded-2xl shadow-xl overflow-x-auto animate-fade-in-up">
+            <table class="min-w-full text-left text-slate-300">
+                <thead>
+                    <tr class="border-b border-slate-700/50">
+                        <th scope="col" class="py-3 px-6 text-sm font-semibold uppercase tracking-wider">Razón Social</th>
+                        <th scope="col" class="py-3 px-6 text-sm font-semibold uppercase tracking-wider hidden sm:table-cell">RUC</th>
+                        <th scope="col" class="py-3 px-6 text-sm font-semibold uppercase tracking-wider hidden md:table-cell">Contacto</th>
+                        <th scope="col" class="py-3 px-6 text-sm font-semibold uppercase tracking-wider hidden lg:table-cell">Dirección</th>
+                        <th scope="col" class="py-3 px-6 text-sm font-semibold uppercase tracking-wider text-right">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente in object_list %}
+                        <tr class="border-b border-slate-700/50 hover:bg-slate-700/30 transition-colors duration-200">
+                            <td class="py-4 px-6 font-medium text-white">{{ cliente.razon_social }}</td>
+                            <td class="py-4 px-6 hidden sm:table-cell">{{ cliente.ruc }}</td>
+                            <td class="py-4 px-6 hidden md:table-cell">{{ cliente.persona_contacto }}</td>
+                            <td class="py-4 px-6 hidden lg:table-cell truncate max-w-xs">{{ cliente.direccion }}</td>
+                            <td class="py-4 px-6 text-right space-x-2">
+                                <a href="{% url 'editar_cliente' cliente.pk %}" class="inline-flex items-center text-cyan-400 hover:text-cyan-500 transition-colors duration-200">
+                                    <i data-lucide="pencil" class="w-4 h-4"></i>
+                                </a>
+                                <a href="{% url 'eliminar_cliente' cliente.pk %}" class="inline-flex items-center text-rose-400 hover:text-rose-500 transition-colors duration-200">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="glass-card p-10 rounded-2xl text-center animate-fade-in-up">
+            <i data-lucide="info" class="w-12 h-12 text-slate-400 mx-auto mb-4"></i>
+            <p class="text-xl font-semibold text-slate-300">Aún no hay clientes registrados.</p>
+            <p class="mt-2 text-slate-400">¡Haz clic en "Nuevo Cliente" para empezar a gestionar tu base de datos!</p>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'base_vicafpro.html' %}
+{% load static %}
+
+{% block title %}Listado de Trabajadores{% endblock %}
+
+{% block content %}
+<div class="p-2 lg:p-2">
+    <header class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-xl font-extrabold text-white">Listado de Trabajadores</h1>
+            <p class="text-slate-400 mt-1 text-sm">Perfiles de todo el personal de Vicaf.</p>
+        </div>
+        <a href="{% url 'trabajador_create' %}" class="btn-primary flex">
+            <i data-lucide="user-plus" class="w-5 h-5"></i>
+            <span class="ml-2">Añadir Trabajador</span>
+        </a>
+    </header>
+
+    {% if trabajadores %}
+    <div class="glass-card rounded-2xl p-6 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-slate-700/50">
+                <thead class="bg-slate-700/50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                            Foto
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                            Nombre
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                            Rol
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                            Acciones
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-700/50">
+                    {% for trabajador in trabajadores %}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {% if trabajador.foto %}
+                                <img src="{{ trabajador.foto.url }}" alt="Foto de {{ trabajador.nombre_completo }}" class="h-10 w-10 rounded-full object-cover">
+                            {% else %}
+                                <div class="h-10 w-10 rounded-full bg-slate-700 flex items-center justify-center text-xl text-slate-400">
+                                    <i data-lucide="user" class="w-6 h-6"></i>
+                                </div>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <a href="{% url 'trabajador_detail' trabajador.pk %}" class="text-white hover:text-emerald-400 font-medium">
+                                {{ trabajador.nombre_completo }}
+                            </a>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
+                            {{ trabajador.get_role_display }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium flex">
+                            <a href="{% url 'trabajador_detail' trabajador.pk %}" class="text-indigo-400 hover:text-indigo-600 mr-4" title="Ver perfil">
+                                <i data-lucide="eye" class="w-5 h-5"></i>
+                            </a>
+                            <a href="{% url 'trabajador_update' trabajador.pk %}" class="text-blue-400 hover:text-blue-600 mr-4" title="Editar perfil">
+                                <i data-lucide="edit-3" class="w-5 h-5"></i>
+                            </a>
+                            <a href="{% url 'trabajador_delete' trabajador.pk %}" class="text-rose-400 hover:text-rose-600" title="Eliminar perfil">
+                                <i data-lucide="trash-2" class="w-5 h-5"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% else %}
+    <div class="glass-card rounded-2xl p-6 text-center text-slate-400">
+        <p>No hay perfiles de trabajadores registrados todavía.</p>
+        <a href="{% url 'trabajador_create' %}" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 transition-colors">
+            Crear el primer trabajador
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

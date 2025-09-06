@@ -1,0 +1,64 @@
+{% extends 'base_vicafpro.html' %}
+
+{% block title %}Vicafpro - Gestión de Proyectos{% endblock %}
+
+{% block content %}
+<style>
+    @keyframes move-shapes {
+        0% { transform: translate(0, 0); }
+        25% { transform: translate(-20vw, 15vh); }
+        50% { transform: translate(20vw, 30vh); }
+        75% { transform: translate(-10vw, -20vh); }
+        100% { transform: translate(0, 0); }
+    }
+    .shape-1 {
+        animation: move-shapes 20s ease-in-out infinite;
+    }
+    .shape-2 {
+        animation: move-shapes 25s ease-in-out infinite reverse;
+    }
+    .shape-3 {
+        animation: move-shapes 30s ease-in-out infinite;
+    }
+</style>
+<div class="min-h-screen flex items-center justify-center p-4 bg-blue-950 relative overflow-hidden">
+    
+    <div class="absolute inset-0 z-0 overflow-hidden">
+        <div class="absolute w-80 h-80 rounded-full bg-blue-500/20 blur-2xl top-1/4 left-1/4 transform -translate-x-1/2 -translate-y-1/2 shape-1"></div>
+        <div class="absolute w-64 h-64 rounded-full bg-cyan-400/20 blur-2xl bottom-1/4 right-1/4 transform translate-x-1/2 translate-y-1/2 shape-2"></div>
+        <div class="absolute w-96 h-96 rounded-full bg-indigo-500/20 blur-2xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shape-3"></div>
+    </div>
+
+    <div id="welcome-card" class="relative z-10 p-12 rounded-3xl w-full max-w-lg text-center backdrop-blur-3xl bg-white/5 border border-gray-700 transform transition-transform duration-300 shadow-3d-lg cursor-pointer">
+        
+        <h1 class="text-5xl sm:text-6xl font-black mb-4 text-white tracking-tight drop-shadow-xl">
+            Proyectos <div class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 mt-6">Grupo Vicaf</div>
+        </h1>
+        <p class="text-gray-300 text-xl sm:text-2xl mb-8 font-extralight">
+            Un nuevo enfoque para la gestión de proyectos de laboratorio.
+        </p>
+        
+        <a href="{% url 'proyectos:lista_proyectos' %}" 
+           class="inline-block px-10 py-5 font-bold text-lg text-white transition duration-500 transform rounded-full shadow-lg 
+                  bg-gradient-to-r from-blue-500 to-blue-700 hover:scale-105 hover:shadow-2xl hover:from-cyan-500 hover:to-blue-600">
+            Explorar Proyectos
+        </a>
+        
+    </div>
+</div>
+
+<script>
+    const card = document.getElementById('welcome-card');
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const rotateY = (x - rect.width / 2) / 20;
+        const rotateX = -(y - rect.height / 2) / 20;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+    });
+</script>
+{% endblock %}

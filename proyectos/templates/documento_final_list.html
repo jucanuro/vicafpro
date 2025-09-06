@@ -1,0 +1,64 @@
+{% extends 'base_vicafpro.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto mt-8 px-4">
+    <!-- Header Section -->
+    <header class=" shadow-md rounded-xl py-4 px-6 flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold ">Documentos Finales</h1>
+        <a href="{% url 'proyectos:documento_final_create' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+            Crear Nuevo Documento
+        </a>
+    </header>
+
+    <!-- Main Content Table -->
+    {% if documentos %}
+    <div class="shadow-lg rounded-xl overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full leading-normal">
+                <thead>
+                    <tr class="uppercase text-sm leading-normal">
+                        <th class="py-3 px-6 text-left">Título</th>
+                        <th class="py-3 px-6 text-left">Proyecto</th>
+                        <th class="py-3 px-6 text-left">Fecha de Emisión</th>
+                        <th class="py-3 px-6 text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="text-sm font-light">
+                    {% for documento in documentos %}
+                    <tr class="border-b border-gray-200 hover:bg-blue-200 hover:text-gray-800">
+                        <td class="py-3 px-6 text-left whitespace-nowrap">
+                            <span class="font-medium">{{ documento.titulo }}</span>
+                        </td>
+                        <td class="py-3 px-6 text-left">
+                            <span>{{ documento.proyecto.nombre_proyecto }}</span>
+                        </td>
+                        <td class="py-3 px-6 text-left">
+                            <span>{{ documento.fecha_emision }}</span>
+                        </td>
+                        <td class="py-3 px-6 text-center">
+                            <div class="flex item-center justify-center space-x-2">
+                                <a href="{% url 'proyectos:documento_final_pdf' documento.pk %}" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded-md transition duration-300 ease-in-out transform hover:scale-105" target="_blank">
+                                    PDF
+                                </a>
+                                <a href="{% url 'proyectos:documento_final_update' documento.pk %}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-3 rounded-md transition duration-300 ease-in-out transform hover:scale-105">
+                                    Editar
+                                </a>
+                                <a href="{% url 'proyectos:documento_final_delete' documento.pk %}" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-3 rounded-md transition duration-300 ease-in-out transform hover:scale-105">
+                                    Eliminar
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% else %}
+    <div class="p-6 rounded-lg shadow-lg text-center">
+        <p class="text-lg">No hay documentos finales para mostrar.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

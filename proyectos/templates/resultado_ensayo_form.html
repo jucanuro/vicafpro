@@ -1,0 +1,27 @@
+<!-- ================================================================
+Archivo: proyectos/resultado_ensayo_form.html
+Descripción: Formulario para crear o editar un Resultado de Ensayo.
+================================================================ -->
+{% extends "base_vicafpro.html" %}
+
+{% block title %}
+    {% if form.instance.pk %}Editar Resultado de Ensayo{% else %}Crear Resultado de Ensayo{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto p-8 bg-blue-950 shadow-xl rounded-xl">
+    <h1 class="text-3xl font-bold  mb-6 text-center">
+        {% if form.instance.pk %}Editar Resultado de Ensayo{% else %}Crear Resultado de Ensayo{% endif %}
+    </h1>
+    <form method="post" enctype="multipart/form-data" class="space-y-6">
+        {% csrf_token %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {{ form.as_p }}
+        </div>
+        <div class="flex justify-center space-x-4 mt-6">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a href="{% url 'proyectos:resultado_ensayo_list' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock content %}

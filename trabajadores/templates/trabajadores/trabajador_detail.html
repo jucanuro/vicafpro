@@ -1,0 +1,73 @@
+{% extends 'base_vicafpro.html' %}
+{% load static %}
+
+{% block title %}{{ trabajador.nombre_completo }}{% endblock %}
+
+{% block content %}
+<div class="p-6 lg:p-10 max-w-5xl mx-auto">
+    <header class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-xl font-extrabold text-white">Perfil de {{ trabajador.nombre_completo }}</h1>
+            <p class="text-slate-400 text-sm mt-1">Detalles completos del trabajador.</p>
+        </div>
+        <a href="{% url 'trabajador_list' %}" class="inline-flex items-center px-4 py-2 glass-card rounded-full text-sm font-semibold text-white hover:bg-slate-700/50 transition-colors">
+            Volver a la lista
+        </a>
+    </header>
+
+    <div class="glass-card rounded-2xl p-8">
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+            <div class="flex-shrink-0">
+                {% if trabajador.foto %}
+                <img src="{{ trabajador.foto.url }}" alt="Foto de perfil" class="h-48 w-48 rounded-full object-cover border-4 border-emerald-500 shadow-lg">
+                {% else %}
+                <div class="h-48 w-48 rounded-full bg-slate-700 flex items-center justify-center text-6xl text-white">
+                    <i data-lucide="user-circle" class="w-24 h-24 text-slate-500"></i>
+                </div>
+                {% endif %}
+            </div>
+            <div class="flex-grow text-center md:text-left">
+                <h2 class="text-3xl font-bold text-white mb-2">{{ trabajador.nombre_completo }}</h2>
+                <p class="text-lg font-medium text-emerald-400 mb-4">{{ trabajador.get_role_display }}</p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-slate-300">
+                    <div>
+                        <p class="font-semibold text-white">Usuario:</p>
+                        <p>{{ trabajador.user.username }}</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-white">Email:</p>
+                        <p>{{ trabajador.user.email }}</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-white">Creado en:</p>
+                        <p>{{ trabajador.creado_en|date:"d M Y" }}</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-white">Última actualización:</p>
+                        <p>{{ trabajador.actualizado_en|date:"d M Y" }}</p>
+                    </div>
+                </div>
+
+                {% if trabajador.firma_electronica %}
+                <div class="mt-6 border-t border-slate-700 pt-6">
+                    <p class="font-semibold text-white mb-2">Firma Electrónica:</p>
+                    <img src="{{ trabajador.firma_electronica.url }}" alt="Firma electrónica" class="max-w-xs h-auto mt-2 rounded-lg">
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-8 flex gap-4 justify-center md:justify-start">
+        <a href="{% url 'trabajador_update' trabajador.pk %}" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-semibold rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 transition-colors">
+            <i data-lucide="edit" class="w-5 h-5 mr-2"></i>
+            Editar Perfil
+        </a>
+        <a href="{% url 'trabajador_delete' trabajador.pk %}" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-semibold rounded-full shadow-sm text-white bg-rose-600 hover:bg-rose-700 transition-colors">
+            <i data-lucide="trash-2" class="w-5 h-5 mr-2"></i>
+            Eliminar
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+<!-- ================================================================
+Archivo: proyectos/ordenes_form.html
+Descripción: Formulario estilizado para crear o editar Órdenes de Ensayo.
+================================================================ -->
+{% extends "base_vicafpro.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto p-8 bg-blue-950 shadow-xl rounded-xl">
+    <h1 class="text-3xl font-bold  mb-6">{{ page_title }}</h1>
+    <form method="post" class="space-y-6">
+        {% csrf_token %}
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Recorremos los campos del formulario para aplicar estilos individuales -->
+            {% for field in form %}
+            <div class="flex flex-col space-y-1">
+                <label for="{{ field.id_for_label }}" class="text-sm font-medium">
+                    {{ field.label }}
+                    {% if field.field.required %}
+                        <span class="text-red-500">*</span>
+                    {% endif %}
+                </label>
+                {{ field }}
+                
+                <!-- Manejo de errores de campo -->
+                {% if field.errors %}
+                    <div class="text-sm text-red-600 mt-1">
+                        {% for error in field.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Manejo de errores generales del formulario (no de un campo específico) -->
+        {% if form.non_field_errors %}
+            <div class="text-sm text-red-600 p-3 bg-red-50 rounded-lg mt-6">
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="flex space-x-4 pt-4">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a href="{% url 'proyectos:orden_de_ensayo_list' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock content %}

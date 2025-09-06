@@ -1,0 +1,33 @@
+{% extends 'base_vicafpro.html' %}
+{% load static %}
+
+{% block title %}Trabajadores{% endblock %}
+
+{% block content %}
+<div class="p-6 lg:p-10">
+    <header class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-xl font-extrabold text-white">Módulo de Trabajadores</h1>
+            <p class="text-slate-400 mt-1 text-sm">Gestión del personal de tu empresa.</p>
+        </div>
+        <a href="{% url 'trabajador_create' %}" class="btn-primary flex">
+            <i data-lucide="plus-circle" class="w-5 h-5"></i>
+            <span class="ml-2">Nuevo Trabajador</span>
+        </a>
+    </header>
+
+    <div class="glass-card p-6 rounded-2xl">
+        <h2 class="text-xl font-bold mb-4 text-white">Listado de Trabajadores</h2>
+        <p class="text-slate-400 text-sm">Desde aquí puedes ver, editar y eliminar los perfiles de los trabajadores. Haz clic en 'Ver todos los trabajadores' para continuar.</p>
+        
+        <div class="mt-6 flex gap-4">
+            <a href="{% url 'trabajador_list' %}" class="inline-flex items-center text-xs justify-center px-6 py-3 border border-transparent text-base font-semibold rounded-full shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 transition-colors">
+                Ver todos los trabajadores
+            </a>
+            <a href="{% url 'trabajador_create' %}" class="inline-flex items-center text-xs justify-center px-6 py-3 border border-gray-300 text-base font-semibold rounded-full text-white bg-slate-700 hover:bg-slate-600 transition-colors">
+                Crear nuevo perfil
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

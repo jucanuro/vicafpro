@@ -1,0 +1,72 @@
+{% extends 'base_vicafpro.html' %}
+
+{% block title %}Vicafpro - Lista de Proyectos{% endblock %}
+
+{% block content %}
+    <div class="max-w-7xl mx-auto p-8">
+        <h1 class="text-xl font-bold mb-8 text-left text-gray-100">Proyectos de Laboratorio</h1>
+
+        <div class="flex justify-between items-center mb-4">
+            <a href="{% url 'proyectos:proyectos_principal' %}" 
+            class="inline-block px-6 py-3 font-bold text-white transition duration-300 transform rounded-full shadow-lg bg-gradient-to-r from-blue-600 to-gray-500 hover:scale-105 hover:shadow-xl hover:from-blue-700 hover:to-gray-600">
+                &larr; Volver
+            </a>
+
+            <a href="{% url 'proyectos:crear_proyecto' %}"
+                class="inline-block px-6 py-3 font-bold text-white transition duration-300 transform rounded-full shadow-lg bg-gradient-to-r from-blue-600 to-gray-500 hover:scale-105 hover:shadow-xl hover:from-blue-700 hover:to-gray-600">
+                    Crear Nuevo Proyecto
+            </a>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-cyan-900">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                            Nombre del Proyecto
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                            Cliente
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                            Estado
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                            Fecha de Inicio
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% if proyectos %}
+                        {% for proyecto in proyectos %}
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    {{ proyecto.nombre_proyecto }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ proyecto.cliente.razon_social }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                    {% if proyecto.estado == 'FINALIZADO' %}bg-green-100 text-green-800
+                                    {% elif proyecto.estado == 'EN_PROGRESO' %}bg-yellow-100 text-yellow-800
+                                    {% elif proyecto.estado == 'CANCELADO' %}bg-red-100 text-red-800
+                                    {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                        {{ proyecto.get_estado_display }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ proyecto.fecha_inicio }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="px-6 py-4 text-center text-gray-500">No hay proyectos para mostrar.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

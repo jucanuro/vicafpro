@@ -11,22 +11,24 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+from django.conf import settings
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-agvb@jau49na9tapnu910^!0sbqz%=mn$1n8pv70)io*n6x830')
-
+SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool, default=False)
 
-ALLOWED_HOSTS = ['23.22.40.136', 'grupovicaf.com','localhost']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')], default=[])
+
 
 
 # Application definition
@@ -41,6 +43,9 @@ INSTALLED_APPS = [
     
      # Terceros
     'rest_framework',
+    'rest_framework_simplejwt',
+    'widget_tweaks',
+    'django.contrib.humanize', 
     
      # Locales
     'core',
@@ -52,6 +57,7 @@ INSTALLED_APPS = [
     'clientes',
     'contactenos',
     'bolsa_trabajo',
+    'proyectos',
 ]
 
 MIDDLEWARE = [
@@ -85,26 +91,74 @@ TEMPLATES = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication', # Opcional, para la interfaz web del admin
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated', # Por defecto, requiere autenticación
+    )
+}
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60), # Tiempo de vida del token de acceso
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),   # Tiempo de vida del token de refresco
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'UPDATE_LAST_LOGIN': False,
+
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': settings.SECRET_KEY, # Reutiliza tu SECRET_KEY de Django
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None,
+    'JWK_URL': None,
+    'LEEWAY': 0,
+
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+    'JTI_CLAIM': 'jti',
+
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+}
+
 WSGI_APPLICATION = "vicaf.wsgi.application"
 
 AUTH_USER_MODEL = 'usuarios.Usuario'
 
 CONTACT_EMAIL = 'informes@grupovicaf.com'  # Cambia a tu correo
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'vicaf',           
-        'USER': 'jucanuro',
-        'PASSWORD': 'Elverde2050@@**1988', 
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
+#DATABASES = {
+#   'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'vicaf',           
+#        'USER': 'jucanuro',
+#        'PASSWORD': 'Elverde2050@@**1988', 
+#        'HOST': 'localhost',
+#        'PORT': '',
+#    }
+#}
 
 
 # Password validation
@@ -162,5 +216,9 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'adm.vicaf@gmail.com'
 EMAIL_HOST_PASSWORD = 'cmfqllkjevlzzmqe'  
+
+LOGIN_REDIRECT_URL = 'dashboard' 
+LOGIN_URL = 'login' 
+LOGOUT_REDIRECT_URL = 'login' 
 
 

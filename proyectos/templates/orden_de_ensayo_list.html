@@ -1,0 +1,73 @@
+<!-- ================================================================
+Archivo: proyectos/ordenes_list.html
+Descripción: Tabla estilizada para listar todas las Órdenes de Ensayo.
+================================================================ -->
+{% extends "base_vicafpro.html" %}
+
+{% block title %}Órdenes de Ensayo{% endblock %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">Órdenes de Ensayo</h1>
+    <a href="{% url 'proyectos:orden_de_ensayo_create' %}" class="btn btn-primary">
+        + Nueva Orden
+    </a>
+</div>
+
+<div class="overflow-x-auto">
+    <table class="w-full text-left rounded-lg overflow-hidden">
+        <thead class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+            <tr>
+                <th class="py-3 px-6">Código</th>
+                <th class="py-3 px-6">Proyecto</th>
+                <th class="py-3 px-6">Tipo de Ensayo</th>
+                <th class="py-3 px-6">Estado</th>
+                <th class="py-3 px-6">Fecha de Entrega</th>
+                <th class="py-3 px-6 text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody class="text-sm font-light hover:text-gray-600">
+            {% for orden in ordenes %}
+            <tr class="border-b border-gray-200 hover:bg-blue-200">
+                <td class="py-3 px-6">{{ orden.codigo_orden }}</td>
+                <td class="py-3 px-6">{{ orden.proyecto.nombre_proyecto }}</td>
+                <td class="py-3 px-6">{{ orden.tipo_ensayo }}</td>
+                <td class="py-3 px-6">
+                    <span class="py-1 px-3 rounded-full text-xs font-medium
+                        {% if orden.estado_avance == 'FINALIZADO' %} bg-green-200 text-green-700
+                        {% elif orden.estado_avance == 'EN_PROGRESO' %} bg-yellow-200 text-yellow-700
+                        {% elif orden.estado_avance == 'ATRASADO' %} bg-red-200 text-red-700
+                        {% else %} bg-gray-200 text-gray-700
+                        {% endif %}">
+                        {{ orden.get_estado_avance_display }}
+                    </span>
+                </td>
+                <td class="py-3 px-6">{{ orden.fecha_entrega_programada|date:"d M Y" }}</td>
+                <td class="py-3 px-6 flex justify-center space-x-2">
+                    <a href="{% url 'proyectos:orden_de_ensayo_update' orden.pk %}" 
+                       class="text-blue-500 hover:text-blue-700" 
+                       title="Editar">
+                        <!-- Icono de lápiz (editar) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l-6.264 6.264m-1.414 1.414l-6.264 6.264m-1.414 1.414l1.414-1.414m-1.414-1.414l6.264-6.264m1.414 1.414l-1.414 1.414M16.5 12.5a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM17 17l4.5 4.5" />
+                        </svg>
+                    </a>
+                    <a href="{% url 'proyectos:orden_de_ensayo_delete' orden.pk %}" 
+                       class="text-red-500 hover:text-red-700" 
+                       title="Eliminar">
+                        <!-- Icono de basurero (eliminar) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="py-3 px-6 text-center text-gray-400">No hay órdenes de ensayo disponibles.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
