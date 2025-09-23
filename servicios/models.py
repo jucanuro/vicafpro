@@ -93,7 +93,12 @@ class Cotizacion(models.Model):
 class CotizacionDetalle(models.Model):
     cotizacion = models.ForeignKey(Cotizacion, on_delete=models.CASCADE, related_name='detalles_cotizacion', verbose_name="Cotización")
     servicio = models.ForeignKey(Servicio, on_delete=models.CASCADE, verbose_name="Servicio")
-    detalle_servicio = models.ForeignKey(DetalleServicio, on_delete=models.CASCADE, verbose_name="Detalle del Servicio")
+    
+    # -----------------------------------------------------------
+    # CORRECCIÓN: Agregar campos para Norma y Metodo
+    # -----------------------------------------------------------
+    norma = models.ForeignKey('Norma', on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Norma de Ensayo")
+    metodo = models.ForeignKey('Metodo', on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Método")
     und = models.CharField(max_length=50, default='und')
     cantidad = models.PositiveIntegerField(default=1, verbose_name="Cantidad")
     precio_unitario = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Precio Unitario")

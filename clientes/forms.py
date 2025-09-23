@@ -1,13 +1,12 @@
 from django import forms
-from .models import ClienteProfile
+from .models import ClienteProfile # Asume que tu modelo está en la misma app
 
 class ClienteProfileForm(forms.ModelForm):
     """
-    Formulario para el modelo ClienteProfile.
+    Formulario para el modelo ClienteProfile, con estilos de Tailwind CSS.
     """
     class Meta:
         model = ClienteProfile
-        # Incluye todos los campos del modelo ClienteProfile, excepto los campos de trazabilidad.
         fields = [
             'razon_social',
             'ruc',
@@ -19,20 +18,20 @@ class ClienteProfileForm(forms.ModelForm):
             'firma_electronica',
         ]
         
-        # Opcional: añade widgets para personalizar la apariencia de los campos en el HTML.
-        # Aquí se usan clases de Tailwind CSS para el estilo de los campos.
+        # Define una clase base para todos los campos de texto
+        base_class = 'w-full p-3 rounded-lg bg-slate-700/50 text-slate-200 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all duration-300'
+        
         widgets = {
-            'razon_social': forms.TextInput(attrs={'class': 'w-full p-3 rounded-lg bg-slate-700/50 text-slate-200 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all duration-300'}),
-            'ruc': forms.TextInput(attrs={'class': 'w-full p-3 rounded-lg bg-slate-700/50 text-slate-200 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all duration-300'}),
-            'direccion': forms.TextInput(attrs={'class': 'w-full p-3 rounded-lg bg-slate-700/50 text-slate-200 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all duration-300'}),
-            'persona_contacto': forms.TextInput(attrs={'class': 'w-full p-3 rounded-lg bg-slate-700/50 text-slate-200 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all duration-300'}),
-            'cargo_contacto': forms.TextInput(attrs={'class': 'w-full p-3 rounded-lg bg-slate-700/50 text-slate-200 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all duration-300'}),
-            'celular_contacto': forms.TextInput(attrs={'class': 'w-full p-3 rounded-lg bg-slate-700/50 text-slate-200 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all duration-300'}),
-            'correo_contacto': forms.EmailInput(attrs={'class': 'w-full p-3 rounded-lg bg-slate-700/50 text-slate-200 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all duration-300'}),
+            'razon_social': forms.TextInput(attrs={'class': base_class}),
+            'ruc': forms.TextInput(attrs={'class': base_class}),
+            'direccion': forms.TextInput(attrs={'class': base_class}),
+            'persona_contacto': forms.TextInput(attrs={'class': base_class}),
+            'cargo_contacto': forms.TextInput(attrs={'class': base_class}),
+            'celular_contacto': forms.TextInput(attrs={'class': base_class}),
+            'correo_contacto': forms.EmailInput(attrs={'class': base_class}),
             'firma_electronica': forms.ClearableFileInput(attrs={'class': 'w-full text-sm text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-emerald-500 file:text-white hover:file:bg-emerald-600 transition-colors duration-300'}),
         }
         
-        # Opcional: personaliza las etiquetas de los campos.
         labels = {
             'razon_social': 'Razón Social',
             'ruc': 'RUC',

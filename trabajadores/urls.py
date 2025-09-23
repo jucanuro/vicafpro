@@ -1,22 +1,23 @@
 # trabajadores/urls.py
+
 from django.urls import path
 from .views import (
-    trabajadores_view,
-    TrabajadorListView,
-    TrabajadorDetailView,
-    TrabajadorCreateView,
-    TrabajadorUpdateView,
-    TrabajadorDeleteView
+    lista_trabajadores,
+    buscar_trabajadores_api,
+    crear_trabajador,
+    editar_trabajador,
+    eliminar_trabajador,
 )
 
-urlpatterns = [
-    # Vista principal del módulo
-    path('', trabajadores_view, name='trabajadores'),
+app_name = 'trabajadores'
 
-    # Rutas para el CRUD de Trabajadores
-    path('lista/', TrabajadorListView.as_view(), name='trabajador_list'),
-    path('crear/', TrabajadorCreateView.as_view(), name='trabajador_create'),
-    path('<int:pk>/', TrabajadorDetailView.as_view(), name='trabajador_detail'),
-    path('<int:pk>/editar/', TrabajadorUpdateView.as_view(), name='trabajador_update'),
-    path('<int:pk>/eliminar/', TrabajadorDeleteView.as_view(), name='trabajador_delete'),
+urlpatterns = [
+    # Vistas de lista y API (mantenerlas)
+    path('', lista_trabajadores, name='lista_trabajadores'),
+    path('api/buscar/', buscar_trabajadores_api, name='buscar_trabajadores_api'),
+
+    # Nuevas vistas para la gestión
+    path('crear/', crear_trabajador, name='crear_trabajador'),
+    path('editar/<int:pk>/', editar_trabajador, name='editar_trabajador'),
+    path('eliminar/<int:pk>/', eliminar_trabajador, name='eliminar_trabajador'),
 ]

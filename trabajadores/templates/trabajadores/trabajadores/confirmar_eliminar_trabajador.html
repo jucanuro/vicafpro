@@ -1,0 +1,33 @@
+{% extends "base_vicafpro.html" %}
+{% load static %}
+{% block content %}
+
+<div class="space-y-6">
+    <header class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 animate-fade-in-up">
+        <h1 class="text-3xl font-extrabold text-white">Confirmar Eliminación</h1>
+        <a href="{% url 'trabajadores:lista_trabajadores' %}" class="inline-flex items-center gap-2 px-6 py-3 bg-slate-700 text-white font-semibold rounded-full hover:bg-slate-600 transition-all duration-300">
+            <i data-lucide="x" class="w-5 h-5"></i>
+            Cancelar
+        </a>
+    </header>
+
+    <div class="glass-card p-6 rounded-2xl shadow-xl animate-fade-in-up">
+        <div class="text-center">
+            <i data-lucide="alert-triangle" class="w-16 h-16 mx-auto text-red-500 mb-4"></i>
+            <p class="text-xl font-semibold text-white">¿Estás seguro de que deseas eliminar a {{ trabajador.nombre_completo }}?</p>
+            <p class="mt-2 text-slate-400">Esta acción es irreversible y eliminará permanentemente el perfil de trabajador.</p>
+        </div>
+
+        <form method="post" class="mt-6 flex justify-center space-x-4">
+            {% csrf_token %}
+            <button type="submit" class="inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-base font-medium rounded-full text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition-all duration-300">
+                Eliminar
+            </button>
+            <a href="{% url 'trabajadores:lista_trabajadores' %}" class="inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-base font-medium rounded-full text-slate-300 bg-slate-700 hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-700 transition-all duration-300">
+                Cancelar
+            </a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

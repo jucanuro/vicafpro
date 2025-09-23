@@ -1,55 +1,35 @@
 # servicios/urls.py
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from . import views
-from .api_views import CotizacionViewSet
-
-# Importamos solo las vistas que vamos a usar
-from .views import (
-    servicios_view,
-    detalle_servicios_view,
-    ServicioListView,
-    ServicioDetailView,
-    ServicioDeleteView,
-    servicio_create_or_update, # Vista unificada
-)
 
 app_name = 'servicios'
 
-# Creamos el router para la API de Cotizaciones (si aún la usas)
-router = DefaultRouter()
-router.register(r'cotizaciones', CotizacionViewSet)
-
 urlpatterns = [
-    # URLs de tus vistas web principales
-    path('', servicios_view, name='servicios'),
-    path('detalle/', detalle_servicios_view, name='servicios-detalle'),
-
-    # URLs para la gestión de Servicios (CRUD)
-    path('lista/', ServicioListView.as_view(), name='servicio_list'),
-    path('crear/', servicio_create_or_update, name='servicio_create'),
-    path('<int:pk>/', ServicioDetailView.as_view(), name='servicio_detail'),
-    path('editar/<int:pk>/', servicio_create_or_update, name='servicio_update'),
-    path('eliminar/<int:pk>/', ServicioDeleteView.as_view(), name='servicio_delete'),
-
-    # URLs para la gestión de Cotizaciones (panel de administración)
-    # Ya no se necesita CotizacionListView
+    # URLs para las vistas del sitio web
+    path('web/servicios/', views.servicios_view, name='servicios_view'),
+    path('web/detalles/', views.detalle_servicios_view, name='detalle_servicios_view'),
     
-    # URLs de la API para la cotización
-    path('api/cotizaciones/crear/', views.crear_cotizacion, name='crear_cotizacion'),
-    path('api/buscar-cliente/', views.buscar_cliente, name='buscar_cliente'),
-    path('api/buscar-servicio/', views.buscar_servicio, name='buscar_servicio'),
-    path('api/servicio/<int:servicio_id>/detalles/', views.obtener_detalles_servicio, name='obtener_detalles_servicio'),
-
-    # URLs para el flujo del cliente
-    path('cotizacion/<str:numero_oferta>/', views.ver_cotizacion, name='ver_cotizacion'),
-    path('cotizacion/<int:cotizacion_id>/aceptar/', views.aceptar_cotizacion, name='aceptar_cotizacion'),
-    path('cotizacion/<int:cotizacion_id>/rechazar/', views.rechazar_cotizacion, name='rechazar_cotizacion'),
-    path('cotizacion/<int:cotizacion_id>/subir-voucher/', views.subir_voucher, name='subir_voucher'),
+    # URLs Servicios
+    path('', views.lista_servicios, name='lista_servicios'),
+    path('crear/', views.crear_servicio, name='crear_servicio'),
+    path('editar/<int:pk>/', views.editar_servicio, name='editar_servicio'),
+    path('eliminar/<int:pk>/', views.eliminar_servicio, name='eliminar_servicio'),
     
-        path('cotizaciones/', views.CotizacionListView.as_view(), name='cotizacion_list'),
+    # URLs Cotizaciones
+    
+    path('cotizaciones/', views.lista_cotizaciones, name='lista_cotizaciones'),
+    path('cotizaciones/crear/', views.crear_cotizacion, name='crear_cotizacion'),
+    path('cotizaciones/editar/<int:pk>/', views.editar_cotizacion, name='editar_cotizacion'),
+    path('cotizaciones/eliminar/<int:pk>/', views.eliminar_cotizacion, name='eliminar_cotizacion'),
+    path('cotizaciones/api/buscar/', views.buscar_cotizaciones_api, name='buscar_cotizaciones_api'),
+    
+    path('cotizaciones/<int:pk>/pdf/', views.generar_pdf_cotizacion, name='ver_pdf_cotizacion'),
+    path('cotizaciones/<int:pk>/aprobar/', views.aprobar_cotizacion, name='aprobar_cotizacion'),
 
 
-    # Incluye las URLs del router de DRF
-    path('api/', include(router.urls)),
+    
+    path('cotizaciones/api/servicios/<int:pk>/', views.obtener_detalle_servicio_para_cotizacion_api, name='obtener_detalle_servicio_para_cotizacion_api'),
+
+    path('api/ver/<int:pk>/', views.obtener_detalle_servicio_api, name='obtener_detalle_servicio_api'),
+    path('api/buscar/', views.buscar_servicios_api, name='buscar_servicios_api'),
 ]

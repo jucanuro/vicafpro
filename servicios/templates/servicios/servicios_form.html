@@ -1,0 +1,358 @@
+{% extends "base_vicafpro.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+    /* Estilos base refinados para un look más corporativo */
+    .input-elegant {
+        transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        border: 1px solid #334155; /* Nuevo borde sutil */
+    }
+    .input-elegant:focus {
+        background-color: #0c152a;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+    }
+    .input-file-custom {
+        padding: 0.75rem 1rem;
+        background-color: #1e293b;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        border: 1px solid #334155; /* Borde para consistencia */
+    }
+    .modal {
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .modal-hidden {
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(0.95);
+    }
+
+    /* Estilos para el nuevo campo de Orden de Visualización */
+    .order-control-container {
+        position: relative;
+        padding: 0.25rem;
+        background: linear-gradient(to right, #3b82f6, #6ee7b7); /* Degradado más vibrante */
+        border-radius: 9999px; /* rounded-full */
+        transition: background 0.3s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+    }
+    .order-control-container:hover {
+        background: linear-gradient(to right, #6ee7b7, #3b82f6);
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3); /* Sombra al pasar el mouse */
+    }
+    .order-control-inner {
+        display: flex;
+        align-items: center;
+        background-color: #0f172a; /* Fondo más oscuro para contraste */
+        border-radius: 9999px;
+    }
+    .order-input-display {
+        flex-grow: 1;
+        text-align: center;
+        font-weight: 600;
+        color: #e2e8f0;
+        padding: 0.5rem 0.5rem;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        appearance: none;
+        font-family: monospace;
+    }
+    .order-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        background-color: #1a202c; /* Fondo de botón más oscuro */
+        color: #94a3b8; /* Color de icono más sutil */
+        border-radius: 9999px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .order-btn:hover {
+        background-color: #1e293b; /* Efecto hover */
+        color: #e2e8f0;
+    }
+</style>
+
+<div class="space-y-12 bg-blue-950 min-h-screen p-8 md:p-4">
+    <header class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 animate-fade-in-up">
+        <h1 class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+            {% if servicio %}Editar Servicio{% else %}Crear Nuevo Servicio{% endif %}
+        </h1>
+        <a href="{% url 'servicios:lista_servicios' %}" class="inline-flex items-center gap-2 px-8 py-3 bg-slate-800 text-white font-semibold rounded-full hover:bg-slate-700 transition-all duration-300 transform hover:scale-105">
+            <i data-lucide="list" class="w-5 h-5"></i>
+            Regresar a la Lista
+        </a>
+    </header>
+
+    <div class="glass-card p-8 rounded-3xl shadow-2xl backdrop-filter backdrop-blur-sm bg-slate-blue-950 border border-slate-700 animate-fade-in-up">
+        {% if error %}
+        <div class="bg-red-500/10 text-red-300 p-4 rounded-lg mb-4 border border-red-500">
+            <p class="font-medium">{{ error }}</p>
+        </div>
+        {% endif %}
+
+        <form method="post" class="space-y-12" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="space-y-6">
+                <h2 class="text-xl font-bold text-slate-200 border-b border-slate-700 pb-2">Información Principal</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                    <div class="md:col-span-1 space-y-6">
+                        <div>
+                            <label for="id_nombre" class="block text-sm font-medium text-slate-300">Nombre del Servicio</label>
+                            <input type="text" id="id_nombre" name="nombre" value="{% if servicio %}{{ servicio.nombre }}{% else %}{{ form.nombre.value|default:'' }}{% endif %}" 
+                                   class="mt-2 block w-full bg-slate-900/50 border border-slate-700 rounded-xl text-white focus:border-blue-500 focus:ring-blue-500 px-4 py-3 input-elegant" required>
+                        </div>
+                        <div>
+                            <label for="id_orden" class="block text-sm font-medium text-slate-300">Orden de Visualización</label>
+                            <div class="order-control-container mt-2">
+                                <div class="order-control-inner">
+                                    <button type="button" class="order-btn" data-action="decrement">
+                                        <i data-lucide="minus" class="w-5 h-5"></i>
+                                    </button>
+                                    <input type="number" id="id_orden" name="orden" value="{% if servicio %}{{ servicio.orden }}{% else %}{{ form.orden.value|default:0 }}{% endif %}"
+                                           class="order-input-display" required>
+                                    <button type="button" class="order-btn" data-action="increment">
+                                        <i data-lucide="plus" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2 space-y-6">
+                        <div>
+                            <label for="id_descripcion" class="block text-sm font-medium text-slate-300">Descripción General</label>
+                            <textarea id="id_descripcion" name="descripcion" rows="4"
+                                      class="mt-2 block w-full bg-slate-900/50 border border-slate-700 rounded-xl text-white focus:border-blue-500 focus:ring-blue-500 px-4 py-3 input-elegant" required>{% if servicio %}{{ servicio.descripcion }}{% else %}{{ form.descripcion.value|default:'' }}{% endif %}</textarea>
+                        </div>
+                        <div>
+                            <label for="id_imagen" class="block text-sm font-medium text-slate-300">Imagen Representativa</label>
+                            <input type="file" id="id_imagen" name="imagen" class="mt-2 block w-full text-white input-file-custom">
+                            {% if servicio.imagen %}
+                            <p class="mt-2 text-sm text-slate-500">Imagen actual: <a href="{{ servicio.imagen.url }}" target="_blank" class="text-blue-400 hover:underline">Ver Imagen</a></p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space-y-6">
+                <h2 class="text-xl font-bold text-slate-200 border-b border-slate-700 pb-2">Normas y Métodos</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-4 p-6 bg-slate-800/60 rounded-xl border border-slate-700 shadow-inner">
+                        <h3 class="font-bold text-slate-300 flex items-center gap-2">Normas
+                            <button type="button" id="add-norma-btn" data-modal="norma-modal" class="open-modal-btn p-2 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:from-blue-600 hover:to-indigo-600 transition-colors duration-200">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                            </button>
+                        </h3>
+                        <div id="normas-container" class="space-y-2 flex flex-wrap gap-2 pt-2">
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 p-6 bg-slate-800/60 rounded-xl border border-slate-700 shadow-inner">
+                        <h3 class="font-bold text-slate-300 flex items-center gap-2">Métodos
+                            <button type="button" id="add-metodo-btn" data-modal="metodo-modal" class="open-modal-btn p-2 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:from-blue-600 hover:to-indigo-600 transition-colors duration-200">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                            </button>
+                        </h3>
+                        <div id="metodos-container" class="space-y-2 flex flex-wrap gap-2 pt-2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-700 my-8"></div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="md:col-span-1">
+                    <h2 class="text-xl font-bold text-slate-200">Detalles del Servicio</h2>
+                    <p class="mt-2 text-sm text-slate-400">
+                        Agrega información específica sobre el alcance técnico de este servicio. Puedes incluir un título, una descripción ampliada e imágenes de apoyo.
+                    </p>
+                </div>
+                <div class="md:col-span-2 glass-card-inner p-8 rounded-xl space-y-6 bg-slate-800/60 border border-slate-700 shadow-inner">
+                    <h3 class="font-semibold text-slate-300 border-b border-slate-700 pb-2">Información del Detalle</h3>
+                    <div>
+                        <label for="id_detalle_titulo" class="block text-sm font-medium text-slate-300">Título del Detalle</label>
+                        <input type="text" id="id_detalle_titulo" name="detalle_titulo" value="{% if detalle_servicio %}{{ detalle_servicio.titulo }}{% else %}{{ detalle_form.titulo.value|default:'' }}{% endif %}" 
+                               class="mt-2 block w-full bg-slate-900/50 border border-slate-700 rounded-xl text-white focus:border-blue-500 focus:ring-blue-500 px-4 py-3 input-elegant">
+                    </div>
+                    <div>
+                        <label for="id_detalle_descripcion" class="block text-sm font-medium text-slate-300">Descripción del Detalle</label>
+                        <textarea id="id_detalle_descripcion" name="detalle_descripcion" rows="2"
+                                  class="mt-2 block w-full bg-slate-900/50 border border-slate-700 rounded-xl text-white focus:border-blue-500 focus:ring-blue-500 px-4 py-3 input-elegant">{% if detalle_servicio %}{{ detalle_servicio.descripcion }}{% else %}{{ detalle_form.descripcion.value|default:'' }}{% endif %}</textarea>
+                    </div>
+                    <div>
+                        <label for="id_detalle_imagen" class="block text-sm font-medium text-slate-300">Imagen del Detalle</label>
+                        <input type="file" id="id_detalle_imagen" name="detalle_imagen" class="mt-2 block w-full text-white input-file-custom">
+                        {% if detalle_servicio.imagen %}
+                        <p class="mt-2 text-sm text-slate-500">Imagen actual: <a href="{{ detalle_servicio.imagen.url }}" target="_blank" class="text-blue-400 hover:underline">Ver Imagen</a></p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-4">
+                <button type="submit" class="inline-flex items-center gap-2 px-8 py-3 border border-transparent shadow-lg text-base font-medium rounded-full text-white bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:scale-105">
+                    <i data-lucide="save" class="w-5 h-5"></i>
+                    {% if servicio %}Guardar Cambios{% else %}Crear Servicio{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="norma-modal" class="modal fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 modal-hidden" onclick="closeModal(event, this)">
+    <div class="bg-slate-800 glass-card p-6 rounded-2xl shadow-2xl w-full max-w-md space-y-6 border border-slate-700" onclick="event.stopPropagation()">
+        <h3 class="text-xl font-bold text-white">Agregar Norma</h3>
+        <div>
+            <label for="norma-input" class="block text-sm font-medium text-slate-300">Nombre de la Norma</label>
+            <input type="text" id="norma-input" class="mt-2 block w-full bg-slate-900/50 border border-slate-700 rounded-xl text-white px-4 py-3 input-elegant">
+        </div>
+        <div class="flex justify-end gap-3">
+            <button type="button" class="btn-secondary close-modal-btn px-6 py-2 rounded-full text-slate-400 hover:bg-slate-700/50 transition-colors">Cancelar</button>
+            <button type="button" id="save-norma-btn" class="btn-primary px-6 py-2 rounded-full text-white bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 transition-colors">Guardar</button>
+        </div>
+    </div>
+</div>
+
+<div id="metodo-modal" class="modal fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 modal-hidden" onclick="closeModal(event, this)">
+    <div class="bg-slate-800 glass-card p-6 rounded-2xl shadow-2xl w-full max-w-md space-y-6 border border-slate-700" onclick="event.stopPropagation()">
+        <h3 class="text-xl font-bold text-white">Agregar Método</h3>
+        <div>
+            <label for="metodo-input" class="block text-sm font-medium text-slate-300">Nombre del Método</label>
+            <input type="text" id="metodo-input" class="mt-2 block w-full bg-slate-900/50 border border-slate-700 rounded-xl text-white px-4 py-3 input-elegant">
+        </div>
+        <div class="flex justify-end gap-3">
+            <button type="button" class="btn-secondary close-modal-btn px-6 py-2 rounded-full text-slate-400 hover:bg-slate-700/50 transition-colors">Cancelar</button>
+            <button type="button" id="save-metodo-btn" class="btn-primary px-6 py-2 rounded-full text-white bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 transition-colors">Guardar</button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+
+        // Funciones para abrir y cerrar modales
+        const openModalBtns = document.querySelectorAll('.open-modal-btn');
+        const closeModalBtns = document.querySelectorAll('.close-modal-btn');
+
+        openModalBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const modalId = btn.getAttribute('data-modal');
+                const modal = document.getElementById(modalId);
+                modal.classList.remove('modal-hidden');
+            });
+        });
+
+        function closeModal(event, modal) {
+            if (event.target === modal || event.target.closest('.close-modal-btn')) {
+                modal.classList.add('modal-hidden');
+            }
+        }
+        
+        closeModalBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const modal = e.target.closest('.modal');
+                modal.classList.add('modal-hidden');
+            });
+        });
+
+        // Lógica para guardar las píldoras (badges)
+        function createPill(text, inputName) {
+            const pill = document.createElement('div');
+            pill.className = 'flex items-center gap-2 px-4 py-2 bg-slate-800 rounded-full text-sm text-white border border-slate-700';
+            pill.innerHTML = `
+                <span>${text}</span>
+                <input type="hidden" name="${inputName}" value="${text}">
+                <button type="button" class="remove-pill p-1 rounded-full text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 transition-colors duration-200">
+                    <i data-lucide="x" class="w-3 h-3"></i>
+                </button>
+            `;
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+            return pill;
+        }
+
+        document.getElementById('save-norma-btn').addEventListener('click', () => {
+            const input = document.getElementById('norma-input');
+            const text = input.value.trim();
+            if (text) {
+                const container = document.getElementById('normas-container');
+                container.appendChild(createPill(text, 'normas'));
+                input.value = '';
+                document.getElementById('norma-modal').classList.add('modal-hidden');
+            }
+        });
+
+        document.getElementById('save-metodo-btn').addEventListener('click', () => {
+            const input = document.getElementById('metodo-input');
+            const text = input.value.trim();
+            if (text) {
+                const container = document.getElementById('metodos-container');
+                container.appendChild(createPill(text, 'metodos'));
+                input.value = '';
+                document.getElementById('metodo-modal').classList.add('modal-hidden');
+            }
+        });
+
+        // Lógica para eliminar píldoras
+        document.getElementById('normas-container').addEventListener('click', (e) => {
+            if (e.target.closest('.remove-pill')) {
+                e.target.closest('.remove-pill').parentElement.remove();
+            }
+        });
+
+        document.getElementById('metodos-container').addEventListener('click', (e) => {
+            if (e.target.closest('.remove-pill')) {
+                e.target.closest('.remove-pill').parentElement.remove();
+            }
+        });
+
+        // Lógica para el nuevo control de orden de visualización
+        const ordenInput = document.getElementById('id_orden');
+        document.querySelectorAll('.order-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                let value = parseInt(ordenInput.value, 10);
+                if (isNaN(value)) value = 0;
+                if (button.getAttribute('data-action') === 'increment') {
+                    ordenInput.value = value + 1;
+                } else if (value > 0) { // Evitar números negativos
+                    ordenInput.value = value - 1;
+                }
+            });
+        });
+
+        // Lógica para cargar las píldoras iniciales al editar
+        const normasIniciales = JSON.parse('{{ normas_iniciales|safe }}');
+        const metodosIniciales = JSON.parse('{{ metodos_iniciales|safe }}');
+
+        function loadPills(data, containerId, inputName) {
+            const container = document.getElementById(containerId);
+            data.forEach(text => {
+                if (text) {
+                    const pill = createPill(text, inputName);
+                    container.appendChild(pill);
+                }
+            });
+        }
+
+        loadPills(normasIniciales, 'normas-container', 'normas');
+        loadPills(metodosIniciales, 'metodos-container', 'metodos');
+    });
+</script>
+{% endblock %}

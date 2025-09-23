@@ -1,353 +1,294 @@
-# proyectos/views.py
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Q
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
-from reportlab.lib.units import inch
-from io import BytesIO
-from django.http import HttpResponse
-from reportlab.lib.pagesizes import letter
-from reportlab.platypus import (
-    SimpleDocTemplate, Paragraph, Spacer, Image as ReportLabImage
-)
-from django.conf import settings
-import os
-from .models import (Proyecto,  OrdenDeEnsayo,
-    Muestra,
-    ResultadoEnsayo,
-    DocumentoFinal
-)
-from .forms import (ProyectoForm, OrdenDeEnsayoForm,
-    MuestraForm,
-    ResultadoEnsayoForm,
-    DocumentoFinalForm
-)
-from django.urls import reverse_lazy
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST, require_GET
+from django.db import IntegrityError
+from django.utils import timezone
+from .models import Proyecto
+from clientes.models import ClienteProfile
+from servicios.models import Cotizacion
 
-
-def home_view(request):
+@login_required
+def lista_proyectos(request):
     """
-    Renderiza la plantilla 'proyectos-principal.html' para la página de inicio.
+    Muestra la lista de proyectos con búsqueda y paginación.
+    Permite filtrar por proyectos pendientes de registro de muestras.
     """
-    return render(request, 'proyectos_principal.html')
+    query = request.GET.get('q')
+    estado_filtro = request.GET.get('estado')
 
-def proyectos_view(request):
-    """
-    Recupera todos los objetos de Proyecto de la base de datos
-    y los pasa a la plantilla 'proyectos.html' para su visualización.
-    """
-    proyectos = Proyecto.objects.all().order_by('-creado_en')
-    context = {
-        'proyectos': proyectos
-    }
-    return render(request, 'proyectos_list.html', context)
-
-
-def crear_proyecto_view(request):
-    """
-    Vista para crear un nuevo proyecto.
-    Maneja la lógica de mostrar el formulario y guardar el proyecto.
-    """
-    if request.method == 'POST':
-        # Si la solicitud es POST, procesa los datos del formulario
-        form = ProyectoForm(request.POST)
-        if form.is_valid():
-            proyecto = form.save()
-            # Redirecciona a la página de lista de proyectos
-            return redirect('proyectos:lista_proyectos')
-    else:
-        # Si la solicitud es GET, muestra un formulario vacío
-        form = ProyectoForm()
-
-    context = {
-        'form': form,
-    }
-    return render(request, 'proyectos_crear.html', context)
-
-
-@login_required
-def orden_de_ensayo_list(request):
-    """Muestra una lista de todas las órdenes de ensayo."""
-    ordenes = OrdenDeEnsayo.objects.all().order_by('-fecha_entrega_programada')
-    return render(request, 'orden_de_ensayo_list.html', {'ordenes': ordenes})
-
-@login_required
-def orden_de_ensayo_create(request):
-    """Crea una nueva orden de ensayo."""
-    if request.method == 'POST':
-        form = OrdenDeEnsayoForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('proyectos:orden_de_ensayo_list')
-    else:
-        form = OrdenDeEnsayoForm()
-    return render(request, 'orden_de_ensayo_form.html', {'form': form, 'page_title': 'Crear Orden de Ensayo'})
-
-@login_required
-def orden_de_ensayo_update(request, pk):
-    """Actualiza una orden de ensayo existente."""
-    orden = get_object_or_404(OrdenDeEnsayo, pk=pk)
-    if request.method == 'POST':
-        form = OrdenDeEnsayoForm(request.POST, instance=orden)
-        if form.is_valid():
-            form.save()
-            return redirect('proyectos:orden_de_ensayo_list')
-    else:
-        form = OrdenDeEnsayoForm(instance=orden)
-    return render(request, 'orden_de_ensayo_form.html', {'form': form, 'page_title': 'Editar Orden de Ensayo'})
-
-@login_required
-def orden_de_ensayo_delete(request, pk):
-    """Elimina una orden de ensayo."""
-    orden = get_object_or_404(OrdenDeEnsayo, pk=pk)
-    if request.method == 'POST':
-        orden.delete()
-        return redirect('proyectos:orden_de_ensayo_list')
-    return render(request, 'orden_de_ensayo_confirm_delete.html', {'orden': orden})
-
-
-# ----------------------------------------------------------------
-# Vistas para Muestra
-# ----------------------------------------------------------------
-@login_required
-def muestra_list(request):
-    """Muestra una lista de todas las muestras."""
-    muestras = Muestra.objects.all().order_by('-fecha_recepcion')
-    return render(request, 'muestra_list.html', {'muestras': muestras})
-
-@login_required
-def muestra_create(request):
-    """Crea una nueva muestra."""
-    if request.method == 'POST':
-        form = MuestraForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('proyectos:muestra_list')
-    else:
-        form = MuestraForm()
-    return render(request, 'muestra_form.html', {'form': form, 'page_title': 'Crear Muestra'})
-
-@login_required
-def muestra_update(request, pk):
-    """Actualiza una muestra existente."""
-    muestra = get_object_or_404(Muestra, pk=pk)
-    if request.method == 'POST':
-        form = MuestraForm(request.POST, instance=muestra)
-        if form.is_valid():
-            form.save()
-            return redirect('proyectos:muestra_list')
-    else:
-        form = MuestraForm(instance=muestra)
-    return render(request, 'muestra_form.html', {'form': form, 'page_title': 'Editar Muestra'})
-
-@login_required
-def muestra_delete(request, pk):
-    """Elimina una muestra."""
-    muestra = get_object_or_404(Muestra, pk=pk)
-    if request.method == 'POST':
-        muestra.delete()
-        return redirect('proyectos:muestra_list')
-    return render(request, 'muestra_confirm_delete.html', {'muestra': muestra})
-
-
-# ----------------------------------------------------------------
-# Vistas para ResultadoEnsayo
-# ----------------------------------------------------------------
-@login_required
-def resultado_ensayo_list(request):
-    resultados = ResultadoEnsayo.objects.all()
-    return render(request, 'resultado_ensayo_list.html', {'resultados': resultados, 'page_title': 'Lista de Resultados de Ensayo'})
-
-@login_required
-def resultado_ensayo_create(request):
-    """Crea un nuevo resultado de ensayo."""
-    if request.method == 'POST':
-        form = ResultadoEnsayoForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'El resultado de ensayo se ha creado con éxito.')
-            return redirect('proyectos:resultado_ensayo_list')
-        else:
-            messages.error(request, 'Hubo un error al crear el resultado de ensayo. Por favor, revisa los datos.')
-    else:
-        form = ResultadoEnsayoForm()
-    return render(request, 'resultado_ensayo_form.html', {'form': form, 'page_title': 'Crear Resultado de Ensayo'})
-
-@login_required
-def resultado_ensayo_update(request, pk):
-    """Actualiza un resultado de ensayo existente."""
-    resultado = get_object_or_404(ResultadoEnsayo, pk=pk)
-    if request.method == 'POST':
-        form = ResultadoEnsayoForm(request.POST, instance=resultado)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'El resultado de ensayo se ha actualizado con éxito.')
-            return redirect('proyectos:resultado_ensayo_list')
-        else:
-            messages.error(request, 'Hubo un error al actualizar el resultado de ensayo. Por favor, revisa los datos.')
-    else:
-        form = ResultadoEnsayoForm(instance=resultado)
-    return render(request, 'resultado_ensayo_form.html', {'form': form, 'page_title': 'Editar Resultado de Ensayo'})
-
-@login_required
-def resultado_ensayo_delete(request, pk):
-    resultado = get_object_or_404(ResultadoEnsayo, pk=pk)
-    if request.method == 'POST':
-        resultado.delete()
-        messages.success(request, 'El resultado de ensayo se ha eliminado con éxito.')
-        return redirect('proyectos:resultado_ensayo_list')
-    return render(request, 'resultado_ensayo_confirm_delete.html', {'object': resultado, 'page_title': 'Eliminar Resultado de Ensayo'})
-
-
-# ----------------------------------------------------------------
-# Vistas para DocumentoFinal
-# ----------------------------------------------------------------
-login_required
-def documento_final_list(request):
-    """Muestra una lista de todos los documentos finales."""
-    documentos = DocumentoFinal.objects.all().order_by('-fecha_emision')
-    return render(request, 'documento_final_list.html', {'documentos': documentos})
-
-
-@login_required
-def documento_final_create(request):
-    """Crea un nuevo documento final."""
-    if request.method == 'POST':
-        form = DocumentoFinalForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('proyectos:documento_final_list')
-    else:
-        form = DocumentoFinalForm()
-    return render(request, 'documento_final_form.html', {'form': form, 'page_title': 'Crear Documento Final'})
-
-
-@login_required
-def documento_final_update(request, pk):
-    """Actualiza un documento final existente."""
-    documento = get_object_or_404(DocumentoFinal, pk=pk)
-    if request.method == 'POST':
-        form = DocumentoFinalForm(request.POST, request.FILES, instance=documento)
-        if form.is_valid():
-            form.save()
-            return redirect('proyectos:documento_final_list')
-    else:
-        form = DocumentoFinalForm(instance=documento)
-    return render(request, 'documento_final_form.html', {'form': form, 'page_title': 'Editar Documento Final'})
-
-
-@login_required
-def documento_final_delete(request, pk):
-    """Elimina un documento final."""
-    documento = get_object_or_404(DocumentoFinal, pk=pk)
-    if request.method == 'POST':
-        documento.delete()
-        return redirect('proyectos:documento_final_list')
-    return render(request, 'documento_final_confirm_delete.html', {'documento': documento})
-
-
-# ================================================================
-# Vistas para la generación de PDF
-# ================================================================
-
-def documento_final_pdf(request, pk):
-    """
-    Genera un informe en PDF de un Documento Final.
-    """
-    documento = get_object_or_404(DocumentoFinal, pk=pk)
-
-    # Configuración del documento PDF
-    buffer = BytesIO()
-    doc = SimpleDocTemplate(buffer, pagesize=letter)
-    elements = []
-    styles = getSampleStyleSheet()
-
-    # Estilos personalizados para el reporte
-    styles.add(ParagraphStyle(name='TitleStyle', fontSize=24, leading=28, alignment=TA_CENTER, fontName='Helvetica-Bold'))
-    styles.add(ParagraphStyle(name='HeadingStyle', fontSize=14, leading=18, fontName='Helvetica-Bold', spaceAfter=12))
-    styles.add(ParagraphStyle(name='BodyStyle', fontSize=12, leading=16, alignment=TA_JUSTIFY, spaceAfter=8))
-    styles.add(ParagraphStyle(name='SignatureStyle', fontSize=12, leading=16, spaceBefore=24, alignment=TA_CENTER))
-
-    # Título del documento
-    elements.append(Paragraph(documento.titulo, styles['TitleStyle']))
-    elements.append(Spacer(1, 0.25 * inch))
-
-    # Información del proyecto
-    elements.append(Paragraph(f"<b>Proyecto:</b> {documento.proyecto.nombre_proyecto}", styles['BodyStyle']))
-    elements.append(Paragraph(f"<b>Cliente:</b> {documento.proyecto.cliente.razon_social}", styles['BodyStyle']))
-    elements.append(Paragraph(f"<b>Fecha de Emisión:</b> {documento.fecha_emision}", styles['BodyStyle']))
-    elements.append(Spacer(1, 0.25 * inch))
-
-    # Resumen Ejecutivo
-    elements.append(Paragraph("Resumen Ejecutivo", styles['HeadingStyle']))
-    if documento.resumen_ejecutivo_ia:
-        elements.append(Paragraph(documento.resumen_ejecutivo_ia, styles['BodyStyle']))
-    else:
-        elements.append(Paragraph("No se proporcionó un resumen ejecutivo.", styles['BodyStyle']))
-    elements.append(Spacer(1, 0.25 * inch))
-
-    # Análisis Detallado
-    elements.append(Paragraph("Análisis Detallado", styles['HeadingStyle']))
-    if documento.analisis_detallado_ia:
-        elements.append(Paragraph(documento.analisis_detallado_ia, styles['BodyStyle']))
-    else:
-        elements.append(Paragraph("No se proporcionó un análisis detallado.", styles['BodyStyle']))
-    elements.append(Spacer(1, 0.25 * inch))
-
-    # Resultados de Ensayos
-    elements.append(Paragraph("Resultados de Ensayos", styles['HeadingStyle']))
-    resultados = ResultadoEnsayo.objects.filter(muestra__orden__proyecto=documento.proyecto)
-    if resultados.exists():
-        for res in resultados:
-            elements.append(Paragraph(f"<b>Muestra:</b> {res.muestra.codigo_muestra}", styles['BodyStyle']))
-            if res.resultados_json:
-                elements.append(Paragraph(f"<b>Resultados:</b> {res.resultados_json}", styles['BodyStyle']))
-            if res.observaciones:
-                elements.append(Paragraph(f"<b>Observaciones:</b> {res.observaciones}", styles['BodyStyle']))
-            elements.append(Spacer(1, 0.1 * inch))
-    else:
-        elements.append(Paragraph("No hay resultados de ensayos asociados a este proyecto.", styles['BodyStyle']))
-    elements.append(Spacer(1, 0.25 * inch))
-
-    # Recomendaciones
-    elements.append(Paragraph("Recomendaciones", styles['HeadingStyle']))
-    if documento.recomendaciones_ia:
-        elements.append(Paragraph(documento.recomendaciones_ia, styles['BodyStyle']))
-    else:
-        elements.append(Paragraph("No se proporcionaron recomendaciones.", styles['BodyStyle']))
-    elements.append(Spacer(1, 0.25 * inch))
-
-    # Firmas
-    elements.append(Paragraph("--- Firmas ---", styles['SignatureStyle']))
-    if documento.firma_supervisor:
-        firma_path = os.path.join(settings.MEDIA_ROOT, documento.firma_supervisor.name)
-        if os.path.exists(firma_path):
-            img = ReportLabImage(firma_path, width=1.5*inch, height=0.75*inch)
-            elements.append(img)
-            elements.append(Paragraph("Firma del Supervisor", styles['SignatureStyle']))
-            
-    if documento.firma_cliente:
-        firma_path = os.path.join(settings.MEDIA_ROOT, documento.firma_cliente.name)
-        if os.path.exists(firma_path):
-            img = ReportLabImage(firma_path, width=1.5*inch, height=0.75*inch)
-            elements.append(img)
-            elements.append(Paragraph("Firma del Cliente", styles['SignatureStyle']))
+    # Obtenemos todos los proyectos y los ordenamos por fecha
+    proyectos_list = Proyecto.objects.all().order_by('-creado_en')
     
-    # Construir el documento
-    doc.build(elements)
+    if query:
+        proyectos_list = proyectos_list.filter(
+            Q(nombre_proyecto__icontains=query) |
+            Q(cliente__razon_social__icontains=query)
+        )
+    
+    if estado_filtro:
+        proyectos_list = proyectos_list.filter(estado=estado_filtro)
 
-    # Preparar la respuesta HTTP
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="informe_{documento.proyecto.nombre_proyecto}.pdf"'
-    response.write(buffer.getvalue())
-    buffer.close()
-    return response
+    # Añadimos la información de la cotización a cada proyecto
+    proyectos_con_cotizacion = []
+    for proyecto in proyectos_list:
+        cotizacion = proyecto.cotizacion
+        if cotizacion:
+            proyecto.monto_total = cotizacion.monto_total
+            # Asumimos que el modelo Voucher tiene un campo para el número de voucher
+            proyecto.numero_voucher = cotizacion.voucher.codigo if hasattr(cotizacion, 'voucher') else 'N/A'
+        else:
+            proyecto.monto_total = 'N/A'
+            proyecto.numero_voucher = 'N/A'
+        proyectos_con_cotizacion.append(proyecto)
 
-# ================================================================
-# Vistas de la aplicación Proyectos
-# (manteniendo el resto de tus vistas existentes si las tuvieras)
-# ================================================================
-def proyecto_list(request):
-    proyectos = Proyecto.objects.all()
-    return render(request, 'proyecto_list.html', {'proyectos': proyectos})
+    paginator = Paginator(proyectos_con_cotizacion, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'proyectos': page_obj,
+        'query': query,
+        # Pasamos los estados del modelo para el filtro en el template
+        'estados': Proyecto.ESTADO_PROYECTO,
+        'estado_seleccionado': estado_filtro,
+    }
+    return render(request, 'proyectos/proyectos_list.html', context)
+
+@login_required
+def crear_proyecto(request):
+    """
+    Crea un nuevo proyecto.
+    """
+    clientes = Cliente.objects.all()
+    cotizaciones = Cotizacion.objects.all()
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre_proyecto')
+        cliente_id = request.POST.get('cliente')
+        cotizacion_id = request.POST.get('cotizacion')
+        
+        cliente = get_object_or_404(Cliente, pk=cliente_id)
+        cotizacion = get_object_or_404(Cotizacion, pk=cotizacion_id) if cotizacion_id else None
+
+        Proyecto.objects.create(
+            nombre_proyecto=nombre,
+            cliente=cliente,
+            cotizacion_relacionada=cotizacion
+        )
+        return redirect('proyectos:lista_proyectos')
+
+    context = {
+        'clientes': clientes,
+        'cotizaciones': cotizaciones
+    }
+    return render(request, 'proyectos/proyecos_form.html', context)
+
+@login_required
+def editar_proyecto(request, pk):
+    """
+    Edita un proyecto existente.
+    """
+    proyecto = get_object_or_404(Proyecto, pk=pk)
+    clientes = Cliente.objects.all()
+    cotizaciones = Cotizacion.objects.all()
+    if request.method == 'POST':
+        proyecto.nombre_proyecto = request.POST.get('nombre_proyecto')
+        proyecto.cliente = get_object_or_404(Cliente, pk=request.POST.get('cliente'))
+        cotizacion_id = request.POST.get('cotizacion')
+        proyecto.cotizacion_relacionada = get_object_or_404(Cotizacion, pk=cotizacion_id) if cotizacion_id else None
+        
+        proyecto.save()
+        return redirect('proyectos:lista_proyectos')
+    
+    context = {
+        'proyecto': proyecto,
+        'clientes': clientes,
+        'cotizaciones': cotizaciones
+    }
+    return render(request, 'proyectos/proyectos_form.html', context)
+
+@login_required
+def eliminar_proyecto(request, pk):
+    """
+    Elimina un proyecto.
+    """
+    proyecto = get_object_or_404(Proyecto, pk=pk)
+    if request.method == 'POST':
+        proyecto.delete()
+        return redirect('proyectos:lista_proyectos')
+    
+    context = {'proyecto': proyecto}
+    return render(request, 'proyectos/eliminar_proyecto.html', context)
+
+def lista_proyectos_pendientes(request):
+    proyectos_pendientes = Proyecto.objects.filter(estado='PENDIENTE')
+    context = {
+        'proyectos_pendientes': proyectos_pendientes,
+    }
+    return render(request, 'proyectos/lista_proyectos_pendientes.html', context)
+
+
+@csrf_exempt
+def editar_proyecto_view(request, pk):
+    """
+    Vista para editar un proyecto existente.
+    Maneja las solicitudes POST desde el modal de edición.
+    """
+    if request.method == 'POST':
+        try:
+            # Obtener el proyecto por su clave primaria (pk) o devolver un 404
+            proyecto = get_object_or_404(Proyecto, pk=pk)
+            
+            # Decodificar el cuerpo JSON de la solicitud
+            data = json.loads(request.body)
+            
+            # Actualizar los campos del proyecto con los nuevos datos
+            proyecto.nombre_proyecto = data.get('nombre', proyecto.nombre_proyecto)
+            proyecto.estado = data.get('estado', proyecto.estado)
+            proyecto.monto_cotizacion = data.get('monto', proyecto.monto_cotizacion)
+            
+            # Guardar los cambios en la base de datos
+            proyecto.save()
+            
+            # Devolver una respuesta JSON de éxito
+            return JsonResponse({'success': True, 'message': 'Proyecto actualizado con éxito.'})
+            
+        except json.JSONDecodeError:
+            return JsonResponse({'success': False, 'message': 'Formato JSON inválido.'}, status=400)
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)}, status=500)
+    
+    # Si la solicitud no es POST, devolver un error o renderizar una plantilla
+    return JsonResponse({'success': False, 'message': 'Método no permitido.'}, status=405)
+
+
+
+@require_POST
+def create_and_edit_muestra(request):
+    """
+    Crea o edita una muestra para un proyecto específico.
+    La lógica se ha actualizado para que una OrdenDeEnsayo pueda
+    contener múltiples muestras.
+    """
+    try:
+        data = json.loads(request.body)
+        proyecto_id = data.get('proyecto_id')
+        muestra_id = data.get('muestra_id')
+        
+        # 1. Obtener el proyecto o devolver un error si no existe
+        proyecto = get_object_or_404(Proyecto, pk=proyecto_id)
+        
+        # 2. Encontrar o crear la OrdenDeEnsayo para este proyecto.
+        # Esto asegura que todas las muestras del mismo proyecto estén ligadas a una única orden.
+        orden_ensayo, created = OrdenDeEnsayo.objects.get_or_create(
+            proyecto=proyecto,
+            defaults={'nombre_orden': f"Orden para Proyecto {proyecto.nombre_proyecto}"}
+        )
+
+        # 3. Preparar los datos de la muestra
+        muestra_data = {
+            'orden': orden_ensayo,
+            'codigo_muestra': data.get('codigo_muestra'),
+            'descripcion_muestra': data.get('descripcion_muestra'),
+            'id_lab': data.get('id_lab'),
+            'tipo_muestra': data.get('tipo_muestra'),
+            'masa_aprox_kg': data.get('masa_aprox_kg'),
+            'fecha_recepcion': data.get('fecha_recepcion'),
+            'fecha_fabricacion': data.get('fecha_fabricacion'),
+            'fecha_ensayo_rotura': data.get('fecha_ensayo_rotura'),
+            'informe': data.get('informe'),
+            'fecha_informe': data.get('fecha_informe'),
+            'estado': data.get('estado'),
+            'ensayos_a_realizar': data.get('ensayos_a_realizar'),
+        }
+
+        if muestra_id:
+            # Lógica para editar una muestra existente
+            muestra = get_object_or_404(Muestra, pk=muestra_id)
+            for key, value in muestra_data.items():
+                setattr(muestra, key, value)
+            muestra.save()
+            message = "Muestra actualizada con éxito."
+        else:
+            # Lógica para crear una nueva muestra
+            muestra = Muestra.objects.create(**muestra_data)
+            message = "Muestra registrada con éxito."
+
+        response_data = {
+            'status': 'success',
+            'message': message,
+            'muestra': {
+                'id': muestra.pk,
+                'codigo_muestra': muestra.codigo_muestra,
+                'descripcion_muestra': muestra.descripcion_muestra,
+                'fecha_recepcion': muestra.fecha_recepcion.strftime('%Y-%m-%d'),
+                'id_lab': muestra.id_lab,
+                'tipo_muestra': muestra.tipo_muestra,
+            }
+        }
+        return JsonResponse(response_data)
+
+    except Proyecto.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Proyecto no encontrado.'}, status=404)
+    except IntegrityError:
+        return JsonResponse({'status': 'error', 'message': 'Ya existe una muestra con este código en la base de datos.'}, status=400)
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+@require_GET
+def muestras_del_proyecto(request, proyecto_id):
+    """
+    Devuelve la lista de muestras para un proyecto específico en formato JSON.
+    """
+    try:
+        # Busca todas las OrdenesDeEnsayo para el proyecto
+        ordenes = OrdenDeEnsayo.objects.filter(proyecto_id=proyecto_id)
+        # Obtiene todas las muestras de esas órdenes
+        muestras = Muestra.objects.filter(orden__in=ordenes).order_by('-creado_en')
+        
+        muestras_list = [
+            {
+                'id': muestra.pk,
+                'codigo_muestra': muestra.codigo_muestra,
+                'descripcion_muestra': muestra.descripcion_muestra,
+                'fecha_recepcion': muestra.fecha_recepcion.strftime('%Y-%m-%d'),
+            }
+            for muestra in muestras
+        ]
+        
+        return JsonResponse({'status': 'success', 'muestras': muestras_list})
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    """
+    Devuelve la lista de muestras para un proyecto específico en formato JSON.
+
+    Args:
+        request (HttpRequest): La petición GET.
+        proyecto_id (int): El ID del proyecto.
+    
+    Returns:
+        JsonResponse: Un JSON con la lista de muestras del proyecto.
+    """
+    try:
+        # Busca todas las OrdenesDeEnsayo para el proyecto
+        ordenes = OrdenDeEnsayo.objects.filter(proyecto_id=proyecto_id)
+        # Obtiene todas las muestras de esas órdenes
+        muestras = Muestra.objects.filter(orden__in=ordenes).order_by('-creado_en')
+        
+        muestras_list = [
+            {
+                'id': muestra.pk,
+                'codigo_muestra': muestra.codigo_muestra,
+                'descripcion_muestra': muestra.descripcion_muestra,
+                'fecha_recepcion': muestra.fecha_recepcion.strftime('%Y-%m-%d'),
+            }
+            for muestra in muestras
+        ]
+        
+        return JsonResponse({'status': 'success', 'muestras': muestras_list})
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)

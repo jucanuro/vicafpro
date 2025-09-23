@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cotización N° {{ cotizacion.numero_oferta }}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1.5cm;
+            @top-center {
+                content: element(header);
+            }
+            @bottom-center {
+                content: element(footer);
+            }
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            font-size: 12px;
+            color: #333;
+            line-height: 1.5;
+        }
+        .header, .footer {
+            position: running(header);
+        }
+        .footer {
+            position: running(footer);
+        }
+        .page-number::after {
+            content: "Página " counter(page) " de " counter(pages);
+        }
+        .container {
+            width: 100%;
+            margin: 0 auto;
+        }
+        .logo {
+            max-height: 50px;
+        }
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .flex { display: flex; }
+        .justify-between { justify-content: space-between; }
+        .items-center { align-items: center; }
+        .mt-4 { margin-top: 1rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+        .border-b { border-bottom: 1px solid #ccc; }
+        .font-bold { font-weight: bold; }
+        .text-lg { font-size: 1.125rem; }
+
+        .header-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #333;
+        }
+        .header-info {
+            font-size: 10px;
+            text-align: right;
+        }
+        .offer-header {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 16px;
+        }
+        .offer-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 1rem;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .table-container {
+            margin-top: 2rem;
+        }
+        .services-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .services-table th, .services-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            vertical-align: top;
+        }
+        .services-table th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+        .totals-table {
+            float: right;
+            margin-top: 2rem;
+            width: 40%;
+            border-collapse: collapse;
+        }
+        .totals-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-section">
+            <img src="" alt="Logo Grupo Vicaf" class="logo">
+            <div class="header-info">
+                <span>Código: VCF-LAB-FOR-001 | Fecha: {{ cotizacion.fecha|date:"Y-m-d" }} | Versión: 06</span>
+                <br>
+                <span>Aprobación: JL</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="flex justify-between items-center text-xs text-gray-500 mt-4">
+            <div class="flex items-center space-x-2">
+                <p>+51 941 573 750</p>
+                <p>informes@grupovicaf.com</p>
+            </div>
+            <span class="page-number"></span>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="offer-header">
+            <h1 class="font-bold text-lg">OFERTA TÉCNICA - ECONÓMICA</h1>
+            <p><strong>N° de Oferta:</strong> {{ cotizacion.numero_oferta }}</p>
+            <p><strong>Fecha:</strong> {{ cotizacion.fecha|date:"d \d\e F \d\e Y" }}</p>
+        </div>
+
+        <div class="offer-details">
+            <div>
+                <p><strong>Señor(es):</strong> {{ cotizacion.cliente.razon_social }}</p>
+                <p><strong>RUC:</strong> {{ cotizacion.cliente.ruc }}</p>
+            </div>
+            <div>
+                <p><strong>Atención:</strong> {{ cotizacion.contacto.nombre_completo }}</p>
+                <p><strong>Correo Electrónico:</strong> {{ cotizacion.contacto.correo }}</p>
+                <p><strong>Teléfono:</strong> {{ cotizacion.contacto.telefono }}</p>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table class="services-table">
+                <thead>
+                    <tr>
+                        <th>Ítem</th>
+                        <th>Descripción</th>
+                        <th>Norma de ensayo</th>
+                        <th>Método</th>
+                        <th>Und.</th>
+                        <th class="text-center">Cantidad</th>
+                        <th class="text-right">P. Unitario (S/.)</th>
+                        <th class="text-right">P. Parcial (S/.)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for detalle in cotizacion.detalles_cotizacion.all %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ detalle.servicio.nombre }}</td>
+                        <td>{{ detalle.norma.nombre|default_if_none:"" }}</td>
+                        <td>{{ detalle.metodo.nombre|default_if_none:"" }}</td>
+                        <td>{{ detalle.und }}</td>
+                        <td class="text-center">{{ detalle.cantidad }}</td>
+                        <td class="text-right">{{ detalle.precio_unitario|floatformat:2 }}</td>
+                        <td class="text-right">{{ detalle.subtotal|floatformat:2 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <table class="totals-table">
+            <tbody>
+                <tr>
+                    <td>Sub Total</td>
+                    <td class="text-right">{{ cotizacion.subtotal|floatformat:2 }}</td>
+                </tr>
+                <tr>
+                    <td>IGV (18%)</td>
+                    <td class="text-right">{{ cotizacion.igv|floatformat:2 }}</td>
+                </tr>
+                <tr class="font-bold">
+                    <td>Total</td>
+                    <td class="text-right">{{ cotizacion.monto_total|floatformat:2 }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

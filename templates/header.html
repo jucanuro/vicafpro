@@ -17,7 +17,7 @@
         class="nav-link py-2 px-3 relative transition-colors duration-300 ease-in-out">
         Nosotros
       </a>
-      <a id="tab3" href="{% url 'trabajadores' %}#equipo"
+      <a id="tab3" href="#equipo"
         class="nav-link py-2 px-3 relative transition-colors duration-300 ease-in-out">
         Equipo
       </a>
@@ -37,9 +37,14 @@
         class="nav-link py-2 px-3 relative transition-colors duration-300 ease-in-out">
         Bolsa de Trabajo
       </a>
+      <a href="{% url 'login' %}"
+        class="bg-blue-900 text-white font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-700 transition-colors duration-300 ease-in-out transform hover:scale-105">
+        Vea sus resultados
+      </a>
     </nav>
 
     <div class="flex items-center space-x-2 lg:space-x-3">
+      
       <a target="_blank" href="https://pe.linkedin.com/company/grupo-vicaf-sac"
         class="group p-2 rounded-full text-gray-500 hover:text-blue-700 hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-110"
         aria-label="LinkedIn de Grupo Vicaf Sac">
@@ -94,7 +99,7 @@
         class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 ease-in-out">Inicio</a>
       <a href="{% url 'nosotros' %}#nosotros"
         class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 ease-in-out">Nosotros</a>
-      <a href="{% url 'trabajadores' %}#equipo"
+      <a href="#equipo"
         class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 ease-in-out">Equipo</a>
       <a href="#servicios"
         class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 ease-in-out">Servicios</a>
@@ -104,6 +109,10 @@
         class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 ease-in-out">Contáctenos</a>
       <a href="{% url 'bolsa_trabajo:listar' %}"
         class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 ease-in-out">Bolsa de Trabajo</a>
+      <a href="{% url 'login' %}"
+      class="bg-blue-900 text-white font-bold text-center py-2 rounded-md shadow-md hover:bg-blue-700 transition-colors duration-300 ease-in-out mt-2">
+      Vea sus resultados
+    </a>
     </nav>
   </div>
 </header>
