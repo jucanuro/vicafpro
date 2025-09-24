@@ -1,227 +1,326 @@
 {% extends "base_vicafpro.html" %}
 {% load static %}
 {% block content %}
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
 
 <style>
-    /* Estilos existentes */
-    .animated-gradient-text {
-        background: linear-gradient(to right, #6EE7B7, #3B82F6, #8B5CF6);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
-        background-size: 200% auto;
-        animation: text-gradient 3s linear infinite alternate;
+    /* Estilos base para un diseño limpio y oscuro */
+    :root {
+        --color-bg-main: #0F172A; /* slate-900 */
+        --color-bg-card: #1E293B; /* slate-800 */
+        --color-border: #475569; /* slate-600 */
+        --color-text-light: #F1F5F9; /* slate-100 */
+        --color-text-faded: #94A3B8; /* slate-400 */
+        --color-primary: #0EA5E9; /* sky-500 */
+        --color-secondary: #0D9488; /* teal-600 */
+        --color-accent-green: #22C55E; /* green-500 */
+        --color-accent-red: #EF4444; /* rose-500 */
     }
-    @keyframes text-gradient {
-        to {
-            background-position: 200% center;
-        }
+
+    body {
+        background-color: var(--color-bg-main);
     }
-    .input-group {
+
+    /* Contenedor de cada campo */
+    .form-group-v2 {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    /* Estilo del label fijo, siempre arriba */
+    .form-label-v2 {
+        font-size: 0.8rem;
+        color: var(--color-text-faded);
+        font-weight: 500;
+        transition: all 0.2s ease-in-out;
+    }
+
+    /* Estilo del input y select - TAMAÑO Y FONDO OPTIMIZADOS */
+    .form-control-v2 {
+        width: 100%;
+        padding: 0.5rem 0.75rem; /* Menor padding para hacerlo más compacto */
+        background-color: #020617; /* slate-950 como fondo del input */
+        border: 1px solid var(--color-border); /* Borde más delgado */
+        border-radius: 0.5rem;
+        color: var(--color-text-light);
+        font-size: 0.9rem;
+        transition: all 0.2s ease-in-out;
+        outline: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .form-control-v2:focus {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.5); /* Sombra más sutil */
+    }
+
+    /* Estilo específico para selects */
+    .form-control-v2.form-select-v2 {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2394a3b8' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 0.75rem center;
+        background-repeat: no-repeat;
+        background-size: 1.5rem;
+        padding-right: 2.5rem;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-color: #020617; /* slate-950 para los selects */
+    }
+
+    /* Estilo para el input de solo lectura */
+    .form-control-v2[readonly] {
+        cursor: not-allowed;
+        background-color: #334155; /* slate-700 */
+        color: #E2E8F0; /* slate-200 */
+    }
+
+    /* Ocultar flechas en inputs de tipo number */
+    .no-arrows::-webkit-outer-spin-button,
+    .no-arrows::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    .no-arrows {
+        -moz-appearance: textfield;
+    }
+
+    /* Nuevo estilo para la fila de items en la tabla de cotización */
+    .item-row-v2 {
         display: grid;
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+        /* Optimización del grid para que quepa en una sola fila */
+        grid-template-columns: 2.5fr 1fr 1fr 0.5fr 0.5fr 0.8fr 1fr 0.2fr;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        background-color: rgba(30, 41, 59, 0.7);
+        border-radius: 0.5rem;
+        border: 1px solid #475569;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease-in-out;
+        align-items: center;
     }
-    @media (min-width: 768px) {
-        .input-group.md-2 {
-            grid-template-columns: repeat(2, 1fr);
-        }
+    
+    .item-row-v2:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     }
+    
+    .item-row-v2 .subtotal-cell {
+        min-width: 60px;
+    }
+    
+    .item-row-v2 .remove-item-btn {
+        padding: 0.5rem;
+    }
+    
+    /* Tom-select custom styles for a dark theme */
+    .ts-control {
+        background-color: #020617; /* slate-950 */
+        border-color: #475569; /* slate-600 */
+        color: var(--color-text-light);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 0.5rem;
+        transition: all 0.2s ease-in-out;
+        padding: 0.5rem 0.75rem;
+    }
+    .ts-control.focus {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.5);
+    }
+    .ts-control .ts-input {
+        background-color: transparent !important;
+        border: none !important;
+        color: var(--color-text-light);
+        padding: 0;
+        font-size: 0.9rem;
+    }
+    /* Estilo crucial para el input de búsqueda */
+    .ts-control .ts-input input {
+        background-color: #020617 !important;
+        color: #F1F5F9 !important;
+    }
+
+    .ts-dropdown {
+        background-color: #1E293B; /* slate-800 */
+        border-color: #475569;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .ts-dropdown .option {
+        color: var(--color-text-light);
+        padding: 0.5rem 0.75rem;
+    }
+    .ts-dropdown .option.active, .ts-dropdown .option.selected {
+        background-color: #334155; /* slate-700 */
+        color: var(--color-primary);
+    }
+    .ts-control::after {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2394a3b8' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+        right: 0.75rem;
+        transform: none;
+    }
+    .ts-control.single::after {
+        border-color: transparent !important;
+    }
+
 </style>
 
-<div class="space-y-6">
+<div class="space-y-8 p-4">
     <header class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 animate-fade-in-up">
-        <h1 class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+        <h1 class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">
             {% if cotizacion %}Editar Cotización{% else %}Crear Nueva Cotización{% endif %}
         </h1>
-        <a href="{% url 'servicios:lista_cotizaciones' %}" class="inline-flex items-center gap-2 px-8 py-3 bg-slate-800 text-white font-semibold rounded-full hover:bg-slate-700 transition-all duration-300 transform hover:scale-105">
+        <a href="{% url 'servicios:lista_cotizaciones' %}" class="inline-flex items-center gap-2 px-6 py-2 bg-slate-800 text-white font-semibold rounded-full hover:bg-slate-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
             <i data-lucide="list" class="w-5 h-5"></i>
             Regresar a la Lista
         </a>
     </header>
 
-    <form method="post" class="space-y-6" id="cotizacion-form">
+    <form method="post" class="space-y-8" id="cotizacion-form">
         {% csrf_token %}
 
-        <div class="glass-card p-6 rounded-2xl shadow-xl animate-fade-in-up">
-            <h2 class="text-xl font-bold text-white mb-4">Datos del Cliente</h2>
-            <div class="input-group md-2">
-                <div>
-                    <label for="id_cliente_ruc" class="block text-sm font-medium text-slate-400">RUC</label>
-                    <div class="mt-1">
-                        <select id="id_cliente_ruc" name="cliente" class="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-accent focus:border-primary-accent" required>
-                            <option value="">Seleccione un cliente por RUC</option>
-                            {% for cliente in clientes %}
-                            <option value="{{ cliente.pk }}" data-razon-social="{{ cliente.razon_social }}" data-contacto="{{ cliente.nombre_contacto }}" data-correo="{{ cliente.correo }}" data-telefono="{{ cliente.telefono }}" {% if cotizacion and cotizacion.cliente == cliente %}selected{% endif %}>
-                                {{ cliente.ruc }}
-                            </option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label for="id_razon_social" class="block text-sm font-medium text-slate-400">Razón Social</label>
-                    <input type="text" id="id_razon_social" class="mt-1 w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white cursor-not-allowed" readonly>
-                </div>
-                <div>
-                    <label for="id_persona_contacto" class="block text-sm font-medium text-slate-400">Persona de Contacto</label>
-                    <input type="text" name="persona_contacto" id="id_persona_contacto" class="mt-1 w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-accent focus:border-primary-accent" required {% if cotizacion %}value="{{ cotizacion.persona_contacto }}"{% endif %}>
-                </div>
-                <div>
-                    <label for="id_correo_contacto" class="block text-sm font-medium text-slate-400">Correo</label>
-                    <input type="email" name="correo_contacto" id="id_correo_contacto" class="mt-1 w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-accent focus:border-primary-accent" required {% if cotizacion %}value="{{ cotizacion.correo_contacto }}"{% endif %}>
-                </div>
-                <div>
-                    <label for="id_telefono_contacto" class="block text-sm font-medium text-slate-400">Teléfono</label>
-                    <input type="text" name="telefono_contacto" id="id_telefono_contacto" class="mt-1 w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-accent focus:border-primary-accent" required {% if cotizacion %}value="{{ cotizacion.telefono_contacto }}"{% endif %}>
-                </div>
-            </div>
-        </div>
-
-        <div class="glass-card p-6 rounded-2xl shadow-xl animate-fade-in-up">
-            <h2 class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 mb-6">Detalle</h2>
-            <div class="overflow-x-auto rounded-lg shadow-inner-xl">
-                <table class="w-full text-left table-auto">
-                    <thead class="bg-slate-700/60 backdrop-blur-sm sticky top-0">
-                        <tr class="text-slate-200 uppercase tracking-wider">
-                            <th class="py-4 px-4 font-extrabold text-sm min-w-[200px]">Descripción</th>
-                            <th class="py-4 px-4 font-extrabold text-sm min-w-[150px]">Normas</th>
-                            <th class="py-4 px-4 font-extrabold text-sm min-w-[150px]">Métodos</th>
-                            <th class="py-4 px-4 font-extrabold text-sm min-w-[80px]">Und.</th>
-                            <th class="py-4 px-4 font-extrabold text-sm min-w-[100px]">Cantidad</th>
-                            <th class="py-4 px-4 font-extrabold text-sm min-w-[120px]">Precio Unitario (S/.)</th>
-                            <th class="py-4 px-4 font-extrabold text-sm min-w-[100px]">Subtotal (S/.)</th>
-                            <th class="py-4 px-4 font-extrabold text-sm text-right min-w-[80px]">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="cotizacion-detalles">
-                        {% if cotizacion %}
-                            {% for detalle in cotizacion.detalles_cotizacion.all %}
-                                <tr class="border-b border-slate-700/50 hover:bg-slate-700/30 transition-colors duration-200" data-norma-id="{{ detalle.norma.pk|default_if_none:'' }}" data-metodo-id="{{ detalle.metodo.pk|default_if_none:'' }}">
-                                    <td class="py-4 px-4">
-                                        <select class="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-accent focus:border-primary-accent servicio-select" required name="servicio">
-                                            <option value="">Seleccione un servicio</option>
-                                            {% for servicio in servicios %}
-                                            <option value="{{ servicio.pk }}" {% if detalle.servicio.pk == servicio.pk %}selected{% endif %}>{{ servicio.nombre }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </td>
-                                    <td class="py-4 px-4">
-                                        <select class="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-accent focus:border-primary-accent normas-select" name="norma">
-                                            </select>
-                                    </td>
-                                    <td class="py-4 px-4">
-                                        <select class="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-accent focus:border-primary-accent metodos-select" name="metodo">
-                                            </select>
-                                    </td>
-                                    <td class="py-4 px-4">
-                                        <input type="text" class="w-20 px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-accent focus:border-primary-accent und-input" value="{{ detalle.und }}" name="und">
-                                    </td>
-                                    <td class="py-4 px-4">
-                                        <div class="relative flex items-center bg-slate-800 border border-slate-700 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary-accent focus-within:border-primary-accent transition-all duration-200">
-                                            <input type="number" class="w-24 px-4 py-2 bg-transparent text-white text-center focus:outline-none cantidad-input no-arrows" min="1" value="{{ detalle.cantidad }}" required name="cantidad">
-                                            <i data-lucide="package" class="absolute left-2 text-slate-400 w-4 h-4"></i>
-                                        </div>
-                                    </td>
-                                    <td class="py-4 px-4">
-                                        <div class="relative flex items-center bg-slate-800 border border-slate-700 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary-accent focus-within:border-primary-accent transition-all duration-200">
-                                            <i data-lucide="dollar-sign" class="absolute left-2 text-green-400 w-4 h-4"></i>
-                                            <input type="number" class="w-32 pl-8 pr-4 py-2 bg-transparent text-white text-right focus:outline-none precio-input no-arrows" step="0.01" value="{{ detalle.precio_unitario }}" required name="precio_unitario">
-                                        </div>
-                                    </td>
-                                    <td class="py-4 px-4 subtotal-cell font-bold text-green-400">{{ detalle.subtotal|floatformat:2 }}</td>
-                                    <td class="py-4 px-4 text-right">
-                                        <button type="button" class="remove-item-btn inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 transition-colors duration-200">
-                                            <i data-lucide="trash-2" class="w-4 h-4"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        {% else %}
-                            <tr class="border-b border-slate-700/50 hover:bg-slate-700/30 transition-colors duration-200">
-                                <td class="py-4 px-4">
-                                    <select class="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-accent focus:border-primary-accent servicio-select" required name="servicio">
-                                        <option value="">Seleccione un servicio</option>
-                                        {% for servicio in servicios %}
-                                        <option value="{{ servicio.pk }}">{{ servicio.nombre }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </td>
-                                <td class="py-4 px-4">
-                                    <select class="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-accent focus:border-primary-accent normas-select" name="norma">
-                                        <option value="">Seleccione una norma</option>
-                                    </select>
-                                </td>
-                                <td class="py-4 px-4">
-                                    <select class="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-accent focus:border-primary-accent metodos-select" name="metodo">
-                                        <option value="">Seleccione un método</option>
-                                    </select>
-                                </td>
-                                <td class="py-4 px-4">
-                                    <input type="text" class="w-20 px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-accent focus:border-primary-accent und-input" value="und" name="und">
-                                </td>
-                                <td class="py-4 px-4">
-                                    <div class="relative flex items-center bg-slate-800 border border-slate-700 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary-accent focus-within:border-primary-accent transition-all duration-200">
-                                        <input type="number" class="w-24 px-4 py-2 bg-transparent text-white text-center focus:outline-none cantidad-input no-arrows" min="1" value="1" required name="cantidad">
-                                        <i data-lucide="package" class="absolute left-2 text-slate-400 w-4 h-4"></i>
-                                    </div>
-                                </td>
-                                <td class="py-4 px-4">
-                                    <div class="relative flex items-center bg-slate-800 border border-slate-700 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary-accent focus-within:border-primary-accent transition-all duration-200">
-                                        <i data-lucide="dollar-sign" class="absolute left-2 text-green-400 w-4 h-4"></i>
-                                        <input type="number" class="w-32 pl-8 pr-4 py-2 bg-transparent text-white text-right focus:outline-none precio-input no-arrows" step="0.01" value="0.00" required name="precio_unitario">
-                                    </div>
-                                </td>
-                                <td class="py-4 px-4 subtotal-cell font-bold text-green-400">0.00</td>
-                                <td class="py-4 px-4 text-right">
-                                    <button type="button" class="remove-item-btn inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 transition-colors duration-200">
-                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
-            </div>
-            <button type="button" id="addItemBtn" class="mt-6 inline-flex items-center px-8 py-3 bg-green-500 text-white font-semibold rounded-full hover:bg-green-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
-                <i data-lucide="plus" class="w-5 h-5 mr-2"></i>
-                Agregar Ítem
-            </button>
-        </div>
-
-        <div class="glass-card p-6 rounded-2xl shadow-xl animate-fade-in-up">
-            <h2 class="text-xl font-bold text-white mb-4">Condiciones y Totales</h2>
-            <div class="input-group md-2">
-                <div>
-                    <label for="id_forma_pago" class="block text-sm font-medium text-slate-400">Forma de Pago</label>
-                    <select name="forma_pago" id="id_forma_pago" class="mt-1 w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-accent focus:border-primary-accent">
-                        {% for value, label in cotizacion_model.FORMA_PAGO_CHOICES %}
-                        <option value="{{ value }}" {% if cotizacion and cotizacion.forma_pago == value %}selected{% endif %}>{{ label }}</option>
+        <div class="glass-card p-6 rounded-2xl shadow-xl animate-fade-in-up bg-slate-800/50 backdrop-blur-sm border border-slate-700">
+            <h2 class="text-xl font-bold text-white mb-6">Datos del Cliente</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                <div class="form-group-v2">
+                    <label for="id_cliente_ruc" class="form-label-v2">RUC del Cliente</label>
+                    <select id="id_cliente_ruc" name="cliente" class="form-control-v2 form-select-v2 tom-select-js" required>
+                        <option value="" selected disabled>Buscar RUC o Razón Social...</option> {% for cliente in clientes %}
+                        <option value="{{ cliente.pk }}" data-razon-social="{{ cliente.razon_social }}" data-contacto="{{ cliente.nombre_contacto }}" data-correo="{{ cliente.correo }}" data-telefono="{{ cliente.telefono }}" {% if cotizacion and cotizacion.cliente == cliente %}selected{% endif %}>
+                            {{ cliente.ruc }} - {{ cliente.razon_social }}
+                        </option>
                         {% endfor %}
                     </select>
                 </div>
-                <div>
-                    <label for="id_validez_oferta_dias" class="block text-sm font-medium text-slate-400">Validez (días)</label>
-                    <input type="number" name="validez_oferta_dias" id="id_validez_oferta_dias" class="mt-1 w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-accent focus:border-primary-accent" value="30" {% if cotizacion %}value="{{ cotizacion.validez_oferta_dias }}"{% endif %}>
+                <div class="form-group-v2">
+                    <label for="id_razon_social" class="form-label-v2">Razón Social</label>
+                    <input type="text" id="id_razon_social" class="form-control-v2 cursor-not-allowed" readonly placeholder="Razón Social">
                 </div>
-                <div>
-                    <label for="id_plazo_entrega_dias" class="block text-sm font-medium text-slate-400">Plazo de Entrega (días)</label>
-                    <input type="number" name="plazo_entrega_dias" id="id_plazo_entrega_dias" class="mt-1 w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-accent focus:border-primary-accent" value="0" {% if cotizacion %}value="{{ cotizacion.plazo_entrega_dias }}"{% endif %}>
+                <div class="form-group-v2">
+                    <label for="id_persona_contacto" class="form-label-v2">Persona de Contacto</label>
+                    <input type="text" name="persona_contacto" id="id_persona_contacto" class="form-control-v2" required placeholder="Persona de Contacto" {% if cotizacion %}value="{{ cotizacion.persona_contacto }}"{% endif %}>
                 </div>
-                <div class="col-span-1 md:col-span-2 text-right space-y-2 mt-4">
-                    <p class="text-slate-300 font-medium">Subtotal: S/. <span id="subtotal_cotizacion">0.00</span></p>
-                    <p class="text-slate-300 font-medium">IGV (18%): S/. <span id="igv_cotizacion">0.00</span></p>
-                    <h3 class="text-2xl font-bold text-green-400">Total Final: S/. <span id="total_final_cotizacion">0.00</span></h3>
+                <div class="form-group-v2">
+                    <label for="id_correo_contacto" class="form-label-v2">Correo</label>
+                    <input type="email" name="correo_contacto" id="id_correo_contacto" class="form-control-v2" required placeholder="Correo" {% if cotizacion %}value="{{ cotizacion.correo_contacto }}"{% endif %}>
+                </div>
+                <div class="form-group-v2">
+                    <label for="id_telefono_contacto" class="form-label-v2">Teléfono</label>
+                    <input type="text" name="telefono_contacto" id="id_telefono_contacto" class="form-control-v2" required placeholder="Teléfono" {% if cotizacion %}value="{{ cotizacion.telefono_contacto }}"{% endif %}>
+                </div>
+            </div>
+        </div>
+        
+        <div class="glass-card p-6 rounded-2xl shadow-xl animate-fade-in-up bg-slate-800/50 backdrop-blur-sm border border-slate-700">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">
+                    Detalle de la Cotización
+                </h2>
+                <button type="button" id="addItemBtn" class="mt-4 md:mt-0 inline-flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-full hover:from-green-600 hover:to-emerald-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    <i data-lucide="plus" class="w-5 h-5"></i>
+                    Agregar Ítem
+                </button>
+            </div>
+            
+            <div id="cotizacion-detalles" class="space-y-6">
+                {% if cotizacion %}
+                    {% for detalle in cotizacion.detalles_cotizacion.all %}
+                        <div class="item-row-v2 animate-fade-in-up" data-norma-id="{{ detalle.norma.pk|default_if_none:'' }}" data-metodo-id="{{ detalle.metodo.pk|default_if_none:'' }}">
+                            <div class="form-group-v2">
+                                <label class="form-label-v2">Servicio</label>
+                                <select class="form-control-v2 form-select-v2 servicio-select tom-select-js" required name="servicio">
+                                    <option value="" disabled></option>
+                                    {% for servicio in servicios %}
+                                        <option value="{{ servicio.pk }}" {% if detalle.servicio.pk == servicio.pk %}selected{% endif %}>{{ servicio.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group-v2">
+                                <label class="form-label-v2">Norma</label>
+                                <select class="form-control-v2 form-select-v2 normas-select" name="norma">
+                                    <option value="" disabled></option>
+                                </select>
+                            </div>
+                            <div class="form-group-v2">
+                                <label class="form-label-v2">Método</label>
+                                <select class="form-control-v2 form-select-v2 metodos-select" name="metodo">
+                                    <option value="" disabled></option>
+                                </select>
+                            </div>
+                            <div class="form-group-v2">
+                                <label class="form-label-v2">Unidad</label>
+                                <input type="text" class="form-control-v2 text-center und-input" value="{{ detalle.und }}" name="und" placeholder="Und.">
+                            </div>
+                            <div class="form-group-v2">
+                                <label class="form-label-v2">Cantidad</label>
+                                <input type="number" class="form-control-v2 text-center cantidad-input no-arrows" min="1" value="{{ detalle.cantidad }}" required placeholder="Cant.">
+                            </div>
+                            <div class="form-group-v2">
+                                <label class="form-label-v2">Precio</label>
+                                <input type="number" class="form-control-v2 text-center precio-input no-arrows" step="0.01" value="{{ detalle.precio_unitario }}" required placeholder="Precio">
+                            </div>
+                            <div class="flex flex-col items-end text-lg font-bold text-green-400">
+                                <span class="text-sm text-slate-400">Subtotal:</span>
+                                S/. <span class="subtotal-cell">{{ detalle.subtotal|floatformat:2 }}</span>
+                            </div>
+                            <div class="flex justify-center">
+                                <button type="button" class="remove-item-btn p-2 text-rose-400 hover:bg-rose-500/20 rounded-full transition-colors">
+                                    <i data-lucide="trash-2" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl shadow-xl animate-fade-in-up bg-slate-800/50 backdrop-blur-sm border border-slate-700">
+            <h2 class="text-xl font-bold text-white mb-6">Condiciones y Totales</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                <div class="space-y-4">
+                    <div class="form-group-v2">
+                        <label for="id_forma_pago" class="form-label-v2">Forma de Pago</label>
+                        <select name="forma_pago" id="id_forma_pago" class="form-control-v2 form-select-v2 tom-select-js">
+                            {% for value, label in cotizacion_model.FORMA_PAGO_CHOICES %}
+                            <option value="{{ value }}" {% if cotizacion and cotizacion.forma_pago == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group-v2">
+                        <label for="id_validez_oferta_dias" class="form-label-v2">Validez (días)</label>
+                        <input type="number" name="validez_oferta_dias" id="id_validez_oferta_dias" class="form-control-v2" placeholder="Validez" value="{% if cotizacion %}{{ cotizacion.validez_oferta_dias }}{% else %}30{% endif %}">
+                    </div>
+                    <div class="form-group-v2">
+                        <label for="id_plazo_entrega_dias" class="form-label-v2">Plazo de Entrega (días)</label>
+                        <input type="number" name="plazo_entrega_dias" id="id_plazo_entrega_dias" class="form-control-v2" placeholder="Plazo de Entrega" value="{% if cotizacion %}{{ cotizacion.plazo_entrega_dias }}{% else %}0{% endif %}">
+                    </div>
+                </div>
+                <div class="flex flex-col justify-end items-end space-y-4 mt-8 md:mt-0 text-right">
+                    <div class="w-full max-w-sm">
+                        <div class="flex justify-between items-center text-slate-300 font-medium text-lg">
+                            <span>Subtotal:</span>
+                            <span>S/. <span id="subtotal_cotizacion">0.00</span></span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-300 font-medium text-lg">
+                            <span>IGV (18%):</span>
+                            <span>S/. <span id="igv_cotizacion">0.00</span></span>
+                        </div>
+                        <div class="h-px bg-slate-700 my-2"></div>
+                        <div class="flex justify-between items-center text-3xl font-bold text-green-400">
+                            <span>Total:</span>
+                            <span>S/. <span id="total_final_cotizacion">0.00</span></span>
+                        </div>
+                    </div>
                     <input type="hidden" name="monto_total" id="id_monto_total" value="0.00">
                     <input type="hidden" name="detalles_json" id="detalles_json">
                 </div>
             </div>
         </div>
 
-        <div class="flex justify-end gap-4 mt-6 animate-fade-in-up">
-            <button type="submit" class="inline-flex items-center px-8 py-3 bg-primary-accent text-white font-semibold rounded-full hover:bg-blue-600 transition-all duration-300 shadow-lg">
-                <i data-lucide="save" class="w-5 h-5 mr-2"></i>
+        <div class="flex justify-end mt-8 animate-fade-in-up">
+            <button type="submit" class="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-blue-500 to-sky-500 text-white font-bold rounded-full hover:from-blue-600 hover:to-sky-600 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-blue-500/30 focus:outline-none focus:ring-4 focus:ring-blue-400">
+                <i data-lucide="save" class="w-5 h-5"></i>
                 Guardar Cotización
             </button>
         </div>
@@ -232,19 +331,19 @@
 
 {% block extra_scripts %}
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-    // Inicializa los iconos de Lucide si la biblioteca está disponible
+document.addEventListener('DOMContentLoaded', () => {
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
 
     const clientesSelect = document.getElementById('id_cliente_ruc');
+    const formaPagoSelect = document.getElementById('id_forma_pago');
     const razonSocialInput = document.getElementById('id_razon_social');
     const personaContactoInput = document.getElementById('id_persona_contacto');
     const correoContactoInput = document.getElementById('id_correo_contacto');
     const telefonoContactoInput = document.getElementById('id_telefono_contacto');
 
-    const detallesTableBody = document.getElementById('cotizacion-detalles');
+    const detallesContainer = document.getElementById('cotizacion-detalles'); 
     const addItemBtn = document.getElementById('addItemBtn');
     const cotizacionForm = document.getElementById('cotizacion-form');
     
@@ -254,80 +353,132 @@
     const montoTotalInput = document.getElementById('id_monto_total');
     const detallesJsonInput = document.getElementById('detalles_json');
     
-    // Función para cargar los datos del cliente al seleccionar el RUC
-    const loadClientData = () => {
-        const selectedOption = clientesSelect.options[clientesSelect.selectedIndex];
-        razonSocialInput.value = selectedOption.dataset.razonSocial || '';
-        personaContactoInput.value = selectedOption.dataset.contacto || '';
-        correoContactoInput.value = selectedOption.dataset.correo || '';
-        telefonoContactoInput.value = selectedOption.dataset.telefono || '';
+    const loadClientData = (selectedOption) => {
+        if (selectedOption) {
+            razonSocialInput.value = selectedOption.dataset.razonSocial || '';
+            personaContactoInput.value = selectedOption.dataset.contacto || '';
+            correoContactoInput.value = selectedOption.dataset.correo || '';
+            telefonoContactoInput.value = selectedOption.dataset.telefono || '';
+        } else {
+            razonSocialInput.value = '';
+            personaContactoInput.value = '';
+            correoContactoInput.value = '';
+            telefonoContactoInput.value = '';
+        }
     };
 
-    clientesSelect.addEventListener('change', loadClientData);
-    loadClientData(); // Cargar al inicio si hay un cliente seleccionado
+    // Tom-select initialization function
+    const initializeTomSelect = (element) => {
+        new TomSelect(element, {
+            create: false,
+            sortField: {
+                field: "text",
+                direction: "asc"
+            },
+            render: {
+                option: function(item, escape) {
+                    return '<div>' + escape(item.text) + '</div>';
+                },
+                item: function(item, escape) {
+                    return '<div>' + escape(item.text) + '</div>';
+                }
+            }
+        });
+    };
 
-    // Función para agregar una fila a la tabla de detalles
-    const addRow = (servicioId = '', cantidad = '1', precio = '0.00', normaId = '', metodoId = '', und = 'und') => {
-        const row = document.createElement('tr');
-        row.className = 'border-b border-slate-700/50';
-        row.innerHTML = `
-            <td class="py-4 px-4">
-                <select class="w-full bg-slate-800 border border-slate-700 rounded-lg text-white px-2 py-1 servicio-select" required name="servicio">
-                    <option value="">Seleccione un servicio</option>
-                    {% for servicio in servicios %}
-                    <option value="{{ servicio.pk }}" {% if servicio.pk|stringformat:"s" == servicioId %}selected{% endif %}>{{ servicio.nombre }}</option>
-                    {% endfor %}
-                </select>
-            </td>
-            <td class="py-4 px-4">
-                <select class="w-full bg-slate-800 border border-slate-700 rounded-lg text-white px-2 py-1 normas-select" name="norma">
-                    <option value="">Seleccione una norma</option>
-                </select>
-            </td>
-            <td class="py-4 px-4">
-                <select class="w-full bg-slate-800 border border-slate-700 rounded-lg text-white px-2 py-1 metodos-select" name="metodo">
-                    <option value="">Seleccione un método</option>
-                </select>
-            </td>
-            <td class="py-4 px-4">
-                <input type="text" class="w-20 bg-slate-800 border border-slate-700 rounded-lg text-white px-2 py-1 und-input" value="${und}" name="und">
-            </td>
-            <td class="py-4 px-4">
-                <input type="number" class="w-24 bg-slate-800 border border-slate-700 rounded-lg text-white px-2 py-1 text-right cantidad-input" min="1" value="${cantidad}" required>
-            </td>
-            <td class="py-4 px-4">
-                <input type="number" class="w-32 bg-slate-800 border border-slate-700 rounded-lg text-white px-2 py-1 text-right precio-input" step="0.01" value="${precio}" required>
-            </td>
-            <td class="py-4 px-4 subtotal-cell font-medium text-white">
-                0.00
-            </td>
-            <td class="py-4 px-4 text-right">
-                <button type="button" class="remove-item-btn inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 transition-colors">
-                    <i data-lucide="trash-2" class="w-4 h-4"></i>
-                </button>
-            </td>
+    // Initial Tom-select initialization for static elements
+    initializeTomSelect(clientesSelect);
+    initializeTomSelect(formaPagoSelect);
+
+    clientesSelect.addEventListener('change', (e) => {
+        const selectedOption = clientesSelect.options[clientesSelect.selectedIndex];
+        loadClientData(selectedOption);
+    });
+
+    const initialSelectedOption = clientesSelect.options[clientesSelect.selectedIndex];
+    if (initialSelectedOption.value) {
+        loadClientData(initialSelectedOption);
+    }
+    
+
+    const createItemRowHTML = (servicioId = '', cantidad = '1', precio = '0.00', und = 'und') => {
+        return `
+            <div class="item-row-v2 animate-fade-in-up">
+                <div class="form-group-v2">
+                    <label class="form-label-v2">Servicio</label>
+                    <select class="form-control-v2 form-select-v2 servicio-select tom-select-js" required name="servicio">
+                        <option value="" disabled selected></option>
+                        {% for servicio in servicios %}
+                            <option value="{{ servicio.pk }}" ${servicioId === '{{servicio.pk}}' ? 'selected' : ''}>{{ servicio.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group-v2">
+                    <label class="form-label-v2">Norma</label>
+                    <select class="form-control-v2 form-select-v2 normas-select" name="norma">
+                        <option value="" disabled selected></option>
+                    </select>
+                </div>
+                <div class="form-group-v2">
+                    <label class="form-label-v2">Método</label>
+                    <select class="form-control-v2 form-select-v2 metodos-select" name="metodo">
+                        <option value="" disabled selected></option>
+                    </select>
+                </div>
+                <div class="form-group-v2">
+                    <label class="form-label-v2">Unidad</label>
+                    <input type="text" class="form-control-v2 text-center und-input" value="${und}" name="und" placeholder="Und.">
+                </div>
+                <div class="form-group-v2">
+                    <label class="form-label-v2">Cantidad</label>
+                    <input type="number" class="form-control-v2 text-center cantidad-input no-arrows" min="1" value="${cantidad}" required placeholder="Cant.">
+                </div>
+                <div class="form-group-v2">
+                    <label class="form-label-v2">Precio</label>
+                    <input type="number" class="form-control-v2 text-center precio-input no-arrows" step="0.01" value="${precio}" required placeholder="Precio">
+                </div>
+                <div class="flex flex-col items-end text-lg font-bold text-green-400">
+                    <span class="text-sm text-slate-400">Subtotal:</span>
+                    S/. <span class="subtotal-cell">0.00</span>
+                </div>
+                <div class="flex justify-center">
+                    <button type="button" class="remove-item-btn p-2 text-rose-400 hover:bg-rose-500/20 rounded-full transition-colors">
+                        <i data-lucide="trash-2" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
         `;
-        detallesTableBody.appendChild(row);
+    };
+
+    const addRow = (servicioId = '', cantidad = '1', precio = '0.00', und = 'und', normaId = '', metodoId = '') => {
+        const rowHTML = createItemRowHTML(servicioId, cantidad, precio, und);
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = rowHTML.trim();
+        const newRow = tempDiv.firstChild;
+        detallesContainer.appendChild(newRow);
+        
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         }
+
+        // Initialize Tom-select for the new row's service selector
+        initializeTomSelect(newRow.querySelector('.servicio-select'));
+
         if (servicioId) {
-            loadServiceData(row.querySelector('.servicio-select'), normaId, metodoId);
+            loadServiceData(newRow.querySelector('.servicio-select'), normaId, selectedMetodoId);
         }
     };
-
-    // Función para cargar datos del servicio (normas, métodos, precio)
+    
     const loadServiceData = async (selectElement, selectedNormaId, selectedMetodoId) => {
         const pk = selectElement.value;
-        const row = selectElement.closest('tr');
+        const row = selectElement.closest('.item-row-v2'); 
         const precioInput = row.querySelector('.precio-input');
         const undInput = row.querySelector('.und-input');
         const normasSelect = row.querySelector('.normas-select');
         const metodosSelect = row.querySelector('.metodos-select');
 
-        // Limpiar selectores
-        normasSelect.innerHTML = '<option value="">Seleccione una norma</option>';
-        metodosSelect.innerHTML = '<option value="">Seleccione un método</option>';
+        normasSelect.innerHTML = '<option value="" disabled selected>Seleccione norma</option>';
+        metodosSelect.innerHTML = '<option value="" disabled selected>Seleccione método</option>';
 
         if (pk) {
             try {
@@ -338,31 +489,25 @@
                 precioInput.value = parseFloat(servicio.precio_unitario).toFixed(2);
                 undInput.value = servicio.und || '';
 
-                // Llenar select de Normas
                 if (servicio.normas && servicio.normas.length > 0) {
                     servicio.normas.forEach(norma => {
                         const option = document.createElement('option');
                         option.value = norma.id;
                         option.textContent = norma.nombre;
-                        if (norma.id == selectedNormaId) {
-                            option.selected = true;
-                        }
+                        if (norma.id == selectedNormaId) option.selected = true;
                         normasSelect.appendChild(option);
                     });
                 }
-
-                // Llenar select de Métodos
                 if (servicio.metodos && servicio.metodos.length > 0) {
                     servicio.metodos.forEach(metodo => {
                         const option = document.createElement('option');
                         option.value = metodo.id;
                         option.textContent = metodo.nombre;
-                        if (metodo.id == selectedMetodoId) {
-                            option.selected = true;
-                        }
+                        if (metodo.id == selectedMetodoId) option.selected = true;
                         metodosSelect.appendChild(option);
                     });
                 }
+                
             } catch (error) {
                 console.error('Error al cargar datos del servicio:', error);
                 precioInput.value = '0.00';
@@ -375,11 +520,10 @@
         updateTotals();
     };
 
-    // Función para actualizar los totales
     const updateTotals = () => {
         let subtotal = 0;
         const detalles = [];
-        detallesTableBody.querySelectorAll('tr').forEach(row => {
+        detallesContainer.querySelectorAll('.item-row-v2').forEach(row => { 
             const servicioSelect = row.querySelector('.servicio-select');
             const cantidadInput = row.querySelector('.cantidad-input');
             const precioInput = row.querySelector('.precio-input');
@@ -418,40 +562,40 @@
         detallesJsonInput.value = JSON.stringify(detalles);
     };
 
-    // Event listeners
     addItemBtn.addEventListener('click', () => addRow());
     
-    detallesTableBody.addEventListener('change', (e) => {
+    detallesContainer.addEventListener('change', (e) => { 
         if (e.target.matches('.servicio-select')) {
             loadServiceData(e.target);
         }
         updateTotals();
     });
 
-    detallesTableBody.addEventListener('input', (e) => {
+    detallesContainer.addEventListener('input', (e) => {
         if (e.target.matches('.cantidad-input, .precio-input, .und-input')) {
             updateTotals();
         }
     });
     
-    detallesTableBody.addEventListener('click', (e) => {
+    detallesContainer.addEventListener('click', (e) => {
         const removeBtn = e.target.closest('.remove-item-btn');
         if (removeBtn) {
-            removeBtn.closest('tr').remove();
+            removeBtn.closest('.item-row-v2').remove(); 
             updateTotals();
         }
     });
 
     cotizacionForm.addEventListener('submit', (e) => {
+        updateTotals();
         if (!detallesJsonInput.value || JSON.parse(detallesJsonInput.value).length === 0) {
             e.preventDefault();
             alert('Debe agregar al menos un ítem a la cotización.');
         }
     });
 
-    // Inicializar con filas existentes si las hay (al editar una cotización)
-    detallesTableBody.querySelectorAll('tr').forEach(row => {
+    detallesContainer.querySelectorAll('.item-row-v2').forEach(row => {
         const servicioSelect = row.querySelector('.servicio-select');
+        initializeTomSelect(servicioSelect); // Initialize on existing rows
         const selectedNormaId = row.dataset.normaId;
         const selectedMetodoId = row.dataset.metodoId;
         if (servicioSelect.value) {
@@ -459,8 +603,7 @@
         }
     });
 
-    // Si no hay filas, agregar una por defecto
-    if (detallesTableBody.children.length === 0) {
+    if (detallesContainer.children.length === 0) {
         addRow();
     }
 });
