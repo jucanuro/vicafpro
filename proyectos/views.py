@@ -6,9 +6,9 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST, require_GET
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from django.utils import timezone
-from .models import Proyecto
+from .models import Proyecto, OrdenDeEnsayo, Muestra    
 from clientes.models import ClienteProfile
 from servicios.models import Cotizacion
 
@@ -124,11 +124,25 @@ def eliminar_proyecto(request, pk):
     context = {'proyecto': proyecto}
     return render(request, 'proyectos/eliminar_proyecto.html', context)
 
-def lista_proyectos_pendientes(request):
-    proyectos_pendientes = Proyecto.objects.filter(estado='PENDIENTE')
+
+@login_required
+# Mantenemos el nombre de la función que ya usas
+def lista_proyectos_pendientes(request): 
+    """
+    Vista modificada para cargar TODOS los proyectos sin importar su estado 
+    (PENDIENTE, EN CURSO, FINALIZADO, etc.).
+    """
+    
+    # 🟢 CORRECCIÓN CLAVE: Usar .all() para recuperar todos los proyectos
+    proyectos = Proyecto.objects.all().order_by('-creado_en')
+    
     context = {
-        'proyectos_pendientes': proyectos_pendientes,
+        # 🟢 CAMBIO CLAVE: Renombramos la variable del contexto para que 
+        # coincida con el nombre que usa tu template (proyectos_pendientes)
+        'proyectos_pendientes': proyectos, 
+        'titulo_lista': 'Todos los Proyectos para Gestión', 
     }
+    
     return render(request, 'proyectos/lista_proyectos_pendientes.html', context)
 
 
@@ -140,115 +154,111 @@ def editar_proyecto_view(request, pk):
     """
     if request.method == 'POST':
         try:
-            # Obtener el proyecto por su clave primaria (pk) o devolver un 404
             proyecto = get_object_or_404(Proyecto, pk=pk)
-            
-            # Decodificar el cuerpo JSON de la solicitud
             data = json.loads(request.body)
-            
-            # Actualizar los campos del proyecto con los nuevos datos
             proyecto.nombre_proyecto = data.get('nombre', proyecto.nombre_proyecto)
             proyecto.estado = data.get('estado', proyecto.estado)
             proyecto.monto_cotizacion = data.get('monto', proyecto.monto_cotizacion)
-            
-            # Guardar los cambios en la base de datos
             proyecto.save()
-            
-            # Devolver una respuesta JSON de éxito
             return JsonResponse({'success': True, 'message': 'Proyecto actualizado con éxito.'})
-            
         except json.JSONDecodeError:
             return JsonResponse({'success': False, 'message': 'Formato JSON inválido.'}, status=400)
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)}, status=500)
-    
-    # Si la solicitud no es POST, devolver un error o renderizar una plantilla
     return JsonResponse({'success': False, 'message': 'Método no permitido.'}, status=405)
 
 
 
-@require_POST
+@csrf_exempt
 def create_and_edit_muestra(request):
-    """
-    Crea o edita una muestra para un proyecto específico.
-    La lógica se ha actualizado para que una OrdenDeEnsayo pueda
-    contener múltiples muestras.
-    """
-    try:
-        data = json.loads(request.body)
-        proyecto_id = data.get('proyecto_id')
-        muestra_id = data.get('muestra_id')
-        
-        # 1. Obtener el proyecto o devolver un error si no existe
-        proyecto = get_object_or_404(Proyecto, pk=proyecto_id)
-        
-        # 2. Encontrar o crear la OrdenDeEnsayo para este proyecto.
-        # Esto asegura que todas las muestras del mismo proyecto estén ligadas a una única orden.
-        orden_ensayo, created = OrdenDeEnsayo.objects.get_or_create(
-            proyecto=proyecto,
-            defaults={'nombre_orden': f"Orden para Proyecto {proyecto.nombre_proyecto}"}
-        )
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            proyecto_id = data.get('proyecto_id')
+            # ... (otras variables de data) ...
+            
+            # --- Validaciones y Obtención del Proyecto ---
+            if not proyecto_id:
+                return JsonResponse({'status': 'error', 'message': 'El ID del proyecto no puede ser nulo.'}, status=400)
 
-        # 3. Preparar los datos de la muestra
-        muestra_data = {
-            'orden': orden_ensayo,
-            'codigo_muestra': data.get('codigo_muestra'),
-            'descripcion_muestra': data.get('descripcion_muestra'),
-            'id_lab': data.get('id_lab'),
-            'tipo_muestra': data.get('tipo_muestra'),
-            'masa_aprox_kg': data.get('masa_aprox_kg'),
-            'fecha_recepcion': data.get('fecha_recepcion'),
-            'fecha_fabricacion': data.get('fecha_fabricacion'),
-            'fecha_ensayo_rotura': data.get('fecha_ensayo_rotura'),
-            'informe': data.get('informe'),
-            'fecha_informe': data.get('fecha_informe'),
-            'estado': data.get('estado'),
-            'ensayos_a_realizar': data.get('ensayos_a_realizar'),
-        }
+            try:
+                proyecto = Proyecto.objects.get(id=proyecto_id)
+            except Proyecto.DoesNotExist:
+                return JsonResponse({'status': 'error', 'message': 'El proyecto no existe.'}, status=404)
 
-        if muestra_id:
-            # Lógica para editar una muestra existente
-            muestra = get_object_or_404(Muestra, pk=muestra_id)
-            for key, value in muestra_data.items():
-                setattr(muestra, key, value)
-            muestra.save()
-            message = "Muestra actualizada con éxito."
-        else:
-            # Lógica para crear una nueva muestra
-            muestra = Muestra.objects.create(**muestra_data)
-            message = "Muestra registrada con éxito."
+            # Evitar duplicidad: verificar si la muestra ya existe para este proyecto
+            codigo_muestra = data.get('codigo_muestra')
+            if Muestra.objects.filter(proyecto=proyecto, codigo_muestra=codigo_muestra).exists():
+                return JsonResponse({'status': 'error', 'message': f'Ya existe una muestra con el código "{codigo_muestra}" para este proyecto.'}, status=400)
 
-        response_data = {
-            'status': 'success',
-            'message': message,
-            'muestra': {
-                'id': muestra.pk,
-                'codigo_muestra': muestra.codigo_muestra,
-                'descripcion_muestra': muestra.descripcion_muestra,
-                'fecha_recepcion': muestra.fecha_recepcion.strftime('%Y-%m-%d'),
-                'id_lab': muestra.id_lab,
-                'tipo_muestra': muestra.tipo_muestra,
-            }
-        }
-        return JsonResponse(response_data)
+            # Usamos una transacción para asegurar que todas las operaciones se completen o se reviertan
+            with transaction.atomic():
+                # --- Creación de Muestra ---
+                muestra = Muestra.objects.create(
+                    proyecto=proyecto,
+                    codigo_muestra=codigo_muestra,
+                    descripcion_muestra=data.get('descripcion_muestra'),
+                    id_lab=data.get('id_lab'),
+                    tipo_muestra=data.get('tipo_muestra'),
+                    masa_aprox_kg=data.get('masa_aprox_kg'),
+                    fecha_recepcion=data.get('fecha_recepcion'),
+                    fecha_fabricacion=data.get('fecha_fabricacion'),
+                    fecha_ensayo_rotura=data.get('fecha_ensayo_rotura'),
+                    informe=data.get('informe'),
+                    fecha_informe=data.get('fecha_informe'),
+                    estado=data.get('estado', Muestra.ESTADOS_MUESTRA[0][0]),
+                    ensayos_a_realizar=data.get('ensayos_a_realizar')
+                )
+                
+                # --- Creación de Orden de Ensayo (vinculada a la Muestra) ---
+                orden_ensayo = OrdenDeEnsayo.objects.create(
+                    muestra=muestra,
+                    proyecto=proyecto,
+                    tipo_ensayo="Ensayo de " + data.get('tipo_muestra', 'Muestra Genérica'),
+                    # Asegurarse de que la fecha_entrega_programada sea un campo válido o se use una lógica real
+                    fecha_entrega_programada=timezone.now().date()
+                )
 
-    except Proyecto.DoesNotExist:
-        return JsonResponse({'status': 'error', 'message': 'Proyecto no encontrado.'}, status=404)
-    except IntegrityError:
-        return JsonResponse({'status': 'error', 'message': 'Ya existe una muestra con este código en la base de datos.'}, status=400)
-    except Exception as e:
-        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+                # --- LÓGICA DE ACTUALIZACIÓN DEL PROYECTO ---
+                # 1. Incrementar el contador de muestras
+                proyecto.numero_muestras_registradas = Proyecto.objects.filter(id=proyecto_id).first().muestras.count() + 1
+                
+                # 2. Cambiar estado a 'EN_CURSO' si estaba 'PENDIENTE'
+                if proyecto.estado == 'PENDIENTE':
+                    proyecto.estado = 'EN_CURSO' # El estado ahora es 'EN_CURSO'
+                
+                proyecto.save()
+                # -------------------------------------------
+            
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Muestra y Orden de Ensayo creadas correctamente.',
+                'muestra': {
+                    'codigo_muestra': muestra.codigo_muestra,
+                    'tipo_muestra': muestra.tipo_muestra,
+                    'estado': muestra.estado,
+                    'orden_ensayo_id': orden_ensayo.id # Devolvemos el ID de la Orden de Ensayo
+                }
+            }, status=201)
+
+        except json.JSONDecodeError:
+            return JsonResponse({'status': 'error', 'message': 'JSON inválido.'}, status=400)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+    return JsonResponse({'status': 'error', 'message': 'Método de solicitud no permitido.'}, status=405)
+
+
 
 @require_GET
 def muestras_del_proyecto(request, proyecto_id):
     """
-    Devuelve la lista de muestras para un proyecto específico en formato JSON.
+    Devuelve la lista de muestras para un proyecto específico en formato JSON,
+    incluyendo la ID de la Orden de Ensayo para facilitar el acceso al formulario.
     """
     try:
-        # Busca todas las OrdenesDeEnsayo para el proyecto
-        ordenes = OrdenDeEnsayo.objects.filter(proyecto_id=proyecto_id)
-        # Obtiene todas las muestras de esas órdenes
-        muestras = Muestra.objects.filter(orden__in=ordenes).order_by('-creado_en')
+        # Usamos select_related para obtener la OrdenDeEnsayo de manera eficiente
+        muestras = Muestra.objects.filter(proyecto_id=proyecto_id).order_by('-creado_en').prefetch_related('ordenes')
         
         muestras_list = [
             {
@@ -256,39 +266,97 @@ def muestras_del_proyecto(request, proyecto_id):
                 'codigo_muestra': muestra.codigo_muestra,
                 'descripcion_muestra': muestra.descripcion_muestra,
                 'fecha_recepcion': muestra.fecha_recepcion.strftime('%Y-%m-%d'),
+                'estado': muestra.get_estado_display(), # Usamos get_estado_display para el texto amigable
+                # Buscamos la primera OrdenDeEnsayo vinculada a esta muestra
+                'orden_ensayo_id': muestra.ordenes.first().id if muestra.ordenes.exists() else None, 
             }
             for muestra in muestras
         ]
         
-        return JsonResponse({'status': 'success', 'muestras': muestras_list})
-    except Exception as e:
-        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
-    """
-    Devuelve la lista de muestras para un proyecto específico en formato JSON.
+        # Opcional: Obtener el estado actual del proyecto para el frontend
+        proyecto = Proyecto.objects.get(id=proyecto_id)
 
-    Args:
-        request (HttpRequest): La petición GET.
-        proyecto_id (int): El ID del proyecto.
-    
-    Returns:
-        JsonResponse: Un JSON con la lista de muestras del proyecto.
-    """
-    try:
-        # Busca todas las OrdenesDeEnsayo para el proyecto
-        ordenes = OrdenDeEnsayo.objects.filter(proyecto_id=proyecto_id)
-        # Obtiene todas las muestras de esas órdenes
-        muestras = Muestra.objects.filter(orden__in=ordenes).order_by('-creado_en')
+        return JsonResponse({
+            'status': 'success', 
+            'muestras': muestras_list,
+            'proyecto_estado': proyecto.get_estado_display()
+        })
         
-        muestras_list = [
-            {
-                'id': muestra.pk,
-                'codigo_muestra': muestra.codigo_muestra,
-                'descripcion_muestra': muestra.descripcion_muestra,
-                'fecha_recepcion': muestra.fecha_recepcion.strftime('%Y-%m-%d'),
-            }
-            for muestra in muestras
-        ]
-        
-        return JsonResponse({'status': 'success', 'muestras': muestras_list})
+    except Proyecto.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'El proyecto no existe.'}, status=404)
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    
+def orden_de_ensayo_form(request, orden_id):
+    # 'orden_id' debe coincidir con lo que definiste en la URL
+    from .models import OrdenDeEnsayo 
+    orden = get_object_or_404(OrdenDeEnsayo, pk=orden_id)
+    
+    # ... tu lógica aquí ...
+    return render(request, 'proyectos/orden_ensayo_form.html', {'orden': orden})
+  
+    
+@login_required
+def orden_de_ensayo_documento(request, pk):
+    """
+    Vista para visualizar el Documento/Ficha de la Orden de Ensayo.
+    Muestra al técnico las características de la muestra y los ensayos a realizar.
+    """
+    # Usamos 'pk' para OrdenDeEnsayo
+    orden = get_object_or_404(OrdenDeEnsayo, pk=pk)
+    
+    muestra = orden.muestra
+    proyecto = orden.proyecto
+    
+    # **Acción Clave:** Si la orden está pendiente, la marcamos como 'EN_PROCESO' para el técnico.
+    if orden.estado_orden == 'PENDIENTE':
+        orden.estado_orden = 'EN_PROCESO'
+        orden.save()
+        
+    # El técnico necesita saber si ya existen resultados para esta muestra
+    # La lógica para obtener el último resultado es correcta
+    try:
+        resultado_actual = muestra.resultados.latest('creado_en') 
+    except ResultadoEnsayo.DoesNotExist:
+        resultado_actual = None 
+
+    context = {
+        'orden': orden,
+        'muestra': muestra,
+        'proyecto': proyecto,
+        'resultado_actual': resultado_actual, # Usado para saber si hay resultados
+    }
+    # Renderizamos un template que actúa como un documento de ficha técnica
+    return render(request, 'proyectos/orden_ensayo_documento.html', context)
+
+
+@login_required
+def registro_resultado_form(request, muestra_pk):
+    """
+    Vista para el formulario de ingreso de datos para una Muestra específica.
+    """
+    # 1. Obtenemos la muestra por su PK
+    muestra = get_object_or_404(Muestra, pk=muestra_pk)
+    
+    # 2. Obtenemos la orden de ensayo relacionada
+    # Asumimos que la muestra tiene una orden, si no, habría un error lógico previo
+    orden = muestra.ordenes.first() 
+    
+    # 3. Lógica para manejar el formulario (POST)
+    if request.method == 'POST':
+        # Aquí va la lógica de Formulario/Formset para crear o actualizar ResultadoEnsayo
+        
+        # Una vez guardado, se debe actualizar el estado de la Orden de Ensayo
+        if orden:
+            orden.estado_orden = 'RESULTADOS_REGISTRADOS'
+            orden.save()
+        
+        # return redirect('alguna_vista_de_exito') 
+        pass
+
+    context = {
+        'muestra': muestra,
+        'orden': orden,
+        # Aquí pasarías el formulario de resultados
+    }
+    return render(request, 'proyectos/registro_resultado_form.html', context)

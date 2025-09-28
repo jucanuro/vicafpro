@@ -1,0 +1,51 @@
+{% extends "base_vicafpro.html" %}
+
+{% block content %}
+<div class="space-y-8 p-8 bg-white shadow-2xl rounded-xl max-w-4xl mx-auto border border-gray-200">
+    <header class="border-b border-gray-300 pb-4">
+        <h1 class="text-3xl font-extrabold text-gray-800">
+            Ficha de Orden de Ensayo #{{ orden.pk }}
+        </h1>
+        <p class="text-gray-500 mt-2">
+            Proyecto: <strong>{{ proyecto.nombre_proyecto }}</strong> | Técnico Asignado: <strong>{{ orden.tecnico_asignado.user.get_full_name|default:"PENDIENTE" }}</strong>
+        </p>
+    </header>
+
+    <div class="grid grid-cols-2 gap-x-12 gap-y-6 text-sm">
+        <div>
+            <h2 class="font-bold text-lg text-blue-600 mb-2 border-b pb-1">DATOS DE LA MUESTRA</h2>
+            <p><span class="font-semibold text-gray-700">Código de Muestra:</span> <span class="text-gray-900 font-medium">{{ muestra.codigo_muestra }}</span></p>
+            <p><span class="font-semibold text-gray-700">Tipo de Muestra:</span> <span class="text-gray-600">{{ muestra.tipo_muestra }}</span></p>
+            <p><span class="font-semibold text-gray-700">Ubicación/Origen:</span> <span class="text-gray-600">{{ muestra.ubicacion }}</span></p>
+            <p><span class="font-semibold text-gray-700">Fecha de Recepción:</span> <span class="text-gray-600">{{ muestra.fecha_recepcion|date:"d M Y" }}</span></p>
+        </div>
+
+        <div>
+            <h2 class="font-bold text-lg text-blue-600 mb-2 border-b pb-1">DETALLES DEL ENSAYO</h2>
+            <p><span class="font-semibold text-gray-700">Ensayo Requerido:</span> <span class="text-gray-900 font-medium">{{ orden.tipo_ensayo }}</span></p>
+            <p><span class="font-semibold text-gray-700">Fecha Límite:</span> <span class="text-red-600 font-medium">{{ orden.fecha_entrega_programada|date:"d M Y" }}</span></p>
+            <p><span class="font-semibold text-gray-700">Estado de la Orden:</span> <span class="font-bold text-green-700">{{ orden.get_estado_orden_display }}</span></p>
+        </div>
+    </div>
+
+    <div class="mt-8 p-4 border-l-4 border-yellow-500 bg-yellow-50 rounded-md">
+        <h3 class="font-bold text-xl text-yellow-700 mb-3">Instrucciones para el Técnico</h3>
+        <p class="text-gray-700">
+            Proceder con el ensayo **{{ orden.tipo_ensayo }}** siguiendo el protocolo estándar. 
+            Una vez finalizado, debe registrar los resultados usando el botón 'Registrar Resultados' en la lista de muestras.
+        </p>
+    </div>
+
+    <div class="flex justify-center pt-6">
+        {% if resultado_actual %}
+            <a href="{% url 'proyectos:registro_resultado_form' muestra.pk %}" class="px-8 py-3 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition-colors shadow-lg">
+                <i data-lucide="check-circle" class="w-5 h-5 inline-block mr-2"></i> Ver/Editar Resultados Registrados
+            </a>
+        {% else %}
+            <a href="{% url 'proyectos:registro_resultado_form' muestra.pk %}" class="px-8 py-3 bg-indigo-600 text-white font-semibold rounded-full hover:bg-indigo-700 transition-colors shadow-lg">
+                <i data-lucide="edit" class="w-5 h-5 inline-block mr-2"></i> Registrar Resultados
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

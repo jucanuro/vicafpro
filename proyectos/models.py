@@ -14,167 +14,124 @@ def documento_file_path(instance, filename):
     return 'proyectos/documentos/default_path/'
 
 
-# ================================================================
-#  Modelos de la aplicación Proyectos
-# ================================================================
-
 class Proyecto(models.Model):
-    cliente = models.ForeignKey(ClienteProfile, on_delete=models.CASCADE, related_name='proyectos', verbose_name="Cliente")
-    cotizacion = models.OneToOneField(Cotizacion, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Cotización Asociada")
-    servicios_usados = models.ManyToManyField(Servicio, related_name='proyectos_usados', verbose_name="Servicios Usados")
+    # Relación con Cotizacion
+    cotizacion = models.ForeignKey(Cotizacion, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Cotización")
+    
+    ESTADOS_PROYECTO = [
+        ('PENDIENTE', 'Pendiente'),
+        ('EN_CURSO', 'En Curso'),
+        ('FINALIZADO', 'Finalizado'),
+        ('CANCELADO', 'Cancelado'),
+    ]
 
     nombre_proyecto = models.CharField(max_length=255, verbose_name="Nombre del Proyecto")
-    descripcion_proyecto = models.TextField(blank=True, null=True, verbose_name="Descripción del Proyecto")
+    codigo_proyecto = models.CharField(max_length=50, unique=True, verbose_name="Código del Proyecto")
+    cliente = models.ForeignKey(ClienteProfile, on_delete=models.CASCADE, verbose_name="Cliente", related_name='proyectos')
     
-    # CAMPOS CRUCIALES AGREGADOS
-    # 'null=True' evita que Django pida un valor por defecto en la consola durante la migración.
-    monto_cotizacion = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, verbose_name="Monto de la Cotización")
-    codigo_voucher = models.CharField(max_length=50, blank=True, null=True, verbose_name="Código del Voucher")
-    
-    latitud = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True, verbose_name="Latitud")
-    longitud = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True, verbose_name="Longitud")
-    
-    ESTADO_PROYECTO = [
-        ('PENDIENTE', 'Pendiente'),
-        ('EN_PROGRESO', 'En Progreso'),
-        ('FINALIZADO', 'Finalizado'),
-        ('CANCELADO', 'Cancelado')
-    ]
-    estado = models.CharField(max_length=50, choices=ESTADO_PROYECTO, default='PENDIENTE', verbose_name="Estado del Proyecto")
-    numero_muestras_total = models.PositiveIntegerField(default=1)
-    
+    # -----------------------------------------------------------
+    # 🆕 CAMPOS AGREGADOS (Solución al TypeError)
+    # -----------------------------------------------------------
+    descripcion_proyecto = models.TextField(verbose_name="Descripción", blank=True, null=True)
+    monto_cotizacion = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, verbose_name="Monto de la Cotización")
+    codigo_voucher = models.CharField(max_length=100, verbose_name="Código de Voucher/Operación", blank=True, null=True)
+    # -----------------------------------------------------------
 
     fecha_inicio = models.DateField(default=timezone.now, verbose_name="Fecha de Inicio")
-    fecha_fin_estimada = models.DateField(blank=True, null=True, verbose_name="Fecha Fin Estimada")
-    fecha_finalizacion_real = models.DateField(blank=True, null=True, verbose_name="Fecha de Finalización Real")
+    fecha_entrega_estimada = models.DateField(blank=True, null=True, verbose_name="Fecha de Entrega Estimada")
+    estado = models.CharField(max_length=20, choices=ESTADOS_PROYECTO, default='PENDIENTE', verbose_name="Estado")
+    
+    # Campo para el número total de muestras del proyecto (ya existía)
+    numero_muestras = models.PositiveIntegerField(default=0, verbose_name="Número de Muestras")
+    # Campo para el número de muestras registradas (ya existía)
+    numero_muestras_registradas = models.PositiveIntegerField(default=0, verbose_name="Número de Muestras Registradas")
 
-    notificado_cliente = models.BooleanField(default=False, verbose_name="Notificado al Cliente")
-    creado_en = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de Creación")
-    actualizado_en = models.DateTimeField(auto_now=True, verbose_name="Última Actualización")
-    procesado_ia = models.BooleanField(default=False, verbose_name="Procesado por IA")
+    creado_en = models.DateTimeField(auto_now_add=True)
+    modificado_en = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.nombre_proyecto} ({self.cliente.razon_social})"
+        return f"{self.nombre_proyecto} ({self.codigo_proyecto})"
 
     class Meta:
         verbose_name = "Proyecto"
         verbose_name_plural = "Proyectos"
         ordering = ['-creado_en']
 
-class OrdenDeEnsayo(models.Model):
-    ESTADOS = [
-        ('PENDIENTE', 'Pendiente'),
-        ('EN_PROGRESO', 'En Progreso'),
-        ('ATRASADO', 'Atrasado'),
-        ('FINALIZADO', 'Finalizado'),
-        ('RECHAZADO', 'Rechazado'),
-    ]
-
-    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, related_name='ordenes_de_ensayo', verbose_name="Proyecto")
-    codigo_orden = models.CharField(max_length=50, unique=True, verbose_name="Código de la Orden")
-    tipo_ensayo = models.CharField(max_length=100, verbose_name="Tipo de Ensayo")
-    norma_ensayo = models.CharField(max_length=100, blank=True, null=True, verbose_name="Norma de Ensayo")
-    supervisor_asignado = models.ForeignKey(TrabajadorProfile, on_delete=models.SET_NULL, null=True, blank=True, related_name='ordenes_supervisadas', verbose_name="Supervisor Asignado")
-    fecha_entrega_programada = models.DateField(verbose_name="Fecha de Entrega Programada")
-    fecha_entrega_real = models.DateField(blank=True, null=True, verbose_name="Fecha de Entrega Real")
-    estado_avance = models.CharField(max_length=20, choices=ESTADOS, default='PENDIENTE', verbose_name="Estado de Avance")
-
-    def __str__(self):
-        return f"Orden {self.codigo_orden} para {self.proyecto.nombre_proyecto}"
-
-    class Meta:
-        verbose_name = "Orden de Ensayo"
-        verbose_name_plural = "Órdenes de Ensayo"
-        ordering = ['fecha_entrega_programada']
 
 class Muestra(models.Model):
-    # RELACIÓN: Una muestra pertenece a una orden de ensayo. Por lo tanto, un proyecto puede tener muchas muestras a través de la relación OrdenDeEnsayo.
-    orden = models.ForeignKey(
-        OrdenDeEnsayo,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name='muestras',
-        verbose_name="Orden de Ensayo"
-    )
-    codigo_muestra = models.CharField(
-        max_length=100,
-        unique=True,
-        verbose_name="Código de la Muestra"
-    )
-    descripcion_muestra = models.TextField(
-        verbose_name="Descripción de la Muestra"
-    )
-    id_lab = models.CharField(
-        max_length=50,
-        unique=True,
-        verbose_name="ID del Laboratorio",
-        null=True, blank=True
-    )
-    tipo_muestra = models.CharField(
-        max_length=50,
-        verbose_name="Tipo de Muestra (Ej. Concreto, Suelo)",
-        default='Sin tipo'
-    )
-    masa_aprox_kg = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        verbose_name="Masa Aproximada (kg)",
-        null=True, blank=True
-    )
-    fecha_recepcion = models.DateField(
-        default=timezone.now,
-        verbose_name="Fecha de Recepción"
-    )
-    fecha_fabricacion = models.DateField(
-        null=True, blank=True,
-        verbose_name="Fecha de Fabricación"
-    )
-    fecha_ensayo_rotura = models.DateField(
-        null=True, blank=True,
-        verbose_name="Fecha de Ensayo (solo ensayos de rotura a la compresión)"
-    )
-    informe = models.CharField(
-        max_length=100,
-        verbose_name="Código de Informe",
-        null=True, blank=True
-    )
-    fecha_informe = models.DateField(
-        null=True, blank=True,
-        verbose_name="Fecha de Informe"
-    )
-    estado = models.CharField(
-        max_length=50,
-        choices=[('EN CURSO', 'En curso'), ('EN REVISIÓN', 'En revisión'), ('ENVIADO', 'Enviado')],
-        verbose_name="Estado de la Muestra",
-        default='EN CURSO'
-    )
-    ensayos_a_realizar = models.TextField(
-        verbose_name="Ensayos a realizar",
-        null=True, blank=True
-    )
-    creado_en = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name="Fecha de Creación"
-    )
-    actualizado_en = models.DateTimeField(
-        auto_now=True,
-        verbose_name="Última Actualización"
-    )
+    ESTADOS_MUESTRA = [
+        ('RECIBIDA', 'Recibida'),
+        ('EN_ANALISIS', 'En Análisis'),
+        ('INFORME_FINAL', 'Informe Final'),
+        ('VALIDADO', 'Validado'),
+    ]
 
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, related_name='muestras', verbose_name="Proyecto")
+    codigo_muestra = models.CharField(max_length=100, verbose_name="Código de Muestra")
+    descripcion_muestra = models.TextField(blank=True, null=True, verbose_name="Descripción de la Muestra")
+    id_lab = models.CharField(max_length=50, blank=True, null=True, verbose_name="ID de Laboratorio")
+    tipo_muestra = models.CharField(max_length=100, blank=True, null=True, verbose_name="Tipo de Muestra")
+    masa_aprox_kg = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, verbose_name="Masa Aprox. (kg)")
+    fecha_recepcion = models.DateField(default=timezone.now, verbose_name="Fecha de Recepción")
+    fecha_fabricacion = models.DateField(blank=True, null=True, verbose_name="Fecha de Fabricación")
+    fecha_ensayo_rotura = models.DateField(blank=True, null=True, verbose_name="Fecha de Ensayo de Rotura")
+    informe = models.TextField(blank=True, null=True, verbose_name="Informe")
+    fecha_informe = models.DateField(blank=True, null=True, verbose_name="Fecha de Informe")
+    estado = models.CharField(max_length=20, choices=ESTADOS_MUESTRA, default='RECIBIDA', verbose_name="Estado")
+    
+    # Campo para los ensayos a realizar, si es necesario
+    ensayos_a_realizar = models.TextField(blank=True, null=True, verbose_name="Ensayos a Realizar")
+
+    creado_en = models.DateTimeField(auto_now_add=True)
+    modificado_en = models.DateTimeField(auto_now=True)
+    
     def __str__(self):
-        return f"{self.codigo_muestra} - {self.descripcion_muestra}"
-
-    @property
-    def cliente(self):
-        if self.orden and self.orden.proyecto and self.orden.proyecto.cliente:
-            return self.orden.proyecto.cliente
-        return None
+        return f"{self.codigo_muestra} - {self.proyecto.nombre_proyecto}"
 
     class Meta:
         verbose_name = "Muestra"
         verbose_name_plural = "Muestras"
-        unique_together = ('orden', 'codigo_muestra')
-        ordering = ['-creado_en']
+        unique_together = ('proyecto', 'codigo_muestra')
+
+class OrdenDeEnsayo(models.Model):
+    # La Orden de Ensayo debe estar vinculada a una Muestra y a un Proyecto
+    muestra = models.ForeignKey(Muestra, on_delete=models.CASCADE, related_name='ordenes', verbose_name="Muestra")
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, related_name='ordenes', verbose_name="Proyecto")
+
+    # --- Campos para el Documento de Trabajo ---
+    tipo_ensayo = models.CharField(max_length=100, verbose_name="Tipo de Ensayo")
+    fecha_entrega_programada = models.DateField(verbose_name="Fecha de Entrega Programada")
+    
+    # Campo para asignar el técnico responsable de esta orden
+    tecnico_asignado = models.ForeignKey(
+        TrabajadorProfile, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True, 
+        related_name='ordenes_asignadas', 
+        verbose_name="Técnico Asignado"
+    )
+    
+    # Estado de la Orden de Ensayo (para saber si ya se registraron los resultados)
+    ESTADOS = (
+        ('PENDIENTE', 'Pendiente de Inicio'),
+        ('EN_PROCESO', 'En Proceso de Ensayo'),
+        ('RESULTADOS_REGISTRADOS', 'Resultados Registrados'),
+        ('REVISADA', 'Revisada/Cerrada')
+    )
+    estado_orden = models.CharField(max_length=50, choices=ESTADOS, default='PENDIENTE', verbose_name="Estado de la Orden")
+    
+    # Información de auditoría
+    creado_en = models.DateTimeField(auto_now_add=True)
+    modificado_en = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Orden de Ensayo para {self.muestra.codigo_muestra}"
+
+    class Meta:
+        verbose_name = "Orden de Ensayo"
+        verbose_name_plural = "Órdenes de Ensayo"
+        
         
 class ResultadoEnsayo(models.Model):
     # RELACIÓN: Un resultado de ensayo pertenece a una muestra. Por lo tanto, una muestra puede tener muchos resultados.
