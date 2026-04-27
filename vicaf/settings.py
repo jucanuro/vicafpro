@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-agvb@jau49na9tapnu910^!0sbqz%=mn$1n8pv70)io*n6x830')
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['www.grupovicaf.com', 'grupovicaf.com', '23.22.40.136', 'localhost']
 
