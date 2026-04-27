@@ -99,3 +99,8 @@ class DocumentoNosotros(models.Model):
             '.ppt',
             '.pptx',
         ]
+        
+    @property
+    def es_certificado(self):
+        nombre_tipo = self.tipo.nombre.lower() if self.tipo else ''
+        return 'certificado' in nombre_tipo

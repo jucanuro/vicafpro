@@ -52,74 +52,60 @@
             <h3 class="ml-4 text-xl lg:text-2xl font-bold text-blue-800">Certificados y políticas institucionales</h3>
         </div>
 
-        <div class="grid lg:grid-cols-12 gap-8 mt-8">
-            <div class="lg:col-span-4">
-                {% if documentos_principales %}
-                    {% with doc=documentos_principales.0 %}
-                    <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl border border-slate-200 overflow-hidden flex flex-col h-full transition-all duration-300">
-                        <div class="relative bg-slate-50 p-4 h-64 flex items-center justify-center">
-                            {% if doc.imagen %}
-                                <img src="{{ doc.imagen.url }}" alt="{{ doc.titulo }}" class="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.03]">
-                            {% else %}
-                                <span class="text-sm text-slate-400">Sin imagen</span>
-                            {% endif %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8 items-start">
+            {% for doc in documentos_principales %}
+            <div class="h-full">
+                <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl border border-slate-200 overflow-hidden flex flex-col transition-all duration-300
+                            {% if doc.es_certificado %}min-h-[410px]{% else %}min-h-[350px]{% endif %}">
 
-                            <span class="absolute top-4 left-4 inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-bold text-blue-700">
-                                {{ doc.tipo.nombre }}
-                            </span>
-                        </div>
+                    <!-- IMAGEN: NO CAMBIAR -->
+                    <div class="relative bg-slate-50 p-4 flex items-center justify-center h-48">
+                        {% if doc.imagen %}
+                            <img src="{{ doc.imagen.url }}"
+                                alt="{{ doc.titulo }}"
+                                class="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.04]">
+                        {% else %}
+                            <span class="text-sm text-slate-400">Sin imagen</span>
+                        {% endif %}
 
-                        <div class="p-5 flex flex-col flex-grow">
-                            <h4 class="text-base font-bold text-slate-800 leading-snug mb-2">{{ doc.titulo }}</h4>
-
-                            {% if doc.descripcion %}
-                                <p class="text-sm text-slate-500 leading-relaxed mb-5 line-clamp-3">{{ doc.descripcion }}</p>
-                            {% endif %}
-
-                            <button type="button" data-modal="modal-doc-{{ doc.id }}" class="mt-auto w-full inline-flex items-center justify-center gap-2 rounded-xl bg-blue-700 px-4 py-3 text-sm font-semibold text-white shadow-md hover:bg-blue-800 transition-all duration-300">
-                                Ver {{ doc.tipo.nombre }}
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.022 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
-                                </svg>
-                            </button>
-                        </div>
+                        <span class="absolute top-3 left-3 inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-[11px] font-bold text-blue-700">
+                            {{ doc.tipo.nombre }}
+                        </span>
                     </div>
-                    {% endwith %}
-                {% endif %}
-            </div>
 
-            <div class="lg:col-span-8">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {% for doc in documentos_principales|slice:"1:4" %}
-                    <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl border border-slate-200 overflow-hidden flex flex-col h-full transition-all duration-300">
-                        <div class="relative bg-slate-50 p-4 h-48 flex items-center justify-center">
-                            {% if doc.imagen %}
-                                <img src="{{ doc.imagen.url }}" alt="{{ doc.titulo }}" class="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.04]">
-                            {% else %}
-                                <span class="text-sm text-slate-400">Sin imagen</span>
-                            {% endif %}
+                    <!-- CONTENIDO -->
+                    <div class="p-5 flex flex-col flex-grow">
+                        <h4 class="{% if doc.es_certificado %}text-base{% else %}text-sm sm:text-base{% endif %} font-bold text-slate-800 leading-snug mb-3">
+                            {{ doc.titulo }}
+                        </h4>
 
-                            <span class="absolute top-3 left-3 inline-flex items-center rounded-full bg-blue-100 px-2.5 py-1 text-[11px] font-bold text-blue-700">
-                                {{ doc.tipo.nombre }}
-                            </span>
-                        </div>
+                        {% if doc.descripcion %}
+                            <p class="text-sm text-slate-500 leading-relaxed mb-4 {% if doc.es_certificado %}line-clamp-3{% else %}line-clamp-2{% endif %}">
+                                {{ doc.descripcion }}
+                            </p>
+                        {% endif %}
 
-                        <div class="p-5 flex flex-col flex-grow">
-                            <h4 class="text-sm sm:text-base font-bold text-slate-800 leading-snug mb-4 flex-grow">{{ doc.titulo }}</h4>
+                        <button type="button"
+                                data-modal="modal-doc-{{ doc.id }}"
+                                class="mt-auto w-full inline-flex items-center justify-center gap-2 rounded-xl bg-blue-700 px-4 text-sm font-semibold text-white shadow-md hover:bg-blue-800 transition-all duration-300
+                                    {% if doc.es_certificado %}py-3{% else %}py-2.5{% endif %}">
+                            Ver {{ doc.tipo.nombre }}
 
-                            <button type="button" data-modal="modal-doc-{{ doc.id }}" class="mt-auto w-full inline-flex items-center justify-center gap-2 rounded-xl bg-blue-700 px-4 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-blue-800 transition-all duration-300">
-                                Ver {{ doc.tipo.nombre }}
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.022 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
-                                </svg>
-                            </button>
-                        </div>
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="w-4 h-4"
+                                viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                <path fill-rule="evenodd"
+                                    d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.022 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
                     </div>
-                    {% endfor %}
+
                 </div>
             </div>
+            {% endfor %}
         </div>
 
         {% if documentos_restantes %}
