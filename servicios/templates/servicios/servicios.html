@@ -1,204 +1,371 @@
 {% load static %}
 {% block content %}
-<div id="servicios" class="bg-gray-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-800/90 py-4 lg:py-6">
-    <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-            <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-blue-900">
-                Nuestros Servicios 
-            </h2>
-            <p class="mt-5 text-xs lg:text-sm text-slate-700 dark:text-slate-300 max-w-7xl mx-auto">
-                Soluciones expertas diseñadas para impulsar la calidad, seguridad y eficiencia en cada uno de sus proyectos.
-            </p>
-        </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10 lg:gap-x-8">
-            
-            <div class="group relative bg-white/80 dark:bg-slate-800/70 backdrop-blur-lg rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-xl hover:shadow-indigo-500/30 dark:hover:shadow-indigo-400/20 transition-all duration-300 transform hover:-translate-y-2 flex flex-col overflow-hidden ring-1 ring-transparent hover:ring-indigo-500/70 dark:hover:ring-indigo-400/60">
-                <div class="h-44 w-full overflow-hidden relative">
-                    <img src="{% static 'img/servicios/CC-1.jpeg' %}" alt="Control de calidad en obra" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-indigo-500/20 dark:bg-indigo-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <svg class="w-10 h-10 text-white opacity-80" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="p-5 flex-grow flex flex-col">
-                    <h3 class="text-xs lg:text-sm font-semibold text-blue-900 dark:text-blue-400 mb-2">Control de Calidad en Obra</h3>
-                    <p class="text-xs text-slate-700 dark:text-slate-300 mb-4 flex-grow text-left">
-                        Supervisamos y verificamos que los procesos constructivos cumplan con los estándares normativos y de calidad vigentes.
-                    </p>
-                    <a href="{% url 'servicios:detalle' %}" class="mt-auto self-start inline-flex items-center gap-x-1.5 rounded-lg bg-blue-900 dark:from-indigo-500 dark:to-purple-500 px-4 py-2 text-xs font-semibold text-white shadow-md hover:from-indigo-500 hover:to-purple-500 dark:hover:from-indigo-400 dark:hover:to-purple-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:focus-visible:outline-indigo-500 transition-all duration-300 transform hover:scale-105">
-                        Conocer más
-                        <svg class="-mr-0.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="group relative bg-white/80 dark:bg-slate-800/70 backdrop-blur-lg rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-xl hover:shadow-indigo-500/30 dark:hover:shadow-indigo-400/20 transition-all duration-300 transform hover:-translate-y-2 flex flex-col overflow-hidden ring-1 ring-transparent hover:ring-indigo-500/70 dark:hover:ring-indigo-400/60">
-                <div class="h-44 w-full overflow-hidden relative">
-                    <img src="{% static 'img/servicios/e_mecanica_suelos1.jpg' %}" alt="Estudio de mecánica de suelos" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-indigo-500/20 dark:bg-indigo-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <svg class="w-10 h-10 text-white opacity-80" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="p-5 flex-grow flex flex-col">
-                    <h3 class="text-xs lg:text-sm font-semibold text-blue-900 dark:text-blue-400 mb-2">Mecánica de Suelos</h3>
-                    <p class="text-xs text-slate-700 dark:text-slate-300 mb-4 flex-grow text-left">
-                        Realizamos estudios geotécnicos para evaluar la capacidad portante y estabilidad del suelo, optimizando el diseño de cimentaciones.
-                    </p>
-                    <a href="{% url 'servicios:detalle' %}" class="mt-auto self-start inline-flex items-center gap-x-1.5 rounded-lg bg-blue-900 dark:from-indigo-500 dark:to-purple-500 px-4 py-2 text-xs font-semibold text-white shadow-md hover:from-indigo-500 hover:to-purple-500 dark:hover:from-indigo-400 dark:hover:to-purple-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:focus-visible:outline-indigo-500 transition-all duration-300 transform hover:scale-105">
-                        Conocer más
-                        <svg class="-mr-0.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="group relative bg-white/80 dark:bg-slate-800/70 backdrop-blur-lg rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-xl hover:shadow-indigo-500/30 dark:hover:shadow-indigo-400/20 transition-all duration-300 transform hover:-translate-y-2 flex flex-col overflow-hidden ring-1 ring-transparent hover:ring-indigo-500/70 dark:hover:ring-indigo-400/60">
-                <div class="h-44 w-full overflow-hidden relative">
-                    <img src="{% static 'img/servicios/EC-1.jpg' %}" alt="Estudio de canteras" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-indigo-500/20 dark:bg-indigo-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <svg class="w-10 h-10 text-white opacity-80" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="p-5 flex-grow flex flex-col">
-                    <h3 class="text-xs lg:text-sm font-semibold text-blue-900 dark:text-blue-400 mb-2">Estudio de Canteras</h3>
-                    <p class="text-xs text-slate-700 dark:text-slate-300 mb-4 flex-grow text-left">
-                        Analizamos la calidad y rendimiento de los materiales de cantera, asegurando su idoneidad para proyectos constructivos.
-                    </p>
-                    <a href="{% url 'servicios:detalle' %}" class="mt-auto self-start inline-flex items-center gap-x-1.5 rounded-lg bg-blue-900 dark:from-indigo-500 dark:to-purple-500 px-4 py-2 text-xs font-semibold text-white shadow-md hover:from-indigo-500 hover:to-purple-500 dark:hover:from-indigo-400 dark:hover:to-purple-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:focus-visible:outline-indigo-500 transition-all duration-300 transform hover:scale-105">
-                        Conocer más
-                        <svg class="-mr-0.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="group relative bg-white/80 dark:bg-slate-800/70 backdrop-blur-lg rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-xl hover:shadow-indigo-500/30 dark:hover:shadow-indigo-400/20 transition-all duration-300 transform hover:-translate-y-2 flex flex-col overflow-hidden ring-1 ring-transparent hover:ring-indigo-500/70 dark:hover:ring-indigo-400/60">
-                <div class="h-44 w-full overflow-hidden relative">
-                    <img src="{% static 'img/servicios/ES-1.jpeg' %}" alt="Evaluación estructural" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-indigo-500/20 dark:bg-indigo-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <svg class="w-10 h-10 text-white opacity-80" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="p-5 flex-grow flex flex-col">
-                    <h3 class="text-xs lg:text-sm font-semibold text-blue-900 dark:text-blue-400 mb-2">Evaluación Estructural</h3>
-                    <p class="text-xs text-slate-700 dark:text-slate-300 mb-4 flex-grow text-left">
-                        Inspeccionamos y diagnosticamos edificaciones y estructuras para determinar su estado actual y capacidad de resistencia.
-                    </p>
-                    <a href="{% url 'servicios:detalle' %}" class="mt-auto self-start inline-flex items-center gap-x-1.5 rounded-lg bg-blue-900 dark:from-indigo-500 dark:to-purple-500 px-4 py-2 text-xs font-semibold text-white shadow-md hover:from-indigo-500 hover:to-purple-500 dark:hover:from-indigo-400 dark:hover:to-purple-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:focus-visible:outline-indigo-500 transition-all duration-300 transform hover:scale-105">
-                        Conocer más
-                        <svg class="-mr-0.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                    </a>
-                </div>
-            </div>
+<section id="servicios" class="relative overflow-hidden bg-gradient-to-b from-white via-slate-50 to-white py-16 lg:py-24">
 
-            <div class="group relative bg-white/80 dark:bg-slate-800/70 backdrop-blur-lg rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-xl hover:shadow-indigo-500/30 dark:hover:shadow-indigo-400/20 transition-all duration-300 transform hover:-translate-y-2 flex flex-col overflow-hidden ring-1 ring-transparent hover:ring-indigo-500/70 dark:hover:ring-indigo-400/60">
-                <div class="h-44 w-full overflow-hidden relative">
-                    <img src="{% static 'img/servicios/DM-4.jpg' %}" alt="Diseño de mezclas" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-indigo-500/20 dark:bg-indigo-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <svg class="w-10 h-10 text-white opacity-80" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="p-5 flex-grow flex flex-col">
-                    <h3 class="text-xs lg:text-sm font-semibold text-blue-900 dark:text-blue-400 mb-2">Diseño de Mezclas</h3>
-                    <p class="text-xs text-slate-700 dark:text-slate-300 mb-4 flex-grow text-left">
-                        Desarrollamos formulaciones óptimas para mezclas de concreto y asfalto, garantizando resistencia y durabilidad.
-                    </p>
-                    <a href="{% url 'servicios:detalle' %}" class="mt-auto self-start inline-flex items-center gap-x-1.5 rounded-lg bg-blue-900 dark:from-indigo-500 dark:to-purple-500 px-4 py-2 text-xs font-semibold text-white shadow-md hover:from-indigo-500 hover:to-purple-500 dark:hover:from-indigo-400 dark:hover:to-purple-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:focus-visible:outline-indigo-500 transition-all duration-300 transform hover:scale-105">
-                        Conocer más
-                        <svg class="-mr-0.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                    </a>
-                </div>
-            </div>
-
-            <div class="group relative bg-white/80 dark:bg-slate-800/70 backdrop-blur-lg rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-xl hover:shadow-indigo-500/30 dark:hover:shadow-indigo-400/20 transition-all duration-300 transform hover:-translate-y-2 flex flex-col overflow-hidden ring-1 ring-transparent hover:ring-indigo-500/70 dark:hover:ring-indigo-400/60">
-                <div class="h-44 w-full overflow-hidden relative">
-                    <img src="{% static 'img/servicios/LB-3.jpg' %}" alt="Ensayos de laboratorio" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-indigo-500/20 dark:bg-indigo-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <svg class="w-10 h-10 text-white opacity-80" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="p-5 flex-grow flex flex-col">
-                    <h3 class="text-xs lg:text-sm font-semibold text-blue-900 dark:text-blue-400 mb-2">Ensayos de Laboratorio</h3>
-                    <p class="text-xs text-slate-700 dark:text-slate-300 mb-4 flex-grow text-left">
-                        Realizamos pruebas especializadas en materiales de construcción para asegurar su calidad y cumplimiento normativo.
-                    </p>
-                    <a href="{% url 'servicios:detalle' %}" class="mt-auto self-start inline-flex items-center gap-x-1.5 rounded-lg bg-blue-900 dark:from-indigo-500 dark:to-purple-500 px-4 py-2 text-xs font-semibold text-white shadow-md hover:from-indigo-500 hover:to-purple-500 dark:hover:from-indigo-400 dark:hover:to-purple-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:focus-visible:outline-indigo-500 transition-all duration-300 transform hover:scale-105">
-                        Conocer más
-                        <svg class="-mr-0.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                    </a>
-                </div>
-            </div>
-
-            <div class="group relative bg-white/80 dark:bg-slate-800/70 backdrop-blur-lg rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-xl hover:shadow-indigo-500/30 dark:hover:shadow-indigo-400/20 transition-all duration-300 transform hover:-translate-y-2 flex flex-col overflow-hidden ring-1 ring-transparent hover:ring-indigo-500/70 dark:hover:ring-indigo-400/60">
-                <div class="h-44 w-full overflow-hidden relative">
-                    <img src="{% static 'img/servicios/QM-1.jpg' %}" alt="Ensayos químicos" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-indigo-500/20 dark:bg-indigo-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <svg class="w-10 h-10 text-white opacity-80" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="p-5 flex-grow flex flex-col">
-                    <h3 class="text-xs lg:text-sm font-semibold text-blue-900 dark:text-blue-400 mb-2">Ensayos Químicos</h3>
-                    <p class="text-xs text-slate-700 dark:text-slate-300 mb-4 flex-grow text-left">
-                        Analizamos la composición química de materiales para verificar su compatibilidad, durabilidad y seguridad.
-                    </p>
-                    <a href="{% url 'servicios:detalle' %}" class="mt-auto self-start inline-flex items-center gap-x-1.5 rounded-lg bg-blue-900 dark:from-indigo-500 dark:to-purple-500 px-4 py-2 text-xs font-semibold text-white shadow-md hover:from-indigo-500 hover:to-purple-500 dark:hover:from-indigo-400 dark:hover:to-purple-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:focus-visible:outline-indigo-500 transition-all duration-300 transform hover:scale-105">
-                        Conocer más
-                        <svg class="-mr-0.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="group relative bg-white/80 dark:bg-slate-800/70 backdrop-blur-lg rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-xl hover:shadow-indigo-500/30 dark:hover:shadow-indigo-400/20 transition-all duration-300 transform hover:-translate-y-2 flex flex-col overflow-hidden ring-1 ring-transparent hover:ring-indigo-500/70 dark:hover:ring-indigo-400/60">
-                <div class="h-44 w-full overflow-hidden relative">
-                    <img src="static/img/servicios/EQ-2.jpg" alt="Alquiler de equipos de laboratorio" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-indigo-500/20 dark:bg-indigo-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <svg class="w-10 h-10 text-white opacity-80" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="p-5 flex-grow flex flex-col">
-                    <h3 class="text-xs lg:text-sm font-semibold text-blue-900 dark:text-blue-400 mb-2">Alquiler de Equipos</h3>
-                    <p class="text-xs text-slate-700 dark:text-slate-300 mb-4 flex-grow text-left">
-                        Ofrecemos equipos especializados para ensayos de suelos, concreto y diversos materiales de construcción.
-                    </p>
-                    <a href="{% url 'servicios:detalle' %}" class="mt-auto self-start inline-flex items-center gap-x-1.5 rounded-lg bg-blue-900 dark:from-indigo-500 dark:to-purple-500 px-4 py-2 text-xs font-semibold text-white shadow-md hover:from-indigo-500 hover:to-purple-500 dark:hover:from-indigo-400 dark:hover:to-purple-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:focus-visible:outline-indigo-500 transition-all duration-300 transform hover:scale-105">
-                        Conocer más
-                        <svg class="-mr-0.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="mt-16 text-center">
-            <a href="{% url 'servicios:detalle' %}" 
-               class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-xs font-medium rounded-lg text-white bg-blue-900 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 transition-colors duration-300 shadow-md hover:shadow-lg transform hover:scale-105">
-                Ver Detalles de Servicios
-                <svg class="ml-3 -mr-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                </svg>
-            </a>
-        </div>
+    <!-- Background Effects -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-100/40 blur-3xl rounded-full"></div>
+        <div class="absolute bottom-0 right-0 w-[450px] h-[450px] bg-slate-200/40 blur-3xl rounded-full"></div>
     </div>
-</div>
+
+    <div class="relative max-w-full mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Header -->
+        <div class="text-center max-w-3xl mx-auto mb-16">
+
+            <span class="inline-flex items-center px-4 py-1.5 rounded-full bg-blue-100 text-blue-900 text-xs font-bold tracking-[0.25em] uppercase">
+                Servicios Especializados
+            </span>
+
+            <h2 class="mt-6 text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 leading-tight">
+                Soluciones Técnicas
+                <span class="text-blue-900">
+                    de Alto Nivel
+                </span>
+            </h2>
+
+            <p class="mt-6 text-sm sm:text-base text-slate-600 leading-relaxed">
+                Brindamos servicios especializados en ingeniería, laboratorio y control de calidad,
+                garantizando precisión técnica, seguridad estructural y cumplimiento normativo.
+            </p>
+
+        </div>
+
+        <!-- GRID -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+
+            <!-- CARD 1 -->
+            <div class="group relative overflow-hidden rounded-[30px] bg-white border border-slate-200 shadow-[0_15px_60px_-15px_rgba(15,23,42,0.12)] hover:shadow-[0_25px_80px_-20px_rgba(30,64,175,0.25)] transition-all duration-500 hover:-translate-y-2">
+
+                <div class="relative h-64 overflow-hidden">
+                    <img src="{% static 'img/servicios/CC-1.jpeg' %}"
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                         alt="Control de calidad">
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/20 to-transparent"></div>
+
+                    <div class="absolute top-5 left-5">
+                        <div class="w-14 h-14 rounded-2xl bg-white/90 backdrop-blur-md flex items-center justify-center shadow-lg">
+
+                            <svg class="w-7 h-7 text-blue-900" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M9 12.75L11.25 15 15 9.75M21 12A9 9 0 1112 3a9 9 0 019 9z"/>
+                            </svg>
+
+                        </div>
+                    </div>
+
+                    <div class="absolute bottom-6 left-6 right-6">
+                        <h3 class="text-2xl font-bold text-white leading-tight">
+                            Control de Calidad
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="p-7">
+
+                    <p class="text-sm leading-7 text-slate-600">
+                        Supervisamos procesos constructivos y verificamos el cumplimiento de estándares
+                        técnicos y normativos para garantizar obras seguras y eficientes.
+                    </p>
+
+                    <a href="{% url 'servicios:detalle' %}"
+                       class="mt-7 inline-flex items-center gap-3 text-sm font-semibold text-blue-900 group-hover:text-blue-700 transition-colors">
+
+                        Explorar servicio
+
+                        <span class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center group-hover:translate-x-1 transition-transform">
+
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6l6 6-6 6"/>
+                            </svg>
+
+                        </span>
+
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="group relative overflow-hidden rounded-[30px] bg-white border border-slate-200 shadow-[0_15px_60px_-15px_rgba(15,23,42,0.12)] hover:shadow-[0_25px_80px_-20px_rgba(30,64,175,0.25)] transition-all duration-500 hover:-translate-y-2">
+
+                <div class="relative h-64 overflow-hidden">
+                    <img src="{% static 'img/servicios/e_mecanica_suelos1.jpg' %}"
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                         alt="Mecánica de suelos">
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/20 to-transparent"></div>
+
+                    <div class="absolute top-5 left-5">
+                        <div class="w-14 h-14 rounded-2xl bg-white/90 backdrop-blur-md flex items-center justify-center shadow-lg">
+
+                            <svg class="w-7 h-7 text-blue-900" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M3 15l4-8 4 8 4-8 4 8"/>
+                            </svg>
+
+                        </div>
+                    </div>
+
+                    <div class="absolute bottom-6 left-6 right-6">
+                        <h3 class="text-2xl font-bold text-white">
+                            Mecánica de Suelos
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="p-7">
+
+                    <p class="text-sm leading-7 text-slate-600">
+                        Estudios geotécnicos especializados para evaluar estabilidad, resistencia y
+                        comportamiento del terreno en proyectos de ingeniería.
+                    </p>
+
+                    <a href="{% url 'servicios:detalle' %}"
+                       class="mt-7 inline-flex items-center gap-3 text-sm font-semibold text-blue-900">
+
+                        Explorar servicio
+
+                        <span class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6l6 6-6 6"/>
+                            </svg>
+                        </span>
+
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="group relative overflow-hidden rounded-[30px] bg-white border border-slate-200 shadow-[0_15px_60px_-15px_rgba(15,23,42,0.12)] hover:shadow-[0_25px_80px_-20px_rgba(30,64,175,0.25)] transition-all duration-500 hover:-translate-y-2">
+
+                <div class="relative h-64 overflow-hidden">
+                    <img src="{% static 'img/servicios/EC-1.jpg' %}"
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                         alt="Canteras">
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/20 to-transparent"></div>
+
+                    <div class="absolute top-5 left-5">
+                        <div class="w-14 h-14 rounded-2xl bg-white/90 backdrop-blur-md flex items-center justify-center shadow-lg">
+
+                            <svg class="w-7 h-7 text-blue-900" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M2 20h20M5 20V8l7-5 7 5v12"/>
+                            </svg>
+
+                        </div>
+                    </div>
+
+                    <div class="absolute bottom-6 left-6 right-6">
+                        <h3 class="text-2xl font-bold text-white">
+                            Estudio de Canteras
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="p-7">
+
+                    <p class="text-sm leading-7 text-slate-600">
+                        Evaluamos materiales de cantera para garantizar calidad, rendimiento y viabilidad
+                        técnica en obras civiles y proyectos constructivos.
+                    </p>
+
+                    <a href="{% url 'servicios:detalle' %}"
+                       class="mt-7 inline-flex items-center gap-3 text-sm font-semibold text-blue-900">
+
+                        Explorar servicio
+
+                        <span class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6l6 6-6 6"/>
+                            </svg>
+                        </span>
+
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- CARD 4 -->
+            <div class="group relative overflow-hidden rounded-[30px] bg-white border border-slate-200 shadow-[0_15px_60px_-15px_rgba(15,23,42,0.12)] hover:shadow-[0_25px_80px_-20px_rgba(30,64,175,0.25)] transition-all duration-500 hover:-translate-y-2">
+
+                <div class="relative h-64 overflow-hidden">
+                    <img src="{% static 'img/servicios/ES-1.jpeg' %}"
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                         alt="Evaluación estructural">
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/20 to-transparent"></div>
+
+                    <div class="absolute top-5 left-5">
+                        <div class="w-14 h-14 rounded-2xl bg-white/90 backdrop-blur-md flex items-center justify-center shadow-lg">
+
+                            <svg class="w-7 h-7 text-blue-900" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M4 20V10m5 10V4m5 16v-6m5 6V8"/>
+                            </svg>
+
+                        </div>
+                    </div>
+
+                    <div class="absolute bottom-6 left-6 right-6">
+                        <h3 class="text-2xl font-bold text-white">
+                            Evaluación Estructural
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="p-7">
+
+                    <p class="text-sm leading-7 text-slate-600">
+                        Inspeccionamos estructuras y edificaciones para determinar seguridad,
+                        comportamiento estructural y condiciones operativas.
+                    </p>
+
+                    <a href="{% url 'servicios:detalle' %}"
+                       class="mt-7 inline-flex items-center gap-3 text-sm font-semibold text-blue-900">
+
+                        Explorar servicio
+
+                        <span class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6l6 6-6 6"/>
+                            </svg>
+                        </span>
+
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- CARD 5 -->
+            <div class="group relative overflow-hidden rounded-[30px] bg-white border border-slate-200 shadow-[0_15px_60px_-15px_rgba(15,23,42,0.12)] hover:shadow-[0_25px_80px_-20px_rgba(30,64,175,0.25)] transition-all duration-500 hover:-translate-y-2">
+
+                <div class="relative h-64 overflow-hidden">
+                    <img src="{% static 'img/servicios/LB-3.jpg' %}"
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                         alt="Laboratorio">
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/20 to-transparent"></div>
+
+                    <div class="absolute top-5 left-5">
+                        <div class="w-14 h-14 rounded-2xl bg-white/90 backdrop-blur-md flex items-center justify-center shadow-lg">
+
+                            <svg class="w-7 h-7 text-blue-900" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M9 3h6m-3 0v6l5 8a4 4 0 01-3.4 6H10.4A4 4 0 017 17l5-8V3"/>
+                            </svg>
+
+                        </div>
+                    </div>
+
+                    <div class="absolute bottom-6 left-6 right-6">
+                        <h3 class="text-2xl font-bold text-white">
+                            Ensayos de Laboratorio
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="p-7">
+
+                    <p class="text-sm leading-7 text-slate-600">
+                        Ejecutamos ensayos especializados en materiales de construcción
+                        bajo estándares técnicos y protocolos certificados.
+                    </p>
+
+                    <a href="{% url 'servicios:detalle' %}"
+                       class="mt-7 inline-flex items-center gap-3 text-sm font-semibold text-blue-900">
+
+                        Explorar servicio
+
+                        <span class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6l6 6-6 6"/>
+                            </svg>
+                        </span>
+
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- CARD 6 -->
+            <div class="group relative overflow-hidden rounded-[30px] bg-white border border-slate-200 shadow-[0_15px_60px_-15px_rgba(15,23,42,0.12)] hover:shadow-[0_25px_80px_-20px_rgba(30,64,175,0.25)] transition-all duration-500 hover:-translate-y-2">
+
+                <div class="relative h-64 overflow-hidden">
+                    <img src="{% static 'img/servicios/QM-1.jpg' %}"
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                         alt="Ensayos químicos">
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/20 to-transparent"></div>
+
+                    <div class="absolute top-5 left-5">
+                        <div class="w-14 h-14 rounded-2xl bg-white/90 backdrop-blur-md flex items-center justify-center shadow-lg">
+
+                            <svg class="w-7 h-7 text-blue-900" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M19.428 15.428a4 4 0 00-5.656 0L12 17.2l-1.772-1.772a4 4 0 10-5.656 5.656l1.772 1.772L12 28.512l5.656-5.656 1.772-1.772a4 4 0 000-5.656z"/>
+                            </svg>
+
+                        </div>
+                    </div>
+
+                    <div class="absolute bottom-6 left-6 right-6">
+                        <h3 class="text-2xl font-bold text-white">
+                            Ensayos Químicos
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="p-7">
+
+                    <p class="text-sm leading-7 text-slate-600">
+                        Analizamos composición química y propiedades de materiales
+                        para validar compatibilidad, resistencia y durabilidad.
+                    </p>
+
+                    <a href="{% url 'servicios:detalle' %}"
+                       class="mt-7 inline-flex items-center gap-3 text-sm font-semibold text-blue-900">
+
+                        Explorar servicio
+
+                        <span class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6l6 6-6 6"/>
+                            </svg>
+                        </span>
+
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CTA -->
+        <div class="mt-20 flex justify-center">
+
+            <a href="{% url 'servicios:detalle' %}"
+               class="group inline-flex items-center gap-4 rounded-2xl bg-blue-900 px-8 py-4 text-sm font-semibold text-white shadow-2xl shadow-blue-900/20 hover:bg-slate-900 transition-all duration-300 hover:scale-105">
+
+                Ver todos los servicios
+
+                <span class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M5 12h14m-6-6l6 6-6 6"/>
+                    </svg>
+                </span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
 {% endblock %}

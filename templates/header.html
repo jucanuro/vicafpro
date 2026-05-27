@@ -1,6 +1,6 @@
 {% load static %}
 {% block content %}
-<header class="fixed top-0 left-0 right-0 z-50 bg-white text-gray-700 w-full shadow-lg">
+<header class="fixed top-0 left-0 right-0 z-50 bg-white w-full shadow-lg">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-20">
     <a href="{% url 'inicio' %}#home" class="flex-shrink-0">
       <img
@@ -9,7 +9,8 @@
     </a>
 
     <nav class="hidden md:flex items-center text-sm font-medium space-x-1 lg:space-x-3">
-      <a id="tab1" href="{% url 'inicio' %}#home"
+      <a id="tab1"
+        href="{% url 'inicio' %}#home"
         class="nav-link py-2 px-3 relative transition-colors duration-300 ease-in-out">
         Inicio
       </a>
@@ -41,7 +42,7 @@
 
     <div class="flex items-center space-x-2 lg:space-x-3">
       <a target="_blank" href="https://pe.linkedin.com/company/grupo-vicaf-sac"
-        class="group p-2 rounded-full text-gray-500 hover:text-blue-700 hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-110"
+        class="group p-2 rounded-full text-gray-500 hover:text-white hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-110"
         aria-label="LinkedIn de Grupo Vicaf Sac">
         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
           <path fill="currentColor"
@@ -49,7 +50,7 @@
         </svg>
       </a>
       <a target="_blank" href="https://www.facebook.com/grupovicaf/"
-        class="group p-2 rounded-full text-gray-500 hover:text-blue-700 hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-110"
+        class="group p-2 rounded-full text-gray-500 hover:text-white hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-110"
         aria-label="Facebook de Grupo Vicaf">
         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
           <path fill="currentColor"
@@ -57,7 +58,7 @@
         </svg>
       </a>
       <a target="_blank" href="https://www.instagram.com/grupovicaf/"
-        class="group p-2 rounded-full text-gray-500 hover:text-blue-700 hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-110"
+        class="group p-2 rounded-full text-gray-500 hover:text-white hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-110"
         aria-label="Instagram de Grupo Vicaf">
         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
           <path fill="currentColor"
@@ -66,7 +67,7 @@
       </a>
       <a target="_blank"
         href="mailto:correo@empresa.com?subject=Consulta%20de%20servicios&body=Hola,%20tengo%20una%20consulta..."
-        class="group p-2 rounded-full text-gray-500 hover:text-blue-700 hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-110"
+        class="group p-2 rounded-full text-gray-500 hover:text-white hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-110"
         aria-label="Enviar correo electrónico">
         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
           <path fill="currentColor"
@@ -109,107 +110,201 @@
 </header>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
+
     const menuToggle = document.getElementById('menu-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
     const menuIconOpen = document.getElementById('menu-icon-open');
-    const menuIconClose = document.getElementById('menu-icon-close'); // Referencia al icono X
+    const menuIconClose = document.getElementById('menu-icon-close');
 
-    if (menuToggle && mobileMenu && menuIconOpen && menuIconClose) {
-      // Asegurar que el icono de hamburguesa esté visible y el de X oculto al cargar
-      menuIconOpen.classList.remove('hidden');
-      menuIconClose.classList.add('hidden');
+    const desktopLinks = document.querySelectorAll(
+        'header nav.hidden.md\\:flex a.nav-link'
+    );
 
-      menuToggle.addEventListener('click', () => {
-        const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
-        menuToggle.setAttribute('aria-expanded', !isExpanded);
-        mobileMenu.classList.toggle('hidden');
-        // No alternar iconos, la hamburguesa siempre se muestra
-        // menuIconOpen.classList.toggle('hidden');
-        // menuIconClose.classList.toggle('hidden');
-      });
+    const mobileLinks = document.querySelectorAll(
+        '#mobile-menu a.mobile-nav-link'
+    );
+
+    if (menuToggle && mobileMenu) {
+
+        menuToggle.addEventListener('click', () => {
+
+            const isExpanded =
+                menuToggle.getAttribute('aria-expanded') === 'true';
+
+            menuToggle.setAttribute(
+                'aria-expanded',
+                !isExpanded
+            );
+
+            mobileMenu.classList.toggle('hidden');
+
+            if (menuIconOpen && menuIconClose) {
+
+                menuIconOpen.classList.toggle('hidden');
+                menuIconClose.classList.toggle('hidden');
+            }
+        });
     }
 
     function setActiveLinks() {
-        const currentPath = window.location.pathname + window.location.hash;
-        const desktopLinks = document.querySelectorAll('header nav.hidden.md\\:flex a.nav-link');
-        const mobileLinks = document.querySelectorAll('#mobile-menu a.mobile-nav-link');
 
-        const desktopActiveClasses = ['text-blue-700', 'font-semibold'];
-        const desktopDefaultTextClass = 'text-gray-700';
-        const desktopDefaultHoverClass = 'hover:text-blue-700';
+        const currentPath =
+            window.location.pathname + window.location.hash;
 
-        const mobileActiveClasses = ['bg-blue-600', 'text-white', 'font-semibold'];
-        const mobileDefaultTextClass = 'text-gray-700';
-        const mobileDefaultHoverClasses = ['hover:bg-blue-500', 'hover:text-white'];
+        const desktopActiveClasses = [
+            'text-blue-700',
+            'font-semibold'
+        ];
+
+        const desktopDefaultClasses = [
+            'text-gray-700',
+            'hover:text-blue-700'
+        ];
+
+        const mobileActiveClasses = [
+            'bg-blue-600',
+            'text-white',
+            'font-semibold'
+        ];
+
+        const mobileDefaultClasses = [
+            'text-gray-700',
+            'hover:bg-blue-500',
+            'hover:text-white'
+        ];
 
         desktopLinks.forEach(link => {
-            let linkHref = link.pathname + link.hash;
-            if (link.hostname !== window.location.hostname) {
-                return;
-            }
 
-            // const underline = link.querySelector('.underline-span'); // Ya no se usa
+            const linkHref =
+                link.pathname + link.hash;
 
-            link.classList.remove(...desktopActiveClasses);
-            link.classList.add(desktopDefaultTextClass);
-            link.classList.add(desktopDefaultHoverClass);
-            // if (underline) { // Ya no se manipula el subrayado
-            //     underline.classList.remove('scale-x-100');
-            //     underline.classList.add('scale-x-0');
-            // }
+            const normalizedCurrentPath =
+                currentPath.endsWith('/') &&
+                !linkHref.endsWith('/')
+                    ? currentPath.slice(0, -1)
+                    : currentPath;
 
-            const normalizedCurrentPath = currentPath.endsWith('/') && !linkHref.endsWith('/') ? currentPath.slice(0, -1) : currentPath;
-            const normalizedLinkHref = linkHref.endsWith('/') && !currentPath.endsWith('/') ? linkHref.slice(0, -1) : linkHref;
+            const normalizedLinkHref =
+                linkHref.endsWith('/') &&
+                !currentPath.endsWith('/')
+                    ? linkHref.slice(0, -1)
+                    : linkHref;
 
-            if (normalizedLinkHref === normalizedCurrentPath || (normalizedLinkHref === "/#home" && normalizedCurrentPath === "/")) {
-                link.classList.remove(desktopDefaultTextClass, desktopDefaultHoverClass);
-                link.classList.add(...desktopActiveClasses);
-                // if (underline) { // Ya no se manipula el subrayado
-                //     underline.classList.add('scale-x-100');
-                // }
+            const isHomePage =
+                currentPath === '/' ||
+                currentPath === '' ||
+                currentPath === '/#home';
+
+            const isActive =
+                normalizedLinkHref === normalizedCurrentPath ||
+                (
+                    isHomePage &&
+                    link.id === 'tab1'
+                );
+
+            link.classList.remove(
+                ...desktopActiveClasses,
+                ...desktopDefaultClasses
+            );
+
+            if (isActive) {
+
+                link.classList.add(
+                    ...desktopActiveClasses
+                );
+
+            } else {
+
+                link.classList.add(
+                    ...desktopDefaultClasses
+                );
             }
         });
 
         mobileLinks.forEach(link => {
-            let linkHref = link.pathname + link.hash;
-             if (link.hostname !== window.location.hostname) {
-                return;
-            }
 
-            link.classList.remove(...mobileActiveClasses, ...mobileDefaultHoverClasses, 'bg-blue-600', 'text-white', 'font-semibold');
-            link.classList.add(mobileDefaultTextClass);
-            link.classList.add(...mobileDefaultHoverClasses);
+            const linkHref =
+                link.pathname + link.hash;
 
+            const normalizedCurrentPath =
+                currentPath.endsWith('/') &&
+                !linkHref.endsWith('/')
+                    ? currentPath.slice(0, -1)
+                    : currentPath;
 
-            const normalizedCurrentPath = currentPath.endsWith('/') && !linkHref.endsWith('/') ? currentPath.slice(0, -1) : currentPath;
-            const normalizedLinkHref = linkHref.endsWith('/') && !currentPath.endsWith('/') ? linkHref.slice(0, -1) : linkHref;
+            const normalizedLinkHref =
+                linkHref.endsWith('/') &&
+                !currentPath.endsWith('/')
+                    ? linkHref.slice(0, -1)
+                    : linkHref;
 
-            if (normalizedLinkHref === normalizedCurrentPath || (normalizedLinkHref === "/#home" && normalizedCurrentPath === "/")) {
-                link.classList.remove(mobileDefaultTextClass, ...mobileDefaultHoverClasses);
-                link.classList.add(...mobileActiveClasses);
+            const isActive =
+                normalizedLinkHref === normalizedCurrentPath ||
+                (
+                    normalizedCurrentPath === '/' &&
+                    link.textContent.trim() === 'Inicio'
+                );
+
+            link.classList.remove(
+                ...mobileActiveClasses,
+                ...mobileDefaultClasses
+            );
+
+            if (isActive) {
+
+                link.classList.add(
+                    ...mobileActiveClasses
+                );
+
+            } else {
+
+                link.classList.add(
+                    ...mobileDefaultClasses
+                );
             }
         });
     }
 
     setActiveLinks();
-    window.addEventListener('hashchange', setActiveLinks);
-    window.addEventListener('popstate', setActiveLinks);
 
-    const mobileNavLinks = document.querySelectorAll('#mobile-menu a.mobile-nav-link');
-    mobileNavLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            if (link.pathname === window.location.pathname && link.hash) {
-                 if (!mobileMenu.classList.contains('hidden')) {
-                    menuToggle.click();
+    window.addEventListener(
+        'hashchange',
+        setActiveLinks
+    );
+
+    window.addEventListener(
+        'popstate',
+        setActiveLinks
+    );
+
+    mobileLinks.forEach(link => {
+
+        link.addEventListener('click', () => {
+
+            if (
+                mobileMenu &&
+                !mobileMenu.classList.contains('hidden')
+            ) {
+
+                mobileMenu.classList.add('hidden');
+
+                if (menuIconOpen && menuIconClose) {
+
+                    menuIconOpen.classList.remove('hidden');
+                    menuIconClose.classList.add('hidden');
                 }
-            } else if (link.pathname === window.location.pathname) {
-                 if (!mobileMenu.classList.contains('hidden')) {
-                    menuToggle.click();
+
+                if (menuToggle) {
+                    menuToggle.setAttribute(
+                        'aria-expanded',
+                        'false'
+                    );
                 }
             }
         });
     });
-  });
+
+});
 </script>
 {% endblock %}
