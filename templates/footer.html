@@ -5,11 +5,8 @@
 
 <footer class="relative overflow-hidden bg-white border-t border-slate-200">
 
-    <!-- BACKGROUND DECOR -->
-    <div class="absolute inset-0 pointer-events-none">
-        <div class="absolute top-[-120px] right-[-100px] w-[320px] h-[320px] rounded-full bg-blue-100/40 blur-3xl"></div>
-        <div class="absolute bottom-[-150px] left-[-120px] w-[300px] h-[300px] rounded-full bg-cyan-100/40 blur-3xl"></div>
-    </div>
+    <!-- BACKGROUND DECOR (Totalmente limpio y blanco) -->
+    <div class="absolute inset-0 pointer-events-none bg-white"></div>
 
     <div class="relative max-w-[1850px] mx-auto px-6 sm:px-10 xl:px-16 pt-24 pb-16">
 
@@ -21,22 +18,23 @@
 
                 <div class="max-w-xl">
 
-                    <div class="flex items-center gap-6">
+                    <div class="flex items-center gap-8">
 
                         <div class="relative">
-                            <div class="absolute inset-0 bg-blue-500/20 blur-2xl rounded-full"></div>
-
+                            <!-- Logo Principal más grande (h-32) -->
                             <img
-                                class="relative h-24 object-contain"
+                                class="relative h-32 object-contain"
                                 src="{% static 'img/LogoF.png' %}"
                                 alt="Grupo Vicaf"
                             >
                         </div>
 
-                        <div class="h-20 w-px bg-gradient-to-b from-transparent via-slate-300 to-transparent"></div>
+                        <!-- Línea divisoria ajustada en proporción -->
+                        <div class="h-24 w-px bg-slate-200"></div>
 
+                        <!-- Logo Inacal más grande (h-32) -->
                         <img
-                            class="h-24 object-contain opacity-90"
+                            class="h-32 object-contain opacity-95"
                             src="{% static 'img/LogoInacal.png' %}"
                             alt="Inacal"
                         >
@@ -168,43 +166,39 @@
                         Contacto
                     </span>
 
-                    <div class="mt-8 space-y-6">
+                    <div class="mt-6 space-y-4">
 
                         <!-- EMAIL -->
-                        <div class="group relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_10px_40px_rgba(15,23,42,0.05)] transition-all duration-500 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_20px_50px_rgba(37,99,235,0.12)]">
+                        <div class="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-4.5 shadow-[0_4px_20px_rgba(15,23,42,0.02)] transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-[0_12px_30px_rgba(37,99,235,0.06)]">
 
-                            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-r from-blue-50/70 to-transparent"></div>
+                            <div class="relative flex items-center gap-4">
 
-                            <div class="relative flex items-center gap-5">
-
-                                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-900 to-slate-800 shadow-xl shadow-blue-900/20">
+                                <!-- Contenedor del icono más pequeño y estético -->
+                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-100 bg-slate-50/50 text-slate-600 transition-colors duration-300 group-hover:border-blue-200 group-hover:bg-blue-50/50 group-hover:text-blue-700">
 
                                     <svg xmlns="http://www.w3.org/2000/svg"
-                                         viewBox="0 0 24 24"
-                                         fill="none"
-                                         stroke="currentColor"
-                                         stroke-width="1.8"
-                                         class="w-8 h-8 text-cyan-300">
-
-                                        <path stroke-linecap="round"
-                                              stroke-linejoin="round"
-                                              d="M21.75 7.5v9a2.25 2.25 0 01-2.25 2.25h-15A2.25 2.25 0 012.25 16.5v-9m19.5 0A2.25 2.25 0 0019.5 5.25h-15A2.25 2.25 0 002.25 7.5m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 9.659A2.25 2.25 0 012.25 7.743V7.5" />
-
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="w-5 h-5">
+                                        <rect width="20" height="16" x="2" y="4" rx="2"/>
+                                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
                                     </svg>
 
                                 </div>
 
                                 <div>
 
-                                    <h3 class="text-lg font-black tracking-tight text-slate-900">
+                                    <h3 class="text-sm font-bold tracking-tight text-slate-900">
                                         Correo Corporativo
                                     </h3>
 
                                     <a href="mailto:informes@grupovicaf.com"
-                                       class="mt-2 inline-block text-sm text-slate-500 hover:text-blue-700 transition-colors duration-300">
-
+                                    class="mt-0.5 inline-block text-xs text-slate-500 hover:text-blue-700 font-medium transition-colors duration-300">
                                         informes@grupovicaf.com
-
                                     </a>
 
                                 </div>
@@ -214,40 +208,35 @@
                         </div>
 
                         <!-- PHONE -->
-                        <div class="group relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_10px_40px_rgba(15,23,42,0.05)] transition-all duration-500 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_20px_50px_rgba(37,99,235,0.12)]">
+                        <div class="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-4.5 shadow-[0_4px_20px_rgba(15,23,42,0.02)] transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-[0_12px_30px_rgba(37,99,235,0.06)]">
 
-                            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-r from-blue-50/70 to-transparent"></div>
+                            <div class="relative flex items-center gap-4">
 
-                            <div class="relative flex items-center gap-5">
-
-                                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-900 to-slate-800 shadow-xl shadow-blue-900/20">
+                                <!-- Contenedor del icono más pequeño y estético -->
+                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-100 bg-slate-50/50 text-slate-600 transition-colors duration-300 group-hover:border-blue-200 group-hover:bg-blue-50/50 group-hover:text-blue-700">
 
                                     <svg xmlns="http://www.w3.org/2000/svg"
-                                         viewBox="0 0 24 24"
-                                         fill="none"
-                                         stroke="currentColor"
-                                         stroke-width="1.8"
-                                         class="w-8 h-8 text-cyan-300">
-
-                                        <path stroke-linecap="round"
-                                              stroke-linejoin="round"
-                                              d="M2.25 4.5A2.25 2.25 0 014.5 2.25h2.386c.51 0 .967.343 1.102.836l1.105 4.051a1.125 1.125 0 01-.417 1.173l-1.293.97a11.035 11.035 0 005.516 5.516l.97-1.293a1.125 1.125 0 011.173-.417l4.05 1.105c.494.135.837.592.837 1.102V19.5a2.25 2.25 0 01-2.25 2.25h-1.5C9.94 21.75 2.25 14.06 2.25 4.5z" />
-
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="w-5 h-5">
+                                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
                                     </svg>
 
                                 </div>
 
                                 <div>
 
-                                    <h3 class="text-lg font-black tracking-tight text-slate-900">
+                                    <h3 class="text-sm font-bold tracking-tight text-slate-900">
                                         Atención Telefónica
                                     </h3>
 
                                     <a href="tel:+51941573750"
-                                       class="mt-2 inline-block text-sm text-slate-500 hover:text-blue-700 transition-colors duration-300">
-
-                                        (+51) 941 573 750
-
+                                    class="mt-0.5 inline-block text-xs text-slate-500 hover:text-blue-700 font-medium transition-colors duration-300">
+                                        (+51) 964 326 364
                                     </a>
 
                                 </div>
@@ -257,40 +246,35 @@
                         </div>
 
                         <!-- ADDRESS -->
-                        <div class="group relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_10px_40px_rgba(15,23,42,0.05)] transition-all duration-500 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_20px_50px_rgba(37,99,235,0.12)]">
+                        <div class="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-4.5 shadow-[0_4px_20px_rgba(15,23,42,0.02)] transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-[0_12px_30px_rgba(37,99,235,0.06)]">
 
-                            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-r from-blue-50/70 to-transparent"></div>
+                            <div class="relative flex items-center gap-4">
 
-                            <div class="relative flex items-center gap-5">
-
-                                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-900 to-slate-800 shadow-xl shadow-blue-900/20">
+                                <!-- Contenedor del icono más pequeño y estético -->
+                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-100 bg-slate-50/50 text-slate-600 transition-colors duration-300 group-hover:border-blue-200 group-hover:bg-blue-50/50 group-hover:text-blue-700">
 
                                     <svg xmlns="http://www.w3.org/2000/svg"
-                                         viewBox="0 0 24 24"
-                                         fill="none"
-                                         stroke="currentColor"
-                                         stroke-width="1.8"
-                                         class="w-8 h-8 text-cyan-300">
-
-                                        <path stroke-linecap="round"
-                                              stroke-linejoin="round"
-                                              d="M12 21s-6-4.35-6-10a6 6 0 1112 0c0 5.65-6 10-6 10z" />
-
-                                        <circle cx="12" cy="11" r="2.5" />
-
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="w-5 h-5">
+                                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                                        <circle cx="12" cy="10" r="3"/>
                                     </svg>
 
                                 </div>
 
                                 <div>
 
-                                    <h3 class="text-lg font-black tracking-tight text-slate-900">
+                                    <h3 class="text-sm font-bold tracking-tight text-slate-900">
                                         Oficina Principal
                                     </h3>
 
-                                    <p class="mt-2 text-sm leading-relaxed text-slate-500">
-                                        Jr. Los Topacios 440,
-                                        Cajamarca – Perú
+                                    <p class="mt-0.5 text-xs leading-relaxed text-slate-500 font-medium">
+                                        Jr. Los Topacios 440, Cajamarca – Perú
                                     </p>
 
                                 </div>
@@ -316,51 +300,68 @@
 
                     <div class="mt-8 flex flex-wrap gap-5">
 
+                        <!-- LINKEDIN (SVG Moderno de trazo limpio) -->
                         <a target="_blank"
-                           href="https://pe.linkedin.com/company/grupo-vicaf-sac"
-                           class="group flex h-16 w-16 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-700 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:bg-blue-900 hover:text-white">
+                        href="https://pe.linkedin.com/company/grupo-vicaf-sac"
+                        class="group flex h-20 w-20 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-950 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-blue-600 hover:bg-blue-900 hover:text-white">
 
-                            <svg class="w-7 h-7"
-                                 fill="currentColor"
-                                 viewBox="0 0 448 512">
-
-                                <path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 01107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.3 0-55.7 37.7-55.7 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.7-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/>
-
+                            <svg xmlns="http://www.w3.org/2000/svg" 
+                                class="w-8 h-8 transition-colors duration-300 group-hover:text-white" 
+                                viewBox="0 0 24 24" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                stroke-width="1.8" 
+                                stroke-linecap="round" 
+                                stroke-linejoin="round">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
                             </svg>
 
                         </a>
 
+                        <!-- FACEBOOK (SVG Moderno de trazo limpio) -->
                         <a target="_blank"
-                           href="https://www.facebook.com/grupovicaf/"
-                           class="group flex h-16 w-16 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-700 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:bg-blue-900 hover:text-white">
+                        href="https://www.facebook.com/grupovicaf/"
+                        class="group flex h-20 w-20 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-950 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-blue-600 hover:bg-blue-900 hover:text-white">
 
-                            <svg class="w-7 h-7"
-                                 fill="currentColor"
-                                 viewBox="0 0 512 512">
-
-                                <path d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256z"/>
-
+                            <svg xmlns="http://www.w3.org/2000/svg" 
+                                class="w-8 h-8 transition-colors duration-300 group-hover:text-white" 
+                                viewBox="0 0 24 24" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                stroke-width="1.8" 
+                                stroke-linecap="round" 
+                                stroke-linejoin="round">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                             </svg>
 
                         </a>
 
+                        <!-- INSTAGRAM (SVG Moderno de trazo limpio) -->
                         <a target="_blank"
-                           href="https://www.instagram.com/grupovicaf/"
-                           class="group flex h-16 w-16 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-700 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:bg-blue-900 hover:text-white">
+                        href="https://www.instagram.com/grupovicaf/"
+                        class="group flex h-20 w-20 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-950 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-blue-600 hover:bg-blue-900 hover:text-white">
 
-                            <svg class="w-7 h-7"
-                                 fill="currentColor"
-                                 viewBox="0 0 448 512">
-
-                                <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9S160.5 370.8 224.1 370.8 339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.3 0-74.7-33.4-74.7-74.7s33.4-74.7 74.7-74.7 74.7 33.4 74.7 74.7-33.4 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.9-26.9 26.9s-26.9-12-26.9-26.9 12-26.9 26.9-26.9 26.9 12 26.9 26.9zM398.8 80c-14.5-37.4-43.4-66.3-80.8-80.8C293.5-9.2 224-.9 224-.9s-69.5-8.3-94 0C92.6 13.7 63.7 42.6 49.2 80 35.5 104.5 27.2 174 27.2 174s-8.3 69.5 0 94c14.5 37.4 43.4 66.3 80.8 80.8 24.5 13.7 94 22 94 22s69.5-8.3 94-22c37.4-14.5 66.3-43.4 80.8-80.8 13.7-24.5 22-94 22-94s-8.3-69.5-22-94z"/>
-
+                            <svg xmlns="http://www.w3.org/2000/svg" 
+                                class="w-8 h-8 transition-colors duration-300 group-hover:text-white" 
+                                viewBox="0 0 24 24" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                stroke-width="1.8" 
+                                stroke-linecap="round" 
+                                stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                             </svg>
 
                         </a>
 
                     </div>
 
-                    <div class="mt-12 rounded-[2rem] border border-blue-100 bg-gradient-to-br from-blue-50 to-white p-7 shadow-[0_15px_40px_rgba(37,99,235,0.08)]">
+                    <!-- Banner inferior convertido a Fondo Blanco elegante -->
+                    <div class="mt-12 rounded-[2rem] border border-slate-200 bg-white p-7 shadow-[0_15px_40px_rgba(15,23,42,0.02)]">
 
                         <h3 class="text-xl font-black text-slate-900">
                             Comprometidos con la calidad.
@@ -382,32 +383,33 @@
     </div>
 
     <!-- BOTTOM -->
-    <div class="border-t border-slate-200 bg-white">
+   <div class="relative z-10 border-t border-slate-200 bg-white">
 
-        <div class="max-w-[1850px] mx-auto px-6 sm:px-10 xl:px-16 py-7">
+    <div class="max-w-[1850px] mx-auto px-6 sm:px-10 xl:px-16 py-7">
 
-            <div class="flex flex-col md:flex-row items-center justify-between gap-5">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-5">
 
-                <p class="text-sm text-slate-500 text-center md:text-left">
-                    © {% now "Y" %} Grupo Vicaf SAC.
-                    Todos los derechos reservados.
-                </p>
+            <!-- Texto de Copyright con mayor contraste -->
+            <p class="text-sm font-medium text-slate-900 text-center md:text-left">
+                © {% now "Y" %} Grupo Vicaf SAC. Todos los derechos reservados.
+            </p>
 
-                <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3">
 
-                    <div class="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                <div class="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
 
-                    <span class="text-sm font-semibold text-slate-600">
-                        Sistema institucional operativo
-                    </span>
-
-                </div>
+                <!-- Estado del sistema con mayor contraste -->
+                <span class="text-sm font-bold text-slate-800">
+                    Web institucional operativa
+                </span>
 
             </div>
 
         </div>
 
     </div>
+
+</div>
 
 </footer>
 

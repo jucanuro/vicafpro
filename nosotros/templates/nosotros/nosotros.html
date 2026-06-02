@@ -55,10 +55,8 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8 items-start">
             {% for doc in documentos_principales %}
             <div class="h-full">
-                <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl border border-slate-200 overflow-hidden flex flex-col transition-all duration-300
-                            {% if doc.es_certificado %}min-h-[440px]{% else %}min-h-[340px]{% endif %}">
+                <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl border border-slate-200 overflow-hidden flex flex-col transition-all duration-300 h-[340px]">
 
-                    <!-- IMAGEN: NO CAMBIAR -->
                     <div class="relative bg-slate-50 p-4 flex items-center justify-center h-48">
                         {% if doc.imagen %}
                             <img src="{{ doc.imagen.url }}"
@@ -73,22 +71,14 @@
                         </span>
                     </div>
 
-                    <!-- CONTENIDO -->
-                    <div class="{% if doc.es_certificado %}p-6{% else %}p-5{% endif %} flex flex-col flex-grow">
-                        <h4 class="{% if doc.es_certificado %}text-lg mb-4{% else %}text-sm sm:text-base mb-3{% endif %} font-bold text-slate-800 leading-snug">
+                    <div class="p-5 flex flex-col flex-grow">
+                        <h4 class="{% if doc.es_certificado %}text-base{% else %}text-sm sm:text-base{% endif %} font-bold text-slate-800 leading-snug mb-2">
                             {{ doc.titulo }}
                         </h4>
 
-                        {% if doc.descripcion %}
-                            <p class="{% if doc.es_certificado %}text-base line-clamp-3 mb-6{% else %}text-sm line-clamp-2 mb-4{% endif %} text-slate-500 leading-relaxed">
-                                {{ doc.descripcion }}
-                            </p>
-                        {% endif %}
-
                         <button type="button"
                                 data-modal="modal-doc-{{ doc.id }}"
-                                class="mt-auto w-full inline-flex items-center justify-center gap-2 rounded-xl bg-blue-700 px-4 text-sm font-semibold text-white shadow-md hover:bg-blue-800 transition-all duration-300
-                                    {% if doc.es_certificado %}py-3.5{% else %}py-2.5{% endif %}">
+                                class="mt-auto w-full inline-flex items-center justify-center gap-2 rounded-xl bg-blue-700 px-4 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-blue-800 transition-all duration-300">
                             Ver {{ doc.tipo.nombre }}
 
                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -190,15 +180,9 @@
                             {{ doc.titulo }}
                         </h4>
 
-                        {% if doc.descripcion %}
-                            <p class="mb-5 line-clamp-2 text-xs leading-relaxed text-slate-500">
-                                {{ doc.descripcion }}
-                            </p>
-                        {% endif %}
-
                         <button type="button"
                                 data-modal="modal-doc-{{ doc.id }}"
-                                class="mt-auto inline-flex w-full items-center justify-center gap-2 rounded-xl bg-blue-700 px-4 py-2.5 text-sm font-bold text-white shadow-md shadow-blue-900/20 transition-all duration-300 hover:bg-blue-800">
+                                class="mt-auto inline-flex w-full items-center justify-center gap-2 rounded-xl bg-blue-700 px-4 py-3.5 text-sm font-bold text-white shadow-md shadow-blue-900/20 transition-all duration-300 hover:bg-blue-800">
                             Ver {{ doc.tipo.nombre|default:"Documento" }}
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
