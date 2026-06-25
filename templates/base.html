@@ -3,21 +3,101 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Grupo Vicaf</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/css/tw-elements.min.css" />
-    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO principal -->
+    <title>{% block title %}Laboratorio de Suelos en Cajamarca | Grupo VICAF INACAL LE-230{% endblock %}</title>
+
+    <meta name="description" content="{% block meta_description %}Grupo VICAF SAC: laboratorio de suelos, concreto, agregados y asfalto en Cajamarca. Ensayos acreditados por INACAL LE-230, control de calidad, CBR, Proctor, densidad de campo y diseño de mezclas.{% endblock %}">
+
+    <meta name="robots" content="{% block robots %}index, follow{% endblock %}">
+    <meta name="author" content="Grupo VICAF SAC">
+    <meta name="theme-color" content="#0f172a">
+
+    <!-- URL canónica -->
+    <link rel="canonical" href="{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}">
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Grupo VICAF">
+    <meta property="og:title" content="{% block og_title %}Laboratorio de Suelos en Cajamarca | Grupo VICAF{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Laboratorio acreditado por INACAL para ensayos de suelos, concreto, agregados, asfalto y control de calidad de materiales en Cajamarca.{% endblock %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo-vicaf.png' %}{% endblock %}">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}Laboratorio de Suelos en Cajamarca | Grupo VICAF{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Ensayos de suelos, concreto, agregados y asfalto en Cajamarca. Laboratorio acreditado por INACAL LE-230.{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo-vicaf.png' %}{% endblock %}">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/css/tw-elements.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/vicaf.css' %}">
+
+    <!-- Schema global de empresa -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Grupo VICAF SAC",
+        "description": "Laboratorio de suelos, concreto, agregados, asfalto y control de calidad de materiales en Cajamarca.",
+        "url": "{{ request.scheme }}://{{ request.get_host }}",
+        "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo-vicaf.png' %}",
+        "telephone": "+51 973 939 536",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Cajamarca",
+            "addressRegion": "Cajamarca",
+            "addressCountry": "PE"
+        },
+        "areaServed": [
+            "Cajamarca",
+            "Jaén",
+            "Chota",
+            "Celendín",
+            "Bambamarca",
+            "Cutervo",
+            "Cajabamba"
+        ],
+        "knowsAbout": [
+            "Laboratorio de suelos",
+            "Estudio de suelos",
+            "Ensayo CBR",
+            "Ensayo Proctor",
+            "Densidad de campo",
+            "Diseño de mezclas",
+            "Rotura de probetas",
+            "Ensayos de concreto",
+            "Ensayos de asfalto",
+            "Control de calidad de materiales"
+        ]
+    }
+    </script>
+
+    {% block extra_schema %}{% endblock %}
+    {% block extra_head %}{% endblock %}
 </head>
+
 <body>
-    
+
     {% block content %}
     {% endblock %}
-    <script src="{% static 'js/header.js' %}"></script>
-    <script src="{% static 'js/inicio.js' %}"></script>
-    <script src="{% static 'js/nosotros.js' %}"></script>
-    <script src="{% static 'js/clientes.js' %}"></script>
+
+    <!-- JS global -->
+    <script src="{% static 'js/header.js' %}" defer></script>
+
+    <!-- JS por página -->
+    {% block extra_js %}
+        <script src="{% static 'js/inicio.js' %}" defer></script>
+        <script src="{% static 'js/nosotros.js' %}" defer></script>
+        <script src="{% static 'js/clientes.js' %}" defer></script>
+    {% endblock %}
 
 </body>
-
 </html>
